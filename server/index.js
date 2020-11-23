@@ -1,8 +1,8 @@
+require('./db/db');
 const config = require('./utils/env')
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const db = require('./db/db');
 const router = require('./route/route');
 const jwt = require('jsonwebtoken');
 const utils = require('./utils/commons')
