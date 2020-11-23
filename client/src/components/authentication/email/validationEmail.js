@@ -62,7 +62,7 @@ function ValidateEmail() {
 
     return (
         <Grid container justify={"center"}>
-            <Box className={classes.box} bgcolor={colorInfo} color="success.contrastText" p={5} m={5}>
+            <Box className={classes.box} bgcolor={colorInfo} color="success.contrastText" p={4}>
                 {infoValidation}
             </Box>
             {colorInfo === SUCCESS && signIn}
