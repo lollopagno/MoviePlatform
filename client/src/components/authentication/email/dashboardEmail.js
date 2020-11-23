@@ -31,7 +31,7 @@ function ResendToken() {
     const username = useSelector(state => state.user.username)
     const [infoSend, setInfoSend ] = useState('')
 
-    const params = {
+    const data = {
         username: username
     }
 
@@ -59,7 +59,7 @@ function ResendToken() {
                     color="primary"
                     value="resend"
                     onClick={() => {
-                        request.resendTokenEmail(params).then(res => {
+                        request.resendTokenEmail(data).then(res => {
                             setInfoSend(res.data.message)
                             // Saved new token
                             store.dispatch(changeTokenEmail(res.data))
