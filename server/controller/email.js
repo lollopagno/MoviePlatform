@@ -26,7 +26,7 @@ sendEmail = (email, name, token) => mailjet
                 "CustomID": "AppGettingStartedTest"
             }
         ]
-    }).then(res => console.log("[EMAIL OK SEND] "+ res)).catch(err => console.log("[EMAIL ERROR SEND] "+ err.message))
+    })
 
 /**
  * Check if the email is valid (get)

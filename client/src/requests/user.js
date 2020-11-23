@@ -30,9 +30,9 @@ const signIn = (credential) => {
 }
 
 // Validation token sign in
-const meFromToken = token => {
+const meFromToken = (token, headers) => {
     // todo riguardare i parametri.
-    return axios.post(API + 'checkToken', {params: {token: token}, headers: {'Authorization': 'Bearer ' + token}})
+    return axios.post(API + '/checkToken', token, headers)
 }
 
 export const request = {signUp, sameUsername, isValidEmail, tokenEmail, resendTokenEmail, signIn, meFromToken};

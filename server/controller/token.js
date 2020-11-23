@@ -80,7 +80,7 @@ resendTokenEmail = (req, res) => {
  */
 checkToken = (req, res) => {
 
-    const token = req.body.token || req.headers['x-access-token'];
+    const token = req.body.token;
     if (!token) utils.requestJsonFailed(res, codeStatus.badRequest, 'Must pass token')
     else {
 
@@ -90,7 +90,7 @@ checkToken = (req, res) => {
             else {
 
                 // Return user using the id from w/in JWTToken
-                user.findById({'_id': user._id}, function (err, user) {
+                UserSchema.findById({'_id': user._id}, function (err, user) {
                     if (err) utils.requestJsonFailed(res, codeStatus.badRequest, 'User not found to check token!')
                     else {
 
