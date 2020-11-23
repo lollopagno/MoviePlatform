@@ -21,10 +21,11 @@ app.use(function (req, res, next) {
     if (!token) return next();
 
     token = token.replace('Bearer ', '');
+    console.log("[TOKEN AUTHENTICATION]: "+token)
 
     jwt.verify(token, config.JWTSecret, function (err, user) {
         if (err) {
-            utils.requestJsonFailed(res, codeStatus.badRequest, 'Please register Log in using a valid username to submit posts')
+            utils.requestJsonFailed(res, codeStatus.badRequest, 'Please register Sign in using a valid username to submit posts')
         } else {
             req.user = user;
             next();
