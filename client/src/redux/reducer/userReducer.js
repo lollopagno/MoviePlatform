@@ -26,7 +26,7 @@ export const user = createSlice({
             return {
                 ...state,
                 tokenEmail: '',
-                tokenSignIn: action.payload
+                tokenSignIn: action.payload.token
             }
         },
         changeTokenEmail: (state, action) => {
@@ -36,10 +36,12 @@ export const user = createSlice({
             }
         },
         meFromTokenSuccess: (state, action) => {
-            state.user = action.payload;
+            state.user = action.payload.user;
+            state.tokenSignIn = action.payload.token;
         },
         meFromTokenFailure: (state, action) => {
             state.error = action.payload;
+            state.tokenSignIn = '';
         }
     }
 });

@@ -72,9 +72,7 @@ function SignIn() {
         event.preventDefault()
         if (username && password) {
             request.signIn(userData).then(res => {
-                // todo si può memorizzare in redux?
-                sessionStorage.setItem('jwtToken', res.data.token);
-                store.dispatch(signInSuccess(res.data.token))
+                store.dispatch(signInSuccess(res.data))
                 history.push('/dashboard')
             }).catch(err => {
                 setGeneralError(err.response.data.message)
