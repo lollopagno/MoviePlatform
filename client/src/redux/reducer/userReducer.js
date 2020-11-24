@@ -8,7 +8,8 @@ export const user = createSlice({
         name: '',
         _id: '',
         tokenEmail: '',
-        tokenSignIn: ''
+        tokenSignIn: '',
+        error: ''
     },
     reducers: {
         signUpSuccess: (state, action) => {
@@ -36,12 +37,24 @@ export const user = createSlice({
             }
         },
         meFromTokenSuccess: (state, action) => {
-            state.user = action.payload.user;
-            state.tokenSignIn = action.payload.token;
+            const {email, username, _id, name} = action.payload.user
+            return {
+                ...state,
+                tokenEmail: '',
+                tokenSignIn: action.payload.token,
+                name : name,
+                email: email,
+                username: username,
+                _id: _id,
+                error: ''
+            }
         },
         meFromTokenFailure: (state, action) => {
-            state.error = action.payload;
-            state.tokenSignIn = '';
+            return {
+                ...state,
+                error : action.payload.response.data.message,
+                tokenSignIn : '',
+            }
         }
     }
 });
