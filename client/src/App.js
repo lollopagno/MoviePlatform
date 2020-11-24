@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import Routes from './routes';
 import './App.css';
-import {request} from './requests/user'
+import {request} from './requests/authentication'
 import {meFromTokenFailure, meFromTokenSuccess} from './redux/reducer/userReducer';
 import {store} from './redux/store'
 import {useSelector} from "react-redux";
@@ -14,8 +14,8 @@ function App() {
 
     useEffect(() => {
 
-        if (!token || token === '') {
-            return {};
+        if(!token || token === ''){
+            return null
         }
 
         request.meFromToken(headers).then(res => {

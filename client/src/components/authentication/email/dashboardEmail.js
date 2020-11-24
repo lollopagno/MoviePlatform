@@ -2,7 +2,7 @@ import Button from "@material-ui/core/Button";
 import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {Grid, Typography} from "@material-ui/core";
-import {request} from '../../../requests/user'
+import {request} from '../../../requests/authentication'
 import {useSelector} from "react-redux";
 import Box from "@material-ui/core/Box";
 import {store} from "../../../redux/store";

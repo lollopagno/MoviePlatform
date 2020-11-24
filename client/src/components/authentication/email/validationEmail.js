@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useSelector} from "react-redux";
-import {request} from "../../../requests/user";
+import {request} from "../../../requests/authentication";
 import {Grid} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import {makeStyles} from "@material-ui/core/styles";
