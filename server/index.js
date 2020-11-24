@@ -21,13 +21,13 @@ app.use(function (req, res, next) {
     if (!token) return next();
 
     token = token.replace('Bearer ', '');
-    console.log("[TOKEN AUTHENTICATION]: "+token)
 
-    jwt.verify(token, config.JWTSecret, function (err, user) {
+    jwt.verify(token, config.JWTSecret, function (err, decode) {
         if (err) {
-            utils.requestJsonFailed(res, codeStatus.badRequest, 'Please register Sign in using a valid username to submit posts')
+            console.log("[SERVER] Authentication expired! "+err)
+            utils.requestJsonFailed(res, codeStatus.badRequest, 'Authentication expired! Please sign in.')
         } else {
-            req.user = user;
+            req.auth = decode;
             next();
         }
     });
