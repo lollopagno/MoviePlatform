@@ -1,51 +1,67 @@
-import React, {useState} from 'react'
-import SignIn from "./authentication/signIn/signIn";
+import React from 'react'
 import {Toolbar} from "@material-ui/core";
 import Link from "@material-ui/core/Link";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import AppBar from "@material-ui/core/AppBar";
+import {requestFilm} from '../requests/films'
 
 const useStyles = makeStyles((theme) => ({
-    toolbar: {
-        borderBottom: `1px solid ${theme.palette.divider}`,
+    root: {
+        flexGrow: 1,
     },
-    toolbarTitle: {
-        flex: 1,
-    },
-    toolbarSecondary: {
-        justifyContent: 'space-between',
-        overflowX: 'auto',
+    toolbar : {
+        color: '#fb7a74'
     },
     toolbarLink: {
+        marginLeft: 'auto',
+    },
+    link: {
         padding: theme.spacing(1),
+        marginRight: theme.spacing(1.5),
         flexShrink: 0,
     },
 }));
 
 const sections = [
-    {title: 'Films', url: '#films'},
-    {title: 'TV programs', url: '#programsTv'},
-    {title: 'Actors', url: '#actors'}
+    {title: 'Films', url: '#films', value: 'films'},
+    {title: 'TV programs', url: '#programsTv', value: 'tv'},
+    {title: 'Actors', url: '#actors', value: 'actors'}
 ];
 
 function Dashboard() {
 
     const classes = useStyles();
 
+    const onClickLink = (event, data) => {
+
+        if(data.value === 'films'){
+            requestFilm.popular().then(r => console.log(r))
+        }
+    }
+
     return (
-        <Toolbar className={classes.toolbar}>
-            {sections.map((section) => (
-                <Link
-                    color="inherit"
-                    noWrap
-                    key={section.title}
-                    variant="body2"
-                    href={section.url}
-                    className={classes.toolbarLink}
-                >
-                    {section.title}
-                </Link>
-            ))}
-        </Toolbar>
+        <div className={classes.root}>
+            <AppBar position="static">
+                <Toolbar>
+                    <div className={classes.toolbarLink}>
+                        {sections.map((section) => (
+                            <Link
+                                color="inherit"
+                                noWrap
+                                key={section.title}
+                                variant="body2"
+                                href={section.url}
+                                value={section.value}
+                                className={classes.link}
+                                onClick={(e) => onClickLink(e, section)}
+                            >
+                                {section.title}
+                            </Link>
+                        ))}
+                    </div>
+                </Toolbar>
+            </AppBar>
+        </div>
     );
 }
 
