@@ -4,15 +4,17 @@ const Token = require('../controller/token');
 const Email = require('../controller/email');
 const router = express.Router();
 
-// Api get
-router.get('/sameUsername', (req, res) => User.sameUsername(req,res));
-router.get('/validationEmail', (req, res) => Email.validationEmail(req,res));
+// User
+router.get('/user/same_username', (req, res) => User.sameUsername(req,res));
+router.post('/user/sign_in', (req, res) => User.signIn(req,res));
+router.post('/user/new_user', (req, res) => User.signUp(req,res));
 
-// Api post
-router.post('/signIn', (req, res) => User.signIn(req,res));
-router.post('/newUser', (req, res) => User.signUp(req,res));
-router.post('/confirmation', (req, res) => Token.checkTokenEmail(req, res));
-router.post('/resendToken', (req, res) => Token.resendTokenEmail(req, res));
-router.post('/checkToken', (req, res) => Token.checkToken(req, res));
+// Email
+router.get('/email/validation', (req, res) => Email.validationEmail(req,res));
+
+// Token
+router.post('/token/email/confirmation', (req, res) => Token.checkTokenEmail(req, res));
+router.post('/token/email/resend', (req, res) => Token.resendTokenEmail(req, res));
+router.post('/token/authentication/check', (req, res) => Token.checkToken(req, res));
 
 module.exports = router;
