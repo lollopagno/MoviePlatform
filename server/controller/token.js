@@ -68,7 +68,7 @@ resendTokenEmail = (req, res) => {
 
                 // Send email
                 email.sendEmail(user.email, user.name, tokenEmail.token).then(() => {
-                    console.log("[SERVER]Resend email.")
+                    console.log("[SERVER] Resend email.")
                     utils.requestJsonSuccess(res, codeStatus.OK, 'A verification email has been resent to ' + user.email + '.', utils.getCleanUser(user), tokenEmail.token)
                 })
             }
@@ -82,21 +82,23 @@ resendTokenEmail = (req, res) => {
 checkToken = (req, res) => {
 
     const token = req.headers['authorization'];
+    console.log("[TOKEN CHECK TOKEN] "+token)
     if (!token) utils.requestJsonFailed(res, codeStatus.badRequest, 'Must pass token')
     else {
 
         // Check token that was passed by decoding token using secret
-        jwt.verify(token, JWT_SECRET, function (err, user) {
+        jwt.verify(token, JWT_SECRET, function (err, decode) {
             if (err) utils.requestJsonFailed(res, codeStatus.badRequest, 'Verify token failed!')
             else {
 
-                // Return user using the id from w/in JWTToken
-                UserSchema.findById({'_id': user._id}, function (err, user) {
+                // Return user using the id from JWTToken
+                UserSchema.findById({'_id': decode._id}, function (err, user) {
                     if (err) utils.requestJsonFailed(res, codeStatus.badRequest, 'User not found to check token!')
                     else {
 
                         const token = utils.generateToken(user);
-                        console.log("[SERVER] Check user.")
+                        console.log("[New token created (CheckToken)] "+token)
+                        console.log("[SERVER] Check token user.")
                         utils.requestJsonSuccess(res, codeStatus.OK, 'Check user completed!', utils.getCleanUser(user), token)
                     }
                 });
