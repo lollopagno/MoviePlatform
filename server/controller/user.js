@@ -28,7 +28,7 @@ signIn = (req, res) => {
                         else {
                             // SignIn successful, generate token
                             const token = utils.generateToken(user);
-                            console.log("[SERVER] Authentication user completed! Token " + token)
+                            console.log("[SERVER] Authentication user completed!")
                             utils.requestJsonSuccess(res, codeStatus.created, 'Sign in completed!', utils.getCleanUser(user), token)
                         }
                     }

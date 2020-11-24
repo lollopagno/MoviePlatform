@@ -33,7 +33,7 @@ module.exports = {
         };
         return jwt.sign(tokenData, JWT_SECRET, {
             algorithm: "HS256",
-            expiresIn: "1h",
+            expiresIn: "60m", /* minutes */
         });
     },
 
