@@ -5,7 +5,7 @@ const Email = require('../controller/email');
 const router = express.Router();
 
 // User
-router.get('/user/same_username', (req, res) => User.sameUsername(req,res));
+router.get('/user/same_field', (req, res) => User.sameField(req,res));
 router.post('/user/sign_in', (req, res) => User.signIn(req,res));
 router.post('/user/new_user', (req, res) => User.signUp(req,res));
 

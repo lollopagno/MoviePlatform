@@ -82,11 +82,17 @@ function SignUp() {
         }
         // Actions for email
         else if (name === EMAIL) {
-            isEmailValid(value).then((res) => {
-                if(!res[0]){
+            isEmailFormatValid(value).then((res) => {
+                if (!res[0]) {
                     setErrorEmail({...errorEmail, isError: true, text: res[1]})
-                }else {
-                    setErrorEmail({...errorEmail, isError: false, text: ''})
+                } else {
+                    isEmailValid(value).then((res) => {
+                        if (!res) {
+                            setErrorEmail({...errorEmail, isError: true, text: 'Email is already present!'})
+                        } else {
+                            setErrorEmail({...errorEmail, isError: false, text: ''})
+                        }
+                    })
                 }
             })
         }
@@ -298,18 +304,32 @@ function isValidField(userData, setErrorName, setErrorUsername) {
 }
 
 /**
- * Check if the email is valid
+ * Check if the email is format valid
  */
-async function isEmailValid(email) {
+async function isEmailFormatValid(email) {
     const res = await request.isValidEmail(email)
     return [res.data.email, res.data.message]
+}
+
+/**
+ * Check if the email is already present
+ */
+async function isEmailValid(email) {
+    const users = await request.sameField("email", email)
+    const usernameDb = users.data.user
+    if (usernameDb !== []) {
+        if (usernameDb.email === email) {
+            return false
+        }
+    }
+    return true
 }
 
 /**
  * Check if the username is already present
  */
 async function isUserValid(username) {
-    const users = await request.sameUsername(username)
+    const users = await request.sameField("username", username)
     const usernameDb = users.data.user
     if (usernameDb !== []) {
         if (usernameDb.username === username) {

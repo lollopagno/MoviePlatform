@@ -28,6 +28,7 @@ signIn = (req, res) => {
                         else {
                             // SignIn successful, generate token
                             const token = utils.generateToken(user);
+                            console.log("[New token created (signIn)] "+token)
                             console.log("[SERVER] Authentication user completed!")
                             utils.requestJsonSuccess(res, codeStatus.created, 'Sign in completed!', utils.getCleanUser(user), token)
                         }
@@ -38,10 +39,12 @@ signIn = (req, res) => {
     }
 }
 /**
- * Check if exists the same username (get)
+ * Check if exists the same username or same email (get)
  */
-sameUsername = (req, res) => {
-    UserSchema.findOne({"username": req.query.username.trim()}, function (err, user) {
+sameField = (req, res) => {
+    let field = req.query.field
+    console.log(req.query.data)
+    UserSchema.findOne({[field]: req.query.data.trim()}, function (err, user) {
         if (err) utils.requestJsonFailed(res, codeStatus.badRequest, 'Search failed!')
         else {
             if (!user) utils.requestJsonSuccess(res, codeStatus.OK, 'There is no user!', [])
@@ -105,5 +108,5 @@ signUp = (req, res) => {
 }
 
 module.exports = {
-    signIn, signUp, sameUsername
+    signIn, signUp, sameField
 }

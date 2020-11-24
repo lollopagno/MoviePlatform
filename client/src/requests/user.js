@@ -6,8 +6,8 @@ const signUp = (user) => {
     return axios.post(API + '/user/new_user', user)
 }
 
-const sameUsername = username => {
-    return axios.get(API + '/user/same_username', {params: {username: username}})
+const sameField = (field, data) => {
+    return axios.get(API + '/user/same_field', {params: {field: field, data: data}})
 }
 
 const isValidEmail = email => {
@@ -30,7 +30,7 @@ const signIn = (credential) => {
 
 // Validation token sign in
 const meFromToken = (headers) => {
-    return axios.post(API + '/token/authentication/check', headers)
+    return axios.post(API + '/token/authentication/check', {}, headers)
 }
 
-export const request = {signUp, sameUsername, isValidEmail, tokenEmail, resendTokenEmail, signIn, meFromToken};
+export const request = {signUp, sameField, isValidEmail, tokenEmail, resendTokenEmail, signIn, meFromToken};
