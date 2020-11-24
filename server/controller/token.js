@@ -68,6 +68,7 @@ resendTokenEmail = (req, res) => {
 
                 // Send email
                 email.sendEmail(user.email, user.name, tokenEmail.token).then(() => {
+                    console.log("[SERVER]Resend email.")
                     utils.requestJsonSuccess(res, codeStatus.OK, 'A verification email has been resent to ' + user.email + '.', utils.getCleanUser(user), tokenEmail.token)
                 })
             }
@@ -80,7 +81,7 @@ resendTokenEmail = (req, res) => {
  */
 checkToken = (req, res) => {
 
-    const token = req.body.token;
+    const token = req.headers['authorization'];
     if (!token) utils.requestJsonFailed(res, codeStatus.badRequest, 'Must pass token')
     else {
 
@@ -94,8 +95,8 @@ checkToken = (req, res) => {
                     if (err) utils.requestJsonFailed(res, codeStatus.badRequest, 'User not found to check token!')
                     else {
 
-                        // Si puo rigenerare un nuovo token (per aggiornare la data di scadenza)
-                        console.log("[SERVER] Check user. Token: " + token)
+                        const token = utils.generateToken(user);
+                        console.log("[SERVER] Check user.")
                         utils.requestJsonSuccess(res, codeStatus.OK, 'Check user completed!', utils.getCleanUser(user), token)
                     }
                 });
