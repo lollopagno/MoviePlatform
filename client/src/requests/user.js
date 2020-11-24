@@ -24,14 +24,13 @@ const resendTokenEmail = (email) => {
     return axios.post(API + '/token/email/resend', email)
 }
 
-
 const signIn = (credential) => {
     return axios.post(API + '/user/sign_in', credential)
 }
 
 // Validation token sign in
-const meFromToken = (token, headers) => {
-    return axios.post(API + '/token/authentication/check', token, headers)
+const meFromToken = (headers) => {
+    return axios.post(API + '/token/authentication/check', headers)
 }
 
 export const request = {signUp, sameUsername, isValidEmail, tokenEmail, resendTokenEmail, signIn, meFromToken};

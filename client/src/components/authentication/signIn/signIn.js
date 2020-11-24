@@ -20,6 +20,7 @@ import {MdLocalMovies } from 'react-icons/md';
 import {useStyles} from "./styles";
 import {store} from '../../../redux/store'
 import history from '../../../history'
+import {useSelector} from "react-redux";
 
 function Copyright() {
     return (
@@ -39,6 +40,7 @@ function SignIn() {
 
     const [typePassword, setTypePassword] = useState(false);
     const [generalError, setGeneralError] = useState('')
+    const errorRedux = useSelector(state => state.user.error)
 
     const classes = useStyles();
 
@@ -72,6 +74,7 @@ function SignIn() {
         event.preventDefault()
         if (username && password) {
             request.signIn(userData).then(res => {
+                setGeneralError('')
                 store.dispatch(signInSuccess(res.data))
                 history.push('/dashboard')
             }).catch(err => {
@@ -137,7 +140,7 @@ function SignIn() {
                         </Grid>
                         <Grid container justify={"center"}>
                             <Box className={classes.boxError} p={1}>
-                                {generalError}
+                                {generalError === '' ? errorRedux : generalError}
                             </Box>
                         </Grid>
                         <Button
