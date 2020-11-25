@@ -24,9 +24,7 @@ app.use(function (req, res, next) {
     token = token.replace('Bearer ', '');
 
     jwt.verify(token, config.JWTSecret, function (err, decode) {
-        console.log("Verify....")
         if (err) {
-            console.log("[SERVER] Authentication expired! "+err)
             utils.requestJsonFailed(res, codeStatus.badRequest, 'Authentication expired! Please sign in.')
         } else {
             req.auth = decode;

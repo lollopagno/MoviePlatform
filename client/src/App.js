@@ -14,16 +14,16 @@ function App() {
 
     useEffect(() => {
 
-        if(!token || token === ''){
-            return null
+        if (!token || token === '') {
+            // pass
+        } else {
+            request.meFromToken(headers).then(res => {
+                store.dispatch(meFromTokenSuccess(res.data));
+            }).catch(err => {
+                history.push('/signIn')
+                store.dispatch(meFromTokenFailure(err))
+            });
         }
-
-        request.meFromToken(headers).then(res => {
-            store.dispatch(meFromTokenSuccess(res.data));
-        }).catch(err => {
-            history.push('/signIn')
-            store.dispatch(meFromTokenFailure(err))
-        });
     })
 
     return (

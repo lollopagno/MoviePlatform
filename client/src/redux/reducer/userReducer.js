@@ -20,14 +20,16 @@ export const user = createSlice({
                 name : name,
                 email: email,
                 username: username,
-                _id: _id
+                _id: _id,
+                error: ''
             }
         },
         signInSuccess: (state, action) => {
             return {
                 ...state,
                 tokenEmail: '',
-                tokenSignIn: action.payload.token
+                tokenSignIn: action.payload.token,
+                error: ''
             }
         },
         changeTokenEmail: (state, action) => {
@@ -52,6 +54,7 @@ export const user = createSlice({
         meFromTokenFailure: (state, action) => {
             return {
                 ...state,
+                // todo resetto tutti i parametri utente? oppure quando visualizzo la pagina di signIn resetto tutto??
                 error : action.payload.response.data.message,
                 tokenSignIn : '',
             }
