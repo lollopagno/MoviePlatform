@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 20,
         margin: theme.spacing(10, 5, 2, 7)
     },
-    button : {
+    button: {
         margin: theme.spacing(3, 65, 0, 65),
         width: 150,
         height: 50
@@ -54,7 +54,9 @@ function ValidateEmail() {
             variant="contained"
             color="primary"
             value="submit"
-            onClick={() => {history.push('/signIn')}}
+            onClick={() => {
+                history.push('/signIn')
+            }}
             className={classes.button}
         >
             Sign In
