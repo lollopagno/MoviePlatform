@@ -17,17 +17,20 @@ popular = (req, res) => {
             result.setEncoding('utf8');
 
             result.on('data', function (data) {
-                JSON.parse(data).results.forEach((movie) => {
-
-                    moviesPopular.push({
-                        _id: movie.id,
-                        title: movie.original_title,
-                        date: movie.release_date,
-                        img: IMAGE + movie.poster_path,
-                        language: movie.original_language,
-                    })
-                });
-                utils.requestJsonSuccess(res, codeStatus.OK, 'Movies found.', moviesPopular)
+                try {
+                    (JSON.parse(data)).results.forEach((movie) => {
+                        moviesPopular.push({
+                            _id: movie.id,
+                            title: movie.original_title,
+                            date: movie.release_date,
+                            img: IMAGE + movie.poster_path,
+                            language: movie.original_language,
+                        })
+                    });
+                    utils.requestJsonSuccess(res, codeStatus.OK, 'Movies found.', moviesPopular)
+                } catch (err) {
+                    console.log("[ERROR] " + err)
+                }
             });
         } else {
             utils.requestJsonFailed(res, codeStatus.badRequest, 'Movies not found!')
