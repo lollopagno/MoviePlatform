@@ -81,8 +81,7 @@ resendTokenEmail = (req, res) => {
  */
 checkToken = (req, res) => {
 
-    const token = req.headers['authorization'];
-    console.log("[TOKEN CHECK TOKEN] "+token)
+    const token = req.headers['authorization'].replace('Bearer ', '');
     if (!token) utils.requestJsonFailed(res, codeStatus.badRequest, 'Must pass token')
     else {
 
