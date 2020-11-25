@@ -13,7 +13,7 @@ export const user = createSlice({
     },
     reducers: {
         signUpSuccess: (state, action) => {
-            const {email, username, _id, name} = action.payload.user
+            const {email, username, _id, name} = action.payload.data
             return {
                 ...state,
                 tokenEmail: action.payload.token,
@@ -39,7 +39,7 @@ export const user = createSlice({
             }
         },
         meFromTokenSuccess: (state, action) => {
-            const {email, username, _id, name} = action.payload.user
+            const {email, username, _id, name} = action.payload.data
             return {
                 ...state,
                 tokenEmail: '',

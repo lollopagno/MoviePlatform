@@ -9,11 +9,11 @@ module.exports = {
         })
     },
 
-    requestJsonSuccess: function (res, statusCode, message, user, token) {
+    requestJsonSuccess: function (res, statusCode, message, data, token) {
         return res.status(statusCode).json({
             success: true,
             message: message,
-            user: user,
+            data: data,
             token: token
         })
     },
