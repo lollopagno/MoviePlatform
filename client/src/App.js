@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
-import Routes from './routes';
+import RoutesWithToken from './route/routesWithToken';
+import RoutesWithoutToken from './route/routesWithoutToken';
 import './App.css';
 import {request} from './requests/authentication'
 import {meFromTokenFailure, meFromTokenSuccess} from './redux/reducer/userReducer';
@@ -15,7 +16,7 @@ function App() {
     useEffect(() => {
 
         if (!token || token === '') {
-            // pass
+            // Pass - To render in page without token
         } else {
             request.meFromToken(headers).then(res => {
                 store.dispatch(meFromTokenSuccess(res.data));
@@ -28,7 +29,7 @@ function App() {
 
     return (
         <div className="App">
-            <Routes/>
+            {token !== '' ? <RoutesWithToken/> : <RoutesWithoutToken/>}
         </div>
     );
 }
