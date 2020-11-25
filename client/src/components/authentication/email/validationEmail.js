@@ -6,6 +6,7 @@ import Box from "@material-ui/core/Box";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import history from "../../../history";
+import {ButtonResendEmail} from "./resendEmail";
 
 const useStyles = makeStyles((theme) => ({
     box: {
@@ -66,6 +67,7 @@ function ValidateEmail() {
                 {infoValidation}
             </Box>
             {colorInfo === SUCCESS && signIn}
+            {colorInfo === ERROR && <ButtonResendEmail/>}
         </Grid>
     )
 }
