@@ -3,7 +3,7 @@ const User = require('../controller/user');
 const Token = require('../controller/token');
 const Email = require('../controller/email');
 
-const Films = require('../controller/tmdb/films');
+const Movies = require('../controller/tmdb/movies');
 //const TVPrograms = require('../controller/tmdb/tv');
 //const Actors = require('../controller/tmdb/actors');
 
@@ -23,6 +23,6 @@ router.post('/token/email/resend', (req, res) => Token.resendTokenEmail(req, res
 router.post('/token/authentication/check', (req, res) => Token.checkToken(req, res));
 
 // Movie
-router.get('/tmdb/films/popular', () => Films.popular());
+router.get('/tmdb/movies/popular', (req, res) => Movies.popular(req, res));
 
 module.exports = router;
