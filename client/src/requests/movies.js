@@ -6,4 +6,12 @@ const popular = () => {
     return axios.get(API + '/tmdb/movies/popular', )
 }
 
-export const requestFilm = {popular};
+const topRated = () => {
+    return axios.get(API + '/tmdb/movies/top_rated', )
+}
+
+const upcoming = () => {
+    return axios.get(API + '/tmdb/movies/upcoming', )
+}
+
+export const requestFilm = {popular, topRated, upcoming};
