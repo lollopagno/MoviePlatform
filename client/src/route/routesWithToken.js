@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Router, Redirect, Switch, Route} from "react-router-dom";
 import history from '../history';
 import ValidateEmail from '../components/authentication/email/validationEmail'
-import Dashboard from '../components/dashboard'
+import Dashboard from '../components/dashboard/dashboard'
 import Error from "../components/error";
 import SignIn from "../components/authentication/signIn/signIn";
 import SignUp from "../components/authentication/signUp/signUp";
