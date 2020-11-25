@@ -316,7 +316,7 @@ async function isEmailFormatValid(email) {
  */
 async function isEmailValid(email) {
     const users = await request.sameField("email", email)
-    const usernameDb = users.data.user
+    const usernameDb = users.data.data
     if (usernameDb !== []) {
         if (usernameDb.email === email) {
             return false
@@ -330,7 +330,7 @@ async function isEmailValid(email) {
  */
 async function isUserValid(username) {
     const users = await request.sameField("username", username)
-    const usernameDb = users.data.user
+    const usernameDb = users.data.data
     if (usernameDb !== []) {
         if (usernameDb.username === username) {
             return false
