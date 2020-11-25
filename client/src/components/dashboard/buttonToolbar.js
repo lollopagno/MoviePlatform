@@ -17,7 +17,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const useStyles = makeStyles((theme) => ({
     toolbarLink: {
-        marginLeft: theme.spacing(140),
+        marginLeft: theme.spacing(145),
     },
     link: {
         padding: theme.spacing(1),
