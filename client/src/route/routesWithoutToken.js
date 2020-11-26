@@ -3,8 +3,8 @@ import {Router, Redirect, Switch, Route} from "react-router-dom";
 import history from '../history';
 import SignIn from '../components/authentication/signIn/signIn'
 import SignUp from '../components/authentication/signUp/signUp'
-import ResendToken from '../components/authentication/email/dashboardEmail'
-import ValidateEmail from "../components/authentication/email/validationEmail";
+import {ResendToken} from '../components/authentication/email/funtionality'
+import ValidateEmail from '../components/authentication/email/validation'
 import Error from "../components/error";
 
 export default class RoutesWithoutToken extends Component {
