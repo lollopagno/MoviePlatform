@@ -30,12 +30,8 @@ function ValidateEmail() {
 
     const [infoValidation, setInfoValidation] = useState('')
     const [alert, setAlert] = useState({
-        severity: '',
         state: true
     })
-
-    console.log(alert.severity.charAt(0).toUpperCase() + alert.severity.slice(1))
-    console.log(alert.severity)
 
     const params = {
         token: token,
@@ -45,10 +41,10 @@ function ValidateEmail() {
     useEffect(() => {
         request.tokenEmail(params).then((res) => {
             setInfoValidation(res.data.message)
-            setAlert({...alert, severity: "success", state: true})
+            setAlert({...alert, state: true})
         }).catch(err => {
             setInfoValidation(err.response.data.message)
-            setAlert({...alert, severity: "error", state: false})
+            setAlert({...alert, state: false})
         })
     }, [])
 
@@ -69,7 +65,7 @@ function ValidateEmail() {
 
     return (
         <Grid container justify={"center"}>
-            <Alert severity={alert.severity} variant="outlined" className={classes.alert}>
+            <Alert severity={alert.state? 'success':'error'} variant="outlined" className={classes.alert}>
                 {infoValidation}
             </Alert>
             {alert.state && signIn}
