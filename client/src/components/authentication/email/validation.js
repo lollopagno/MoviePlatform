@@ -2,36 +2,40 @@ import React, {useEffect, useState} from 'react'
 import {useSelector} from "react-redux";
 import {request} from "../../../requests/authentication";
 import {Grid} from "@material-ui/core";
-import Box from "@material-ui/core/Box";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import history from "../../../history";
-import {ButtonResendEmail} from "./resendEmail";
+import {ButtonResendEmail} from "./funtionality";
+import {Alert} from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
-    box: {
+    alert: {
         borderRadius: 15,
-        fontSize: 20,
-        margin: theme.spacing(10, 5, 2, 7)
+        fontSize: 15,
+        margin: theme.spacing(10, 7, 0, 7),
     },
     button: {
         margin: theme.spacing(3, 65, 0, 65),
         width: 150,
-        height: 50
-    }
+        height: 45
+    },
 }))
 
 function ValidateEmail() {
 
     const classes = useStyles();
-    const ERROR = '#f6beb4'
-    const SUCCESS = '#c1ffdb'
 
     const token = useSelector(state => state.user.tokenEmail)
     const user = useSelector(state => state.user.username)
 
     const [infoValidation, setInfoValidation] = useState('')
-    const [colorInfo, setColorInfo] = useState('')
+    const [alert, setAlert] = useState({
+        severity: '',
+        state: true
+    })
+
+    console.log(alert.severity.charAt(0).toUpperCase() + alert.severity.slice(1))
+    console.log(alert.severity)
 
     const params = {
         token: token,
@@ -41,10 +45,10 @@ function ValidateEmail() {
     useEffect(() => {
         request.tokenEmail(params).then((res) => {
             setInfoValidation(res.data.message)
-            setColorInfo(SUCCESS)
+            setAlert({...alert, severity: "success", state: true})
         }).catch(err => {
             setInfoValidation(err.response.data.message)
-            setColorInfo(ERROR)
+            setAlert({...alert, severity: "error", state: false})
         })
     }, [])
 
@@ -65,11 +69,11 @@ function ValidateEmail() {
 
     return (
         <Grid container justify={"center"}>
-            <Box className={classes.box} bgcolor={colorInfo} color="success.contrastText" p={4}>
+            <Alert severity={alert.severity} variant="outlined" className={classes.alert}>
                 {infoValidation}
-            </Box>
-            {colorInfo === SUCCESS && signIn}
-            {colorInfo === ERROR && <ButtonResendEmail/>}
+            </Alert>
+            {alert.state && signIn}
+            {!alert.state && <ButtonResendEmail/>}
         </Grid>
     )
 }
