@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useSelector} from "react-redux";
-import {request} from "../../../requests/authentication";
+import {authentication} from "../../../requests/authentication";
 import {Grid} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -39,7 +39,7 @@ function ValidateEmail() {
     }
 
     useEffect(() => {
-        request.tokenEmail(params).then((res) => {
+        authentication.tokenEmail(params).then((res) => {
             setInfoValidation(res.data.message)
             setAlert({...alert, state: true})
         }).catch(err => {

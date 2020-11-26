@@ -6,7 +6,7 @@ import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import {requestFilm} from "../../requests/movies";
+import {requestMovies} from "../../requests/movies";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
@@ -62,7 +62,7 @@ function ButtonToolbar(props) {
         setAnchorEl(null);
 
         if (event.currentTarget.id === '1') {
-            requestFilm.popular().then(res => {
+            requestMovies.popular().then(res => {
                 const movies = res.data.data.map((movie) => {
                     return (
                         <Grid item xs={12} sm={6} md={2} key={movie._id}>
@@ -73,7 +73,7 @@ function ButtonToolbar(props) {
                 props.setMovies(movies)
             }).catch()
         } else if (event.currentTarget.id === '2') {
-            requestFilm.topRated().then(res => {
+            requestMovies.topRated().then(res => {
                 const movies = res.data.data.map((movie) => {
                     return (
                         <Grid item xs={12} sm={6} md={2} key={movie._id}>
@@ -84,7 +84,7 @@ function ButtonToolbar(props) {
                 props.setMovies(movies)
             }).catch()
         } else {
-            requestFilm.upcoming().then(res => {
+            requestMovies.upcoming().then(res => {
                 const movies = res.data.data.map((movie) => {
                     return (
                         <Grid item xs={12} sm={6} md={2} key={movie._id}>

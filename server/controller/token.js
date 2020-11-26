@@ -82,17 +82,17 @@ resendTokenEmail = (req, res) => {
 checkToken = (req, res) => {
 
     const token = req.headers['authorization'].replace('Bearer ', '');
-    if (!token) utils.requestJsonFailed(res, codeStatus.badRequest, 'Must pass token')
+    if (!token) utils.requestJsonFailed(res, codeStatus.badRequest, '')
     else {
 
         // Check token that was passed by decoding token using secret
         jwt.verify(token, JWT_SECRET, function (err, decode) {
-            if (err) utils.requestJsonFailed(res, codeStatus.badRequest, 'Verify token failed!')
+            if (err) utils.requestJsonFailed(res, codeStatus.badRequest, '')
             else {
 
                 // Return user using the id from JWTToken
                 UserSchema.findById({'_id': decode._id}, function (err, user) {
-                    if (err) utils.requestJsonFailed(res, codeStatus.badRequest, 'User not found to check token!')
+                    if (err) utils.requestJsonFailed(res, codeStatus.badRequest, '')
                     else {
 
                         const token = utils.generateToken(user);

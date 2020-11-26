@@ -17,4 +17,4 @@ const resendTokenEmail = (email) => {
     return axios.post(API + '/token/email/resend', email)
 }
 
-export const request = {tokenEmail, resendTokenEmail, meFromToken};
+export const authentication = {tokenEmail, resendTokenEmail, meFromToken};

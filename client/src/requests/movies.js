@@ -14,4 +14,4 @@ const upcoming = () => {
     return axios.get(API + '/tmdb/movies/upcoming', )
 }
 
-export const requestFilm = {popular, topRated, upcoming};
+export const requestMovies = {popular, topRated, upcoming};

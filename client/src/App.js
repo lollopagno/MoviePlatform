@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import RoutesWithToken from './route/routesWithToken';
 import RoutesWithoutToken from './route/routesWithoutToken';
 import './App.css';
-import {request} from './requests/authentication'
+import {authentication} from './requests/authentication'
 import {meFromTokenFailure, meFromTokenSuccess} from './redux/reducer/userReducer';
 import {store} from './redux/store'
 import {useSelector} from "react-redux";
@@ -18,7 +18,7 @@ function App() {
         if (!token || token === '') {
             // Pass - To render in page without token
         } else {
-            request.meFromToken(headers).then(res => {
+            authentication.meFromToken(headers).then(res => {
                 store.dispatch(meFromTokenSuccess(res.data));
             }).catch(err => {
                 history.push('/signIn')

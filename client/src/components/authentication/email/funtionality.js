@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import Button from "@material-ui/core/Button";
-import {request} from "../../../requests/authentication";
+import {authentication} from "../../../requests/authentication";
 import {store} from "../../../redux/store";
 import {changeTokenEmail} from "../../../redux/reducer/userReducer";
 import {useSelector} from "react-redux";
@@ -77,7 +77,7 @@ export function ButtonResendEmail() {
                 color="primary"
                 value="resend"
                 onClick={() => {
-                    request.resendTokenEmail(data).then(res => {
+                    authentication.resendTokenEmail(data).then(res => {
                         setResendEmail({...resendEmail, info: res.data.message, state: true})
                         // Saved new token
                         store.dispatch(changeTokenEmail(res.data))
