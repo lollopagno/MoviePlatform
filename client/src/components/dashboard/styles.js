@@ -6,7 +6,8 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     account: {
-        color: "#fcfcfc"
+        color: "#fcfcfc",
+        marginLeft: theme.spacing(135),
     }
 }));
 

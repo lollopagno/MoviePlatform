@@ -3,7 +3,7 @@ import {Toolbar} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import {useStyles} from "./styles";
 import Grid from "@material-ui/core/Grid";
-import ButtonToolbar from "./buttonToolbar";
+import ButtonToolbar from "./utility/buttonToolbar";
 import IconButton from "@material-ui/core/IconButton";
 import {AccountCircle} from "@material-ui/icons";
 
