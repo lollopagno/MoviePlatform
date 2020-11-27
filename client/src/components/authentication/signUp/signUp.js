@@ -20,6 +20,7 @@ import FormControl from "@material-ui/core/FormControl";
 import {signUpSuccess} from "../../../redux/reducer/userReducer";
 import {store} from '../../../redux/store'
 import history from '../../../history'
+import {Alert} from "@material-ui/lab";
 
 function Copyright() {
     return (
@@ -52,7 +53,7 @@ function SignUp() {
     })
     const {typePassword, verifyPassword, typeVerifyPassword} = passwordFeatures
 
-    const [generalError, setGeneralError] = useState('')
+    const [infoAlert, setInfoAlert] = useState('')
     const [errorUsername, setErrorUsername] = useState(false)
     const [blankFieldUsername, setUsername] = useState(false)
     const [errorPassword, setErrorPassword] = useState(false)
@@ -114,26 +115,26 @@ function SignUp() {
     const onSubmit = event => {
         event.preventDefault()
 
-        isValidField(userData, setErrorName, setUsername)
+        isValidField(userData, setErrorName, setUsername, errorEmail, setErrorEmail)
         if (password && verifyPassword && password === verifyPassword) {
 
             setErrorPassword(false)
-            setGeneralError('')
+            setInfoAlert('')
             if (name && username && email && !errorUsername && !errorEmail.isError) {
                 request.signUp(userData).then(res => {
                     store.dispatch(signUpSuccess(res.data))
                     history.push('/resendToken')
                 }).catch(err => {
-                        setGeneralError(err.response.data.message)
+                        setInfoAlert(err.response.data.message)
                     }
                 )
             }
         } else {
             setErrorPassword(true)
             if (!password || !verifyPassword) {
-                setGeneralError("Passwords can not be blank!")
+                setInfoAlert("Passwords can not be blank!")
             } else {
-                setGeneralError("Passwords doesn't match!")
+                setInfoAlert("Passwords doesn't match!")
             }
         }
     }
@@ -262,9 +263,10 @@ function SignUp() {
                                 </FormControl>
                             </Grid>
                             <Grid container justify={"center"}>
-                                <Box className={classes.boxError} p={1}>
-                                    {generalError}
-                                </Box>
+                                {infoAlert !== '' &&
+                                <Alert severity='error' variant="outlined" className={classes.alert}>
+                                    {infoAlert}
+                                </Alert>}
                             </Grid>
                         </Grid>
                     </Grid>
@@ -297,10 +299,13 @@ function SignUp() {
 /**
  * Check to show error
  */
-function isValidField(userData, setErrorName, setErrorUsername) {
-    const {name, username} = userData
+function isValidField(userData, setErrorName, setErrorUsername, errorEmail, setErrorEmail) {
+    const {name, username, email} = userData
     setErrorName(name === '')
     setErrorUsername(username === '')
+    if (!errorEmail.isError) {
+        setErrorEmail({...errorEmail, isError: email === '', text: email === '' ? 'Email must not be empty!' : ''})
+    }
 }
 
 /**
