@@ -46,6 +46,7 @@ function ValidateEmail() {
             setInfoValidation(err.response.data.message)
             setAlert({...alert, state: false})
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const signIn = (
