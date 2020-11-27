@@ -2,11 +2,11 @@ import React, {useState} from 'react'
 import Button from "@material-ui/core/Button";
 import {authentication} from "../../../requests/authentication";
 import {store} from "../../../redux/store";
-import {changeTokenEmail} from "../../../redux/reducer/userReducer";
 import {useSelector} from "react-redux";
 import {makeStyles} from "@material-ui/core/styles";
 import {Grid, Typography} from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
+import {setTokenEmail} from "../../../redux/reducer/tokenReducer";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -53,14 +53,14 @@ export function ResendToken() {
 export function ButtonResendEmail() {
 
     const classes = useStyles();
-    const username = useSelector(state => state.user.username)
+    const email = useSelector(state => state.user.email)
     const [resendEmail, setResendEmail] = useState({
         state: false,
         info: ''
     })
 
     const data = {
-        username: username
+        email: email
     }
 
     return (
@@ -80,7 +80,7 @@ export function ButtonResendEmail() {
                     authentication.resendTokenEmail(data).then(res => {
                         setResendEmail({...resendEmail, info: res.data.message, state: true})
                         // Saved new token
-                        store.dispatch(changeTokenEmail(res.data))
+                        store.dispatch(setTokenEmail(res.data.token))
                     }).catch(err => {
                         setResendEmail({...resendEmail, info: err.response.data.message, state: true})
                     })

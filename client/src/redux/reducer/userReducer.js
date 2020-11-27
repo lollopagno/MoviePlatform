@@ -6,63 +6,28 @@ export const user = createSlice({
         email: '',
         username: '',
         name: '',
-        _id: '',
-        tokenEmail: '',
-        tokenSignIn: '',
-        error: ''
+        _id: ''
     },
     reducers: {
         signUpSuccess: (state, action) => {
-            const {email, username, _id, name} = action.payload.data
+            const {email, name, username} = action.payload
             return {
                 ...state,
-                tokenEmail: action.payload.token,
-                name : name,
+                name: name,
                 email: email,
-                username: username,
-                _id: _id,
-                error: ''
+                username: username
             }
         },
         signInSuccess: (state, action) => {
             return {
                 ...state,
-                tokenEmail: '',
-                tokenSignIn: action.payload.token,
-                error: ''
-            }
-        },
-        changeTokenEmail: (state, action) => {
-            return {
-                ...state,
-                tokenEmail: action.payload.token
-            }
-        },
-        meFromTokenSuccess: (state, action) => {
-            const {email, username, _id, name} = action.payload.data
-            return {
-                ...state,
-                tokenEmail: '',
-                tokenSignIn: action.payload.token,
-                name : name,
-                email: email,
-                username: username,
-                _id: _id,
-                error: ''
-            }
-        },
-        meFromTokenFailure: (state, action) => {
-            return {
-                ...state,
-                // todo resetto tutti i parametri utente? oppure quando visualizzo la pagina di signIn resetto tutto??
-                error : action.payload.response.data.message,
-                tokenSignIn : '',
+                _id: action.payload._id
             }
         }
     }
 });
 
-export const {signUpSuccess, signInSuccess, changeTokenEmail, meFromTokenFailure, meFromTokenSuccess} = user.actions;
+export const {signUpSuccess, signInSuccess} = user.actions;
 
 export default user.reducer;
 

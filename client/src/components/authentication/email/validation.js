@@ -25,8 +25,8 @@ function ValidateEmail() {
 
     const classes = useStyles();
 
-    const token = useSelector(state => state.user.tokenEmail)
-    const user = useSelector(state => state.user.username)
+    const token = useSelector(state => state.token.tokenEmail)
+    const username = useSelector(state => state.user.username)
 
     const [infoValidation, setInfoValidation] = useState('')
     const [alert, setAlert] = useState({
@@ -35,7 +35,7 @@ function ValidateEmail() {
 
     const params = {
         token: token,
-        username: user
+        username: username
     }
 
     useEffect(() => {
