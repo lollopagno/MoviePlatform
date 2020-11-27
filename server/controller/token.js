@@ -41,9 +41,9 @@ checkTokenEmail = (req, res) => {
  */
 resendTokenEmail = (req, res) => {
     const body = req.body
-    if (!body) utils.requestJsonFailed(res, codeStatus.badRequest, 'Must pass username or email address')
+    if (!body) utils.requestJsonFailed(res, codeStatus.badRequest, 'Must pass email address')
     else {
-        UserSchema.findOne({$or: [{'email': body.username.trim()}, {'username': body.username.trim()}]}, function (err, user) {
+        UserSchema.findOne({'email': body.email.trim()}, function (err, user) {
             if (!user) utils.requestJsonFailed(res, codeStatus.badRequest, 'We were unable to find a user with the specified email address.')
             else {
 
