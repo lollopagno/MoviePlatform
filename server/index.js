@@ -17,8 +17,8 @@ app.use(bodyParser.json())
 
 app.use(function (req, res, next) {
 
-    let token = req.headers['authorization'];
-    console.log("[SERVER] Token index "+token)
+    let token = req.headers['authorization']
+    console.log("[SERVER] Token index " + token)
     if (!token) return next();
 
     token = token.replace('Bearer ', '');

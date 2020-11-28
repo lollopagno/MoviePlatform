@@ -25,7 +25,7 @@ function ValidateEmail() {
 
     const classes = useStyles();
 
-    const token = useSelector(state => state.token.tokenEmail)
+    const token = useSelector(state => state.token.email)
     const username = useSelector(state => state.user.username)
 
     const [infoValidation, setInfoValidation] = useState('')

@@ -1,6 +1,5 @@
 import {makeStyles} from "@material-ui/core/styles";
 
-const RED = '#ce0018'
 const VIOLA = "#8000ff"
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -18,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
     },
     submit: {
-        margin: theme.spacing(1, 10, 3),
+        margin: theme.spacing(4, 10, 3),
         width: 250,
         height: 40
     },
@@ -29,9 +28,8 @@ const useStyles = makeStyles((theme) => ({
     link: {
         margin: theme.spacing(0, 10.5, 0)
     },
-    boxError: {
-        color: RED,
-        margin: theme.spacing(0, 5, 2, 7)
+    alert: {
+        margin: theme.spacing(0, 5, 0, 7)
     }
 }));
 

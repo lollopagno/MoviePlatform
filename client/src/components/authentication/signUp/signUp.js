@@ -21,6 +21,7 @@ import {signUpSuccess} from "../../../redux/reducer/userReducer";
 import {store} from '../../../redux/store'
 import history from '../../../history'
 import {Alert} from "@material-ui/lab";
+import {setTokenEmail} from "../../../redux/reducer/tokenReducer";
 
 function Copyright() {
     return (
@@ -122,7 +123,8 @@ function SignUp() {
             setInfoAlert('')
             if (name && username && email && !errorUsername && !errorEmail.isError) {
                 request.signUp(userData).then(res => {
-                    store.dispatch(signUpSuccess(res.data))
+                    store.dispatch(signUpSuccess(res.data.data))
+                    store.dispatch(setTokenEmail(res.data.token))
                     history.push('/resendToken')
                 }).catch(err => {
                         setInfoAlert(err.response.data.message)

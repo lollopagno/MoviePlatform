@@ -10,8 +10,8 @@ import history from './history'
 
 function App() {
 
-    const token = useSelector(state => state.user.tokenSignIn)
-    const headers = {headers: {'Authorization': 'Bearer ' + token}}
+    const token = useSelector(state => state.token.signIn)
+    const headers = {headers: {'Authorization': token === undefined? '': 'Bearer ' + token}}
 
     useEffect(() => {
 
@@ -29,7 +29,7 @@ function App() {
 
     return (
         <div className="App">
-            {token !== '' ? <RoutesWithToken/> : <RoutesWithoutToken/>}
+            {token ? <RoutesWithToken/> : <RoutesWithoutToken/>}
         </div>
     );
 }
