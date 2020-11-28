@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {signInSuccess} from "../../../redux/reducer/userReducer";
+import {authentication} from '../../../requests/authentication'
 import {request} from '../../../requests/user'
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -16,11 +17,13 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
-import {MdLocalMovies } from 'react-icons/md';
+import {MdLocalMovies} from 'react-icons/md';
 import {useStyles} from "./styles";
 import {store} from '../../../redux/store'
 import history from '../../../history'
 import {useSelector} from "react-redux";
+import {Alert} from "@material-ui/lab";
+import {meFromTokenSuccess} from "../../../redux/reducer/tokenReducer";
 
 function Copyright() {
     return (
@@ -32,6 +35,7 @@ function Copyright() {
 
 function SignIn() {
 
+    const classes = useStyles();
     const [userData, setUserData] = useState({
         username: '',
         password: ''
@@ -39,10 +43,20 @@ function SignIn() {
     const {username, password} = userData
 
     const [typePassword, setTypePassword] = useState(false);
-    const [generalError, setGeneralError] = useState('')
-    const errorRedux = useSelector(state => state.user.error)
+    const [infoAlert, setInfoAlert] = useState('')
+    const token = useSelector(state => state.token.signIn)
 
-    const classes = useStyles();
+    useEffect(() => {
+        const headers = {headers: {'Authorization': token === undefined ? '' : 'Bearer ' + token}}
+
+        authentication.meFromToken(headers).then(() => {
+            history.push('/dashboard')
+        }).catch(err => {
+            console.log("ERROR CHECK TOKEN " + err.response.data.message)
+            setInfoAlert(err.response.data.message)
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     /**
      * Action to change username and password
@@ -63,7 +77,7 @@ function SignIn() {
     const onReset = () => {
         setUserData({...userData, username: '', password: ''})
         setTypePassword(false)
-        setGeneralError('')
+        setInfoAlert('')
     }
 
     /**
@@ -74,11 +88,13 @@ function SignIn() {
         event.preventDefault()
         if (username && password) {
             request.signIn(userData).then(res => {
-                setGeneralError('')
-                store.dispatch(signInSuccess(res.data))
+                setInfoAlert('')
+                store.dispatch(signInSuccess(res.data.data))
+                store.dispatch(meFromTokenSuccess(res.data.token));
                 history.push('/dashboard')
             }).catch(err => {
-                setGeneralError(err.response.data.message)
+                console.log(err.response.data.message)
+                setInfoAlert(err.response.data.message)
                 setUserData({...userData, password: ''})
             })
         }
@@ -139,9 +155,10 @@ function SignIn() {
                             </FormControl>
                         </Grid>
                         <Grid container justify={"center"}>
-                            <Box className={classes.boxError} p={1}>
-                                {generalError === '' ? errorRedux : generalError}
-                            </Box>
+                            {infoAlert !== '' &&
+                            <Alert severity='error' variant="outlined" className={classes.alert}>
+                                {infoAlert}
+                            </Alert>}
                         </Grid>
                         <Button
                             type="submit"
