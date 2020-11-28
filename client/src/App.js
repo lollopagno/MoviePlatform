@@ -14,15 +14,16 @@ function App() {
     const headers = {headers: {'Authorization': token === undefined? '': 'Bearer ' + token}}
 
     useEffect(() => {
+        console.log("[APP --> token]: "+token)
 
         if (!token || token === '') {
             // Pass - To render in page without token
         } else {
             authentication.meFromToken(headers).then(res => {
                 store.dispatch(meFromTokenSuccess(res.data.token));
-            }).catch(err => {
+            }).catch(() => {
                 history.push('/signIn')
-                store.dispatch(meFromTokenFailure(err))
+                store.dispatch(meFromTokenFailure())
             });
         }
     })

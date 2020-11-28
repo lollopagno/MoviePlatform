@@ -22,10 +22,10 @@ export const token = createSlice({
             }
         },
         // SignIn error
-        meFromTokenFailure: (state, action) => {
+        meFromTokenFailure: (state) => {
             return {
                 ...state,
-                email: '',
+                email: undefined,
                 signIn: undefined,
             }
         },
