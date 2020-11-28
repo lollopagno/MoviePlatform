@@ -19,15 +19,28 @@ export const user = createSlice({
             }
         },
         signInSuccess: (state, action) => {
+            const {email, name, username, _id} = action.payload
             return {
                 ...state,
-                _id: action.payload._id
+                _id: _id,
+                name: name,
+                username: username,
+                email: email
+            }
+        },
+        signOut: (state) => {
+            return {
+                ...state,
+                email: '',
+                username: '',
+                name: '',
+                _id: ''
             }
         }
     }
 });
 
-export const {signUpSuccess, signInSuccess} = user.actions;
+export const {signUpSuccess, signInSuccess, signOut} = user.actions;
 
 export default user.reducer;
 
