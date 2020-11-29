@@ -14,7 +14,7 @@ import history from '../../history'
 function Dashboard() {
 
     const classes = useStyles();
-    const [cardsMovies, setCardsMovies] = useState([]);
+    const [cards, setCards] = useState([]);
 
     const onClickIcon = () => {
         store.dispatch(signOut())
@@ -26,7 +26,7 @@ function Dashboard() {
         <Grid container className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <ButtonToolbar setMovies={setCardsMovies}/>
+                    <ButtonToolbar setCards={setCards}/>
                     <IconButton aria-label="delete" className={classes.account} onClick={onClickIcon}>
                         <AccountCircle style={{color: 'white'}}/>
                     </IconButton>
@@ -39,7 +39,7 @@ function Dashboard() {
                 justify="flex-start"
                 alignItems="flex-start"
             >
-                {cardsMovies}
+                {cards}
             </Grid>
         </Grid>
     );

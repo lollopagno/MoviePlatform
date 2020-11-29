@@ -37,8 +37,10 @@ function getInfo(res, url) {
                             vote: tv.vote_average
                         })
                     });
+                    console.log(TVs)
                     utils.requestJsonSuccess(res, codeStatus.OK, 'Programs TV found.', TVs)
                 } catch (err) {
+                    console.log("[ERR] "+err)
                 }
             });
         } else {
