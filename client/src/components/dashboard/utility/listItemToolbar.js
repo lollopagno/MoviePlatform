@@ -8,6 +8,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import {requestActors} from "../../../requests/actors";
 
 /**
  * Sections movies
@@ -46,25 +47,24 @@ function ListItemComponent(props) {
             switch (event.currentTarget.id) {
                 case(MOVIES_POPULAR):
                     requestMovies.popular().then(res => {
-                        props.category("movies popular")
+                        props.category("Movies Popular")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch()
                     break;
 
                 case(MOVIES_TOP_RATED):
                     requestMovies.topRated().then(res => {
-                        props.category("movies top rated")
+                        props.category("Movies Top Rated")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch()
                     break;
 
                 case(MOVIES_UPCOMING):
                     requestMovies.upcoming().then(res => {
-                        props.category("movies upcoming")
+                        props.category("Movies Upcoming")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch()
                     break;
-
                 default:
                     break;
             }
@@ -72,18 +72,17 @@ function ListItemComponent(props) {
             switch (event.currentTarget.id) {
                 case(TV_POPULAR):
                     requestTV.popular().then(res => {
-                        props.category("tv popular")
+                        props.category("Tv Popular")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch()
                     break;
 
                 case(TV_TOP_RATED):
                     requestTV.topRated().then(res => {
-                        props.category("tv top rated")
+                        props.category("Tv Top Rated")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch()
                     break;
-
                 default:
                     break;
             }
@@ -105,6 +104,10 @@ function ListItemComponent(props) {
                 break;
 
             case(ACTORS):
+                requestActors.popular().then(res => {
+                    props.category("Actors Popular")
+                    props.setCards(<Cards result={res.data}/>)
+                }).catch()
                 break;
 
             default:
