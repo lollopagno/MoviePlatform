@@ -9,6 +9,7 @@ import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Container} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
+import {Markup} from 'interweave';
 
 const useStyles = makeStyles((theme) => ({
     media: {
@@ -39,22 +40,29 @@ function Cards(props) {
     return (
         <Container className={classes.cardGrid} maxWidth="md">
             <Grid container spacing={4}>
-                {props.result.data.map((movie) => (
-                    <Grid item xs={12} sm={6} md={4} key={movie._id}>
+                {props.result.data.map((item) => (
+                    <Grid item xs={12} sm={6} md={4} key={item._id}>
                         <Card className={classes.card}>
                             <CardMedia
                                 className={classes.media}
-                                image={movie.img}
-                                title={"Img" + movie.title}
+                                image={item.img}
+                                title={"Img" + item.title !== undefined ? item.title : item.name}
                             />
                             <CardContent className={classes.cardContent}>
                                 <Typography gutterBottom variant="h6" component="h2">
-                                    {movie.title}
+                                    {item.title !== undefined ? item.title : item.name}
                                 </Typography>
-                                <Typography variant="body2" align="left" component="p" className={classes.typography}>
-                                    <strong>Language</strong>: {movie.language}<br/>
-                                    <strong>Release date</strong>: {movie.date}<br/>
-                                    <strong>Vote</strong>: {movie.vote}
+                                <Typography variant="body2" align="left" component="span" className={classes.typography}>
+                                    {item.language !== undefined ? <Markup
+                                        content={"<strong>Language</strong>: " + item.language + "<br/>"}/> : ""}
+                                    {item.date !== undefined ? <Markup
+                                        content={"<strong>Release date</strong>: " + item.date + "<br/>"}/> : ""}
+                                    {item.vote !== undefined ?
+                                        <Markup content={"<strong>Vote</strong>: " + item.vote + "<br/>"}/> : ""}
+                                    {item.popularity !== undefined ? <Markup
+                                        content={"<strong>Popularity</strong>: " + item.popularity + "<br/>"}/> : ""}
+                                    {item.department !== undefined ? <Markup
+                                        content={"<strong>Department</strong>: " + item.department + "<br/>"}/> : ""}
                                 </Typography>
                             </CardContent>
                             <CardActions disableSpacing>
