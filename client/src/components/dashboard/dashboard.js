@@ -28,7 +28,7 @@ function Dashboard() {
                 <Toolbar>
                     <ButtonToolbar setMovies={setCardsMovies}/>
                     <IconButton aria-label="delete" className={classes.account} onClick={onClickIcon}>
-                        <AccountCircle />
+                        <AccountCircle style={{color: 'white'}}/>
                     </IconButton>
                 </Toolbar>
             </AppBar>
