@@ -11,12 +11,26 @@ import {signOut} from "../../redux/reducer/userReducer";
 import {deleteToken} from "../../redux/reducer/tokenReducer";
 import history from '../../history'
 import Typography from "@material-ui/core/Typography";
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from "@material-ui/core/InputBase";
+import ClearIcon from '@material-ui/icons/Clear';
+import Badge from "@material-ui/core/Badge";
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 function Dashboard() {
 
     const classes = useStyles();
     const [cards, setCards] = useState([]);
     const [category, setCategory] = useState('')
+    const [contentSearch, setContentSearch] = useState('')
+
+    const onChangeSearch = (event) => {
+        setContentSearch(event.target.value)
+    }
+
+    const onClickDeleteIcon = () => {
+        setContentSearch('')
+    }
 
     const onClickIcon = () => {
         store.dispatch(signOut())
@@ -29,7 +43,26 @@ function Dashboard() {
             <AppBar position="static">
                 <Toolbar>
                     <ButtonToolbar setCards={setCards} category={setCategory}/>
-                    <IconButton aria-label="delete" className={classes.account} onClick={onClickIcon}>
+                    <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                            <SearchIcon />
+                        </div>
+                        <IconButton size="small" className={classes.deleteIcon} onClick={onClickDeleteIcon}>
+                            <ClearIcon style={{color: 'white'}}/>
+                        </IconButton>
+                        <InputBase
+                            placeholder={category.includes('movies')? 'Search movies' : category.includes('tv')? 'Search tv programs' : 'Search actors'}
+                            onChange={onChangeSearch}
+                            classes={{root: classes.inputRoot, input: classes.inputInput}}
+                            inputProps={{ 'aria-label': 'search '}}
+                        />
+                    </div>
+                    <IconButton className={classes.iconNotice} aria-label="show 11 new notifications" color="inherit">
+                        <Badge badgeContent={0} /* todo imposta il numero di notifiche*/ color="secondary">
+                            <NotificationsIcon />
+                        </Badge>
+                    </IconButton>
+                    <IconButton className={classes.account} onClick={onClickIcon}>
                         <AccountCircle style={{color: 'white'}}/>
                     </IconButton>
                 </Toolbar>
