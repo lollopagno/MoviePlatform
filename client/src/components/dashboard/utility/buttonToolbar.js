@@ -11,17 +11,23 @@ import Cards from './card'
 
 const useStyles = makeStyles((theme) => ({
     toolbarLink: {
-        marginLeft: theme.spacing(2),
+        marginLeft: theme.spacing(33),
     }
 }));
 
+/**
+ * Menu button
+ */
 const sectionsMenu = [
     {id: 0, title: 'Movies', value: 'movies'},
     {id: 1, title: 'TV programs', value: 'tv'},
     {id: 2, title: 'Actors', value: 'actors'}
 ];
 
-const sectionMovies = [
+/**
+ * Sections movies
+ */
+const sectionsMovies = [
     {id: 0, value: 'Movies'},
     {id: 1, value: 'Popular'},
     {id: 2, value: 'Top Rated'},
@@ -34,13 +40,7 @@ function ButtonToolbar(props) {
 
     useEffect(() => {
         requestMovies.popular().then(res => {
-            const movies = res.data.data.map((movie) => {
-                return (
-                    <Grid item xs={12} sm={6} md={2} key={movie._id}>
-                        <Cards movie={movie}/>
-                    </Grid>
-                )
-            })
+            const movies = <Cards result={res.data}/>
             props.setMovies(movies)
         }).catch()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,39 +67,33 @@ function ListItemComponent(props) {
         setSelectedIndex(index);
         setAnchorEl(null);
 
-        if (event.currentTarget.id === '1') {
-            requestMovies.popular().then(res => {
-                const movies = res.data.data.map((movie) => {
-                    return (
-                        <Grid item xs={12} sm={6} md={2} key={movie._id}>
-                            <Cards movie={movie}/>
-                        </Grid>
-                    )
-                })
-                props.setMovies(movies)
-            }).catch()
-        } else if (event.currentTarget.id === '2') {
-            requestMovies.topRated().then(res => {
-                const movies = res.data.data.map((movie) => {
-                    return (
-                        <Grid item xs={12} sm={6} md={2} key={movie._id}>
-                            <Cards movie={movie}/>
-                        </Grid>
-                    )
-                })
-                props.setMovies(movies)
-            }).catch()
-        } else {
-            requestMovies.upcoming().then(res => {
-                const movies = res.data.data.map((movie) => {
-                    return (
-                        <Grid item xs={12} sm={6} md={2} key={movie._id}>
-                            <Cards movie={movie}/>
-                        </Grid>
-                    )
-                })
-                props.setMovies(movies)
-            }).catch()
+        switch (event.currentTarget.id) {
+            case('1'):
+                console.log("popular")
+                requestMovies.popular().then(res => {
+                    const movies = <Cards result={res.data}/>
+                    props.setMovies(movies)
+                }).catch()
+                break;
+
+            case('2'):
+                console.log("top_rated")
+                requestMovies.topRated().then(res => {
+                    const movies = <Cards result={res.data}/>
+                    props.setMovies(movies)
+                }).catch()
+                break;
+
+            case('3'):
+                console.log("upcoming")
+                requestMovies.upcoming().then(res => {
+                    const movies = <Cards result={res.data}/>
+                    props.setMovies(movies)
+                }).catch()
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -132,7 +126,7 @@ function ListItemComponent(props) {
                 open={Boolean(props.item.id === 0 ? anchorEl : null)}
                 onClose={handleClose}
             >
-                {sectionMovies.map((option, index) => (
+                {sectionsMovies.map((option, index) => (
                     <MenuItem
                         key={option.id}
                         id={option.id}
