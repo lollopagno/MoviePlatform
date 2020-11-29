@@ -32,7 +32,7 @@ router.get('/tmdb/tv/popular', (req, res) => TVPrograms.popular(req, res));
 router.get('/tmdb/tv/top_rated', (req, res) => TVPrograms.topRated(req, res));
 
 // Actors
-//router.get('/tmdb/actors/popular', (req, res) => Actors.popular(req, res));
+router.get('/tmdb/actors/popular', (req, res) => Actors.popular(req, res));
 
 module.exports = router;
 

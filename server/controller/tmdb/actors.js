@@ -12,27 +12,30 @@ popular = (req, res) => {
 }
 
 function getInfo(res, url) {
-
+    console.log("API actors")
     https.get(url, (result) => {
 
         let actors = [];
-
+        console.log("post")
         if (result.statusCode === 200) {
             result.setEncoding('utf8');
 
             result.on('data', function (data) {
                 try {
-                    (JSON.parse(data)).results.forEach((actor) => {
+                    data = JSON.parse(data)
+                    data = data.results
+                    data.forEach((actor) => {
                         actors.push({
                             _id: actor.id,
                             name: actor.name,
                             img: IMAGE + actor.profile_path,
-                            //Todo aggiuengere informazioni dall API
+                            popularity: actor.popularity,
+                            department: actor.known_for_department
                         })
                     });
+                    console.log(actors)
                     utils.requestJsonSuccess(res, codeStatus.OK, 'Actors found.', actors)
-                } catch (err) {
-                }
+                } catch (err) { console.log("[ERR] "+err)}
             });
         } else {
             utils.requestJsonFailed(res, codeStatus.badRequest, 'Actors not found!')
