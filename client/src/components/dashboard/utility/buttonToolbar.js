@@ -27,8 +27,8 @@ function ButtonToolbar(props) {
 
     useEffect(() => {
         requestMovies.popular().then(res => {
-            const movies = <Cards result={res.data}/>
-            props.setCards(movies)
+            props.category("movies popular")
+            props.setCards(<Cards result={res.data}/>)
         }).catch()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -37,7 +37,7 @@ function ButtonToolbar(props) {
         <div>
             <Grid container className={classes.toolbarLink}>
                 {sectionsMenu.map((section, item) => (
-                    <ListItemComponent item={section} key={item} setCards={props.setCards}/>
+                    <ListItemComponent item={section} key={item} setCards={props.setCards} category={props.category}/>
                 ))}
             </Grid>
         </div>

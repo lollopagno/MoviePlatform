@@ -45,22 +45,22 @@ function ListItemComponent(props) {
         if (event.currentTarget.ariaLabel === MOVIES) {
             switch (event.currentTarget.id) {
                 case(MOVIES_POPULAR):
-                    console.log("movies popular")
                     requestMovies.popular().then(res => {
+                        props.category("movies popular")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch()
                     break;
 
                 case(MOVIES_TOP_RATED):
-                    console.log("movies top_rated")
                     requestMovies.topRated().then(res => {
+                        props.category("movies top rated")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch()
                     break;
 
                 case(MOVIES_UPCOMING):
-                    console.log("movies upcoming")
                     requestMovies.upcoming().then(res => {
+                        props.category("movies upcoming")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch()
                     break;
@@ -71,15 +71,15 @@ function ListItemComponent(props) {
         } else if (event.currentTarget.ariaLabel === TV) {
             switch (event.currentTarget.id) {
                 case(TV_POPULAR):
-                    console.log("tv popular")
                     requestTV.popular().then(res => {
+                        props.category("tv popular")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch()
                     break;
 
                 case(TV_TOP_RATED):
-                    console.log("tv top_rated")
                     requestTV.topRated().then(res => {
+                        props.category("tv top rated")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch()
                     break;

@@ -6,6 +6,9 @@ const useStyles = makeStyles((theme) => ({
     },
     account: {
         marginLeft: theme.spacing(76),
+    },
+    category:{
+        marginTop: theme.spacing(4)
     }
 }));
 
