@@ -1,8 +1,8 @@
 import Grid from "@material-ui/core/Grid";
 import React, {useEffect} from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {requestMovies} from "../../../requests/movies";
-import Cards from './card'
+import {requestMovies} from "../../../../requests/movies";
+import Cards from '../card'
 import ListItemComponent from "./listItemToolbar";
 
 const useStyles = makeStyles((theme) => ({

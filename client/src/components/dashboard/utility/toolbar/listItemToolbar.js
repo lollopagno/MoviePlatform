@@ -1,14 +1,14 @@
 import React, {useState} from "react";
-import {requestMovies} from "../../../requests/movies";
-import Cards from "./card";
-import {requestTV} from "../../../requests/tv";
+import {requestMovies} from "../../../../requests/movies";
+import Cards from "../card";
+import {requestTV} from "../../../../requests/tv";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import {requestActors} from "../../../requests/actors";
+import {requestActors} from "../../../../requests/actors";
 
 /**
  * Sections movies
