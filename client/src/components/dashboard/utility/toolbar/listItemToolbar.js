@@ -35,7 +35,7 @@ const ACTORS = 'Actors'
 
 function ListItemComponent(props) {
 
-    // State for Menu item movies
+    // State for Menu item toolbar
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(1);
 
