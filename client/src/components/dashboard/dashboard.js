@@ -3,19 +3,15 @@ import {Toolbar} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import {useStyles} from "./styles";
 import Grid from "@material-ui/core/Grid";
-import ButtonToolbar from "./utility/buttonToolbar";
+import ButtonToolbar from "./utility/toolbar/buttonToolbar";
 import IconButton from "@material-ui/core/IconButton";
-import {AccountCircle, Title} from "@material-ui/icons";
-import {store} from "../../redux/store";
-import {signOut} from "../../redux/reducer/userReducer";
-import {deleteToken} from "../../redux/reducer/tokenReducer";
-import history from '../../history'
 import Typography from "@material-ui/core/Typography";
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from "@material-ui/core/InputBase";
 import ClearIcon from '@material-ui/icons/Clear';
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import Account from "./utility/toolbar/account";
 
 function Dashboard() {
 
@@ -30,12 +26,6 @@ function Dashboard() {
 
     const onClickDeleteIcon = () => {
         setContentSearch('')
-    }
-
-    const onClickIcon = () => {
-        store.dispatch(signOut())
-        store.dispatch(deleteToken())
-        history.push('/signIn')
     }
 
     return (
@@ -62,9 +52,7 @@ function Dashboard() {
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
-                    <IconButton className={classes.account} onClick={onClickIcon}>
-                        <AccountCircle style={{color: 'white'}}/>
-                    </IconButton>
+                    <Account />
                 </Toolbar>
             </AppBar>
             <Grid container justify={'center'}>
