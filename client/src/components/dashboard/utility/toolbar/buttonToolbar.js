@@ -20,7 +20,7 @@ function ButtonToolbar(props) {
 
     useEffect(() => {
         requestMovies.popular().then(res => {
-            props.category("movies popular")
+            props.category("Movies Popular")
             props.setCards(<Cards result={res.data}/>)
         }).catch()
         // eslint-disable-next-line react-hooks/exhaustive-deps
