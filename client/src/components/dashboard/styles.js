@@ -5,9 +5,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
-    account: {
-        marginLeft: theme.spacing(1),
-    },
     category:{
         marginTop: theme.spacing(4)
     },
