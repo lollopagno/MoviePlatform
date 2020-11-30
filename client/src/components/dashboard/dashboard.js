@@ -12,6 +12,8 @@ import ClearIcon from '@material-ui/icons/Clear';
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Account from "./utility/toolbar/account";
+import {Home} from "@material-ui/icons";
+import history from "../../history";
 
 function Dashboard() {
 
@@ -19,6 +21,11 @@ function Dashboard() {
     const [cards, setCards] = useState([]);
     const [category, setCategory] = useState('')
     const [contentSearch, setContentSearch] = useState('')
+
+    const onClickHome = () => {
+        console.log('onClick --> dashboard')
+        history.push('/dashboard')
+    }
 
     const onChangeSearch = (event) => {
         setContentSearch(event.target.value)
@@ -32,27 +39,30 @@ function Dashboard() {
         <Grid container className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
+                    <IconButton className={classes.homeIcon} id="account" onClick={onClickHome}>
+                        <Home style={{color: 'white'}}/>
+                    </IconButton>
                     <ButtonToolbar setCards={setCards} category={setCategory}/>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
-                            <SearchIcon />
+                            <SearchIcon/>
                         </div>
                         <IconButton size="small" className={classes.deleteIcon} onClick={onClickDeleteIcon}>
                             <ClearIcon style={{color: 'white'}}/>
                         </IconButton>
                         <InputBase
-                            placeholder={category.includes('movies')? 'Search movies' : category.includes('tv')? 'Search tv programs' : 'Search actors'}
+                            placeholder={category.includes('movies') ? 'Search movies' : category.includes('tv') ? 'Search tv programs' : 'Search actors'}
                             onChange={onChangeSearch}
                             classes={{root: classes.inputRoot, input: classes.inputInput}}
-                            inputProps={{ 'aria-label': 'search '}}
+                            inputProps={{'aria-label': 'search '}}
                         />
                     </div>
-                    <IconButton className={classes.iconNotice} aria-label="show 11 new notifications" color="inherit">
+                    <IconButton className={classes.noticeIcon} aria-label="show 11 new notifications" color="inherit">
                         <Badge badgeContent={0} /* todo imposta il numero di notifiche*/ color="secondary">
-                            <NotificationsIcon />
+                            <NotificationsIcon/>
                         </Badge>
                     </IconButton>
-                    <Account />
+                    <Account/>
                 </Toolbar>
             </AppBar>
             <Grid container justify={'center'}>

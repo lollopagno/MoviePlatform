@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme) => ({
     category:{
         marginTop: theme.spacing(4)
     },
+    homeIcon: {
+      marginLeft: theme.spacing(34),
+    },
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -54,8 +57,8 @@ const useStyles = makeStyles((theme) => ({
             width: '35ch',
         },
     },
-    iconNotice: {
-        marginLeft: theme.spacing(17)
+    noticeIcon: {
+        marginLeft: theme.spacing(10)
     }
 }));
 

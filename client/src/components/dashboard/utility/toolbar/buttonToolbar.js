@@ -5,11 +5,6 @@ import {requestMovies} from "../../../../requests/movies";
 import Cards from '../card'
 import ListItemComponent from "./listItemToolbar";
 
-const useStyles = makeStyles((theme) => ({
-    toolbarLink: {
-        marginLeft: theme.spacing(33),
-    }
-}));
 
 /**
  * Menu button
@@ -23,8 +18,6 @@ const sectionsMenu = [
 
 function ButtonToolbar(props) {
 
-    const classes = useStyles();
-
     useEffect(() => {
         requestMovies.popular().then(res => {
             props.category("movies popular")
@@ -35,7 +28,7 @@ function ButtonToolbar(props) {
 
     return (
         <div>
-            <Grid container className={classes.toolbarLink}>
+            <Grid container>
                 {sectionsMenu.map((section, item) => (
                     <ListItemComponent item={section} key={item} setCards={props.setCards} category={props.category}/>
                 ))}
