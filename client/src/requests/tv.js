@@ -9,5 +9,8 @@ const popular = () => {
 const topRated = () => {
     return axios.get(API + '/tmdb/tv/top_rated', )
 }
+const search = (data) => {
+    return axios.get(API + '/tmdb/tv/search', {params: {query: data}})
+}
 
-export const requestTV = {popular, topRated};
+export const requestTV = {popular, topRated, search};
