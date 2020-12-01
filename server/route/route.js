@@ -26,13 +26,16 @@ router.post('/token/authentication/check', (req, res) => Token.checkToken(req, r
 router.get('/tmdb/movies/popular', (req, res) => Movies.popular(req, res));
 router.get('/tmdb/movies/top_rated', (req, res) => Movies.topRated(req, res));
 router.get('/tmdb/movies/upcoming', (req, res) => Movies.upcoming(req, res));
+router.get('/tmdb/movies/search', (req, res) => Movies.search(req, res));
 
 // TV
 router.get('/tmdb/tv/popular', (req, res) => TVPrograms.popular(req, res));
 router.get('/tmdb/tv/top_rated', (req, res) => TVPrograms.topRated(req, res));
+router.get('/tmdb/tv/search', (req, res) => TVPrograms.search(req, res));
 
 // Actors
 router.get('/tmdb/actors/popular', (req, res) => Actors.popular(req, res));
+router.get('/tmdb/actors/search', (req, res) => Actors.search(req, res));
 
 module.exports = router;
 
