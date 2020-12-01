@@ -3,13 +3,16 @@ import {fade} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,
+        flexGrow: 1
     },
-    category:{
-        marginTop: theme.spacing(4)
+    divider:{
+        marginLeft: theme.spacing(39.5),
+    },
+    category: {
+        marginTop: theme.spacing(4),
     },
     homeIcon: {
-      marginLeft: theme.spacing(34),
+        marginLeft: theme.spacing(34),
     },
     search: {
         position: 'relative',
@@ -35,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    deleteIcon:{
+    deleteIcon: {
         padding: theme.spacing(0, 40),
         height: '100%',
         position: 'absolute',

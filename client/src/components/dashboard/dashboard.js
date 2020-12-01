@@ -14,6 +14,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Account from "./utility/toolbar/account";
 import {Home} from "@material-ui/icons";
 import history from "../../history";
+import Divider from "@material-ui/core/Divider";
 
 function Dashboard() {
 
@@ -65,10 +66,22 @@ function Dashboard() {
                     <Account/>
                 </Toolbar>
             </AppBar>
-            <Grid container justify={'center'}>
-                <Typography gutterBottom variant="h5" className={classes.category}>
-                    <strong>{category.toUpperCase()}</strong>
-                </Typography>
+            <Grid
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justify="center"
+                style={{minHeight: '10vh'}}
+            >
+                <Grid item xs={3}>
+                    <Typography gutterBottom variant="h5" className={classes.category}>
+                        {category}
+                    </Typography>
+                </Grid>
+            </Grid>
+            <Grid item xs={7} className={classes.divider}>
+                <Divider/>
             </Grid>
             <Grid
                 container
