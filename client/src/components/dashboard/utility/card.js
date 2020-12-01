@@ -10,6 +10,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Container} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import {Markup} from 'interweave';
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
     media: {
@@ -52,7 +53,9 @@ function Cards(props) {
                                 <Typography gutterBottom variant="h6" component="h2">
                                     {item.title !== undefined ? item.title : item.name}
                                 </Typography>
-                                <Typography variant="body2" align="left" component="span" className={classes.typography}>
+                                <Divider variant={"middle"}/><br/>
+                                <Typography variant="body2" align="left" component="span"
+                                            className={classes.typography}>
                                     {item.language !== undefined ? <Markup
                                         content={"<strong>Language</strong>: " + item.language + "<br/>"}/> : ""}
                                     {item.date !== undefined ? <Markup
@@ -65,6 +68,7 @@ function Cards(props) {
                                         content={"<strong>Department</strong>: " + item.department + "<br/>"}/> : ""}
                                 </Typography>
                             </CardContent>
+                            <Divider variant={"middle"}/>
                             <CardActions disableSpacing>
                                 <IconButton aria-label="add to favorites">
                                     <FavoriteIcon style={{color: 'red'}}/>
