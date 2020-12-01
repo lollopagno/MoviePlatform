@@ -20,7 +20,7 @@ function Dashboard() {
 
     const classes = useStyles();
     const [cards, setCards] = useState([]);
-    const [category, setCategory] = useState('')
+    const [category, setCategory] = useState('Movies Popular')
     const [contentSearch, setContentSearch] = useState('')
 
     const onClickHome = () => {
