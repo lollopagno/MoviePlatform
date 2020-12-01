@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Toolbar} from "@material-ui/core";
+import {Icon, Toolbar} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import {useStyles} from "./styles";
 import Grid from "@material-ui/core/Grid";
@@ -15,6 +15,8 @@ import Account from "./utility/toolbar/account";
 import {Home} from "@material-ui/icons";
 import Divider from "@material-ui/core/Divider";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import CheckIcon from '@material-ui/icons/Check';
+import Paper from "@material-ui/core/Paper";
 
 function Dashboard() {
 
@@ -31,8 +33,11 @@ function Dashboard() {
         setContentSearch(event.target.value)
     }
 
+    const onClickSearch = () => {
+        console.log("[on CLick search] " + contentSearch)
+    }
+
     const onClickDeleteIcon = () => {
-        console.log('on click delete')
         setContentSearch('')
     }
 
@@ -50,14 +55,22 @@ function Dashboard() {
                         </div>
                         <InputBase
                             placeholder={category.includes('Movies') ? 'Search movies' : category.includes('Tv') ? 'Search tv programs' : 'Search actors'}
-                            onChange={onChangeSearch}
                             classes={{root: classes.inputRoot, input: classes.inputInput}}
+                            onChange={onChangeSearch}
                             value={contentSearch}
                             inputProps={{'aria-label': 'search '}}
                             endAdornment={
-                                <InputAdornment position={'end'} >
-                                    <IconButton size="small" onClick={onClickDeleteIcon} color={'inherit'}>
-                                        <ClearIcon />
+                                <InputAdornment position={'end'}>
+                                    <IconButton size="small" className={classes.deleteIcon} onClick={onClickDeleteIcon}
+                                                color={'inherit'}>
+                                        <ClearIcon/>
+                                    </IconButton>
+                                    <Paper>
+                                        <Divider orientation="vertical" className={classes.dividerSearchBar}/>
+                                    </Paper>
+                                    <IconButton size="small" className={classes.checkIcon} onClick={onClickSearch}
+                                                color={'inherit'}>
+                                        <CheckIcon/>
                                     </IconButton>
                                 </InputAdornment>
                             }
@@ -86,7 +99,7 @@ function Dashboard() {
                     </Typography>
                 </Grid>
             </Grid>
-            <Grid item xs={7} className={classes.divider}>
+            <Grid item xs={7} className={classes.dividerCategory}>
                 <Divider/>
             </Grid>
             <Grid

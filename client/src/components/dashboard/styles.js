@@ -5,8 +5,12 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1
     },
-    divider: {
+    dividerCategory: {
         marginLeft: theme.spacing(39.5),
+    },
+    dividerSearchBar:{
+        margin: 0.5,
+        height: 20,
     },
     category: {
         marginTop: theme.spacing(4),
@@ -54,6 +58,12 @@ const useStyles = makeStyles((theme) => ({
     },
     noticeIcon: {
         marginLeft: theme.spacing(10)
+    },
+    checkIcon: {
+        marginLeft: theme.spacing(1)
+    },
+    deleteIcon: {
+        marginRight: theme.spacing(1)
     }
 }));
 
