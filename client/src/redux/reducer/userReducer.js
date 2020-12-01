@@ -28,7 +28,7 @@ export const user = createSlice({
                 email: email
             }
         },
-        signOut: (state) => {
+        resetUser: (state) => {
             return {
                 ...state,
                 email: '',
@@ -40,7 +40,7 @@ export const user = createSlice({
     }
 });
 
-export const {signUpSuccess, signInSuccess, signOut} = user.actions;
+export const {signUpSuccess, signInSuccess, resetUser} = user.actions;
 
 export default user.reducer;
 

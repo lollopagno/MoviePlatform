@@ -4,7 +4,7 @@ import {AccountCircle} from "@material-ui/icons";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {store} from "../../../../redux/store";
-import {signOut} from "../../../../redux/reducer/userReducer";
+import {resetUser} from "../../../../redux/reducer/userReducer";
 import {deleteToken} from "../../../../redux/reducer/tokenReducer";
 import history from "../../../../history";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -46,7 +46,7 @@ function Account() {
         if (event.currentTarget.id === '1') {
             console.log('my profile')
         } else if (event.currentTarget.id === ID_LOG_OUT) {
-            store.dispatch(signOut())
+            store.dispatch(resetUser())
             store.dispatch(deleteToken())
             history.push('/signIn')
         }
