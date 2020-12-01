@@ -5,11 +5,12 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1
     },
-    divider:{
+    divider: {
         marginLeft: theme.spacing(39.5),
     },
     category: {
         marginTop: theme.spacing(4),
+        fontSize: 25,
     },
     homeIcon: {
         marginLeft: theme.spacing(34),
@@ -38,15 +39,6 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    deleteIcon: {
-        padding: theme.spacing(0, 40),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     inputRoot: {
         color: 'inherit',
     },
@@ -57,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
-            width: '35ch',
+            width: '28ch',
         },
     },
     noticeIcon: {

@@ -13,8 +13,8 @@ import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Account from "./utility/toolbar/account";
 import {Home} from "@material-ui/icons";
-import history from "../../history";
 import Divider from "@material-ui/core/Divider";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 function Dashboard() {
 
@@ -24,8 +24,7 @@ function Dashboard() {
     const [contentSearch, setContentSearch] = useState('')
 
     const onClickHome = () => {
-        console.log('onClick --> dashboard')
-        history.push('/dashboard')
+        window.location.reload()
     }
 
     const onChangeSearch = (event) => {
@@ -33,6 +32,7 @@ function Dashboard() {
     }
 
     const onClickDeleteIcon = () => {
+        console.log('on click delete')
         setContentSearch('')
     }
 
@@ -48,17 +48,23 @@ function Dashboard() {
                         <div className={classes.searchIcon}>
                             <SearchIcon/>
                         </div>
-                        <IconButton size="small" className={classes.deleteIcon} onClick={onClickDeleteIcon}>
-                            <ClearIcon style={{color: 'white'}}/>
-                        </IconButton>
                         <InputBase
-                            placeholder={category.includes('movies') ? 'Search movies' : category.includes('tv') ? 'Search tv programs' : 'Search actors'}
+                            placeholder={category.includes('Movies') ? 'Search movies' : category.includes('Tv') ? 'Search tv programs' : 'Search actors'}
                             onChange={onChangeSearch}
                             classes={{root: classes.inputRoot, input: classes.inputInput}}
+                            value={contentSearch}
                             inputProps={{'aria-label': 'search '}}
+                            endAdornment={
+                                <InputAdornment position={'end'} >
+                                    <IconButton size="small" onClick={onClickDeleteIcon} color={'inherit'}>
+                                        <ClearIcon />
+                                    </IconButton>
+                                </InputAdornment>
+                            }
                         />
                     </div>
-                    <IconButton className={classes.noticeIcon} aria-label="show 11 new notifications" color="inherit">
+                    <IconButton className={classes.noticeIcon} aria-label="show 11 new notifications"
+                                color="inherit">
                         <Badge badgeContent={0} /* todo imposta il numero di notifiche*/ color="secondary">
                             <NotificationsIcon/>
                         </Badge>
@@ -75,7 +81,7 @@ function Dashboard() {
                 style={{minHeight: '10vh'}}
             >
                 <Grid item xs={3}>
-                    <Typography gutterBottom variant="h5" className={classes.category}>
+                    <Typography gutterBottom variant="subtitle1" className={classes.category}>
                         {category}
                     </Typography>
                 </Grid>
