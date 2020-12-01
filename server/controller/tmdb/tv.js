@@ -3,24 +3,30 @@ const https = require('https');
 
 const utils = require('../../utils/commons')
 const codeStatus = require('../../utils/status')
+const HOST = 'api.themoviedb.org'
 
 /**
  * Parameter to request a get api popular
  */
-const HOST_POPULAR = 'api.themoviedb.org'
 const PATH_POPULAR = '/3/tv/popular?api_key='
 
 /**
  * Parameter to request a get api top rated
  */
-const HOST_TOP_RATED = 'api.themoviedb.org'
 const PATH_TOP_RATED = '/3/tv/top_rated?api_key='
 
+/**
+ * Parameter to request a get api to search Tv programs
+ */
+const PATH_SEARCH = '/3/search/tv?api_key='
+
 const IMAGE = 'https://image.tmdb.org/t/p/w500/'
+// todo creare una soluzione su dove caricarla
+const IMAGE_NOT_FOUND = 'https://www.svaghiamo.it/wp-content/uploads/2016/09/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png'
 
 popular = (req, res) => {
     const options = {
-        host: HOST_POPULAR,
+        host: HOST,
         path: PATH_POPULAR + KEY
     };
     getInfo(res, options)
@@ -28,8 +34,16 @@ popular = (req, res) => {
 
 topRated = (req, res) => {
     const options = {
-        host: HOST_TOP_RATED,
+        host: HOST,
         path: PATH_TOP_RATED + KEY
+    };
+    getInfo(res, options)
+}
+
+search = (req, res) => {
+    const options = {
+        host: HOST,
+        path: PATH_SEARCH + KEY + "&query=" + (req.query.query).replace(/\s/g, '%20')
     };
     getInfo(res, options)
 }
@@ -54,7 +68,7 @@ function getInfo(res, option_requests) {
                         _id: tv.id,
                         title: tv.original_name,
                         date: tv.first_air_date,
-                        img: IMAGE + tv.poster_path,
+                        img: tv.poster_path !== null? IMAGE + tv.poster_path : IMAGE_NOT_FOUND,
                         language: tv.original_language,
                         vote: tv.vote_average
                     })
@@ -68,5 +82,5 @@ function getInfo(res, option_requests) {
 }
 
 module.exports = {
-    popular, topRated
+    popular, topRated, search
 }
