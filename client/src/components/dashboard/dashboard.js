@@ -17,6 +17,13 @@ import Divider from "@material-ui/core/Divider";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import CheckIcon from '@material-ui/icons/Check';
 import Paper from "@material-ui/core/Paper";
+import {requestMovies} from "../../requests/movies";
+import Cards from "./utility/card";
+import {requestTV} from "../../requests/tv";
+import {requestActors} from "../../requests/actors";
+
+const MOVIES = 'Movies'
+const TV = 'Tv'
 
 function Dashboard() {
 
@@ -34,7 +41,24 @@ function Dashboard() {
     }
 
     const onClickSearch = () => {
-        console.log("[on CLick search] " + contentSearch)
+        setContentSearch('')
+
+        if (category.includes(MOVIES)) {
+            requestMovies.search(contentSearch).then((res) => {
+                setCategory("Search Movies: " + contentSearch)
+                setCards(<Cards result={res.data}/>)
+            }).catch()
+        } else if(category.includes(TV)){
+            requestTV.search(contentSearch).then((res) => {
+                setCategory("Search Tv programs: " + contentSearch)
+                setCards(<Cards result={res.data}/>)
+            }).catch()
+        } else{
+            requestActors.search(contentSearch).then((res) => {
+                setCategory("Search Actors: " + contentSearch)
+                setCards(<Cards result={res.data}/>)
+            }).catch()
+        }
     }
 
     const onClickDeleteIcon = () => {
@@ -54,7 +78,7 @@ function Dashboard() {
                             <SearchIcon/>
                         </div>
                         <InputBase
-                            placeholder={category.includes('Movies') ? 'Search movies' : category.includes('Tv') ? 'Search tv programs' : 'Search actors'}
+                            placeholder={category.includes(MOVIES) ? 'Search movies' : category.includes(TV) ? 'Search tv programs' : 'Search actors'}
                             classes={{root: classes.inputRoot, input: classes.inputInput}}
                             onChange={onChangeSearch}
                             value={contentSearch}
@@ -93,7 +117,7 @@ function Dashboard() {
                 justify="center"
                 style={{minHeight: '10vh'}}
             >
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                     <Typography gutterBottom variant="subtitle1" className={classes.category}>
                         {category}
                     </Typography>
