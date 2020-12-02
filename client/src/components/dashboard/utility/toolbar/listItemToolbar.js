@@ -9,7 +9,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {requestActors} from "../../../../requests/actors";
-import ConnectionRefused from "../connectionRefused";
+import ConnectRefused from "../connectRefused";
 
 /**
  * Sections movies
@@ -51,7 +51,7 @@ function ListItemComponent(props) {
                         props.category("Movies Popular")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch((err) => {
-                        props.setCards(<ConnectionRefused msg={err.response.data.message}/>)
+                        props.setCards(<ConnectRefused msg={err.response.data.message}/>)
                     })
                     break;
 
@@ -60,7 +60,7 @@ function ListItemComponent(props) {
                         props.category("Movies Top Rated")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch((err) => {
-                        props.setCards(<ConnectionRefused msg={err.response.data.message}/>)
+                        props.setCards(<ConnectRefused msg={err.response.data.message}/>)
                     })
                     break;
 
@@ -69,7 +69,7 @@ function ListItemComponent(props) {
                         props.category("Movies Upcoming")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch((err) => {
-                        props.setCards(<ConnectionRefused msg={err.response.data.message}/>)
+                        props.setCards(<ConnectRefused msg={err.response.data.message}/>)
                     })
                     break;
                 default:
@@ -82,7 +82,7 @@ function ListItemComponent(props) {
                         props.category("Tv Popular")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch((err) => {
-                        props.setCards(<ConnectionRefused msg={err.response.data.message}/>)
+                        props.setCards(<ConnectRefused msg={err.response.data.message}/>)
                     })
                     break;
 
@@ -91,7 +91,7 @@ function ListItemComponent(props) {
                         props.category("Tv Top Rated")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch((err) => {
-                        props.setCards(<ConnectionRefused msg={err.response.data.message}/>)
+                        props.setCards(<ConnectRefused msg={err.response.data.message}/>)
                     })
                     break;
                 default:
@@ -119,7 +119,7 @@ function ListItemComponent(props) {
                     props.category("Actors Popular")
                     props.setCards(<Cards result={res.data}/>)
                 }).catch((err) => {
-                    props.setCards(<ConnectionRefused msg={err.response.data.message}/>)
+                    props.setCards(<ConnectRefused msg={err.response.data.message}/>)
                 })
                 break;
 

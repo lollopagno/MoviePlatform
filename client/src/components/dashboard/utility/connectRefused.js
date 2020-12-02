@@ -6,12 +6,12 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
     alertContainer: {
-        paddingTop: theme.spacing(10),
+        paddingTop: theme.spacing(8),
         paddingBottom: theme.spacing(8),
     }
 }));
 
-function ConnectionRefused(props) {
+function ConnectRefused(props) {
 
     const classes = useStyles()
 
@@ -28,4 +28,4 @@ function ConnectionRefused(props) {
     )
 }
 
-export default ConnectionRefused;
+export default ConnectRefused;
