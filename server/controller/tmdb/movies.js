@@ -60,8 +60,7 @@ search = (req, res) => {
 }
 
 function getInfo(res, options_requests) {
-
-    https.get(options_requests, (result) => {
+    const req = https.get(options_requests, (result) => {
 
         let allData = '';
         let movies = [];
@@ -78,17 +77,24 @@ function getInfo(res, options_requests) {
                         _id: movie.id,
                         title: movie.original_title,
                         date: movie.release_date,
-                        img: movie.poster_path !== null? IMAGE + movie.poster_path : null,
+                        img: movie.poster_path !== null ? IMAGE + movie.poster_path : null,
                         language: movie.original_language,
                         vote: movie.vote_average
                     })
                 });
                 utils.requestJsonSuccess(res, codeStatus.OK, 'Movies found.', movies)
+
             });
         } else {
             utils.requestJsonFailed(res, codeStatus.badRequest, 'Movies not found!')
         }
     })
+
+    req.on("error", err => {
+        utils.requestJsonFailed(res, codeStatus.serverError, "Connection refused.")
+    })
+
+    req.end()
 }
 
 module.exports = {

@@ -9,6 +9,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {requestActors} from "../../../../requests/actors";
+import ConnectionRefused from "../connectionRefused";
 
 /**
  * Sections movies
@@ -49,21 +50,27 @@ function ListItemComponent(props) {
                     requestMovies.popular().then(res => {
                         props.category("Movies Popular")
                         props.setCards(<Cards result={res.data}/>)
-                    }).catch()
+                    }).catch((err) => {
+                        props.setCards(<ConnectionRefused msg={err.response.data.message}/>)
+                    })
                     break;
 
                 case(MOVIES_TOP_RATED):
                     requestMovies.topRated().then(res => {
                         props.category("Movies Top Rated")
                         props.setCards(<Cards result={res.data}/>)
-                    }).catch()
+                    }).catch((err) => {
+                        props.setCards(<ConnectionRefused msg={err.response.data.message}/>)
+                    })
                     break;
 
                 case(MOVIES_UPCOMING):
                     requestMovies.upcoming().then(res => {
                         props.category("Movies Upcoming")
                         props.setCards(<Cards result={res.data}/>)
-                    }).catch()
+                    }).catch((err) => {
+                        props.setCards(<ConnectionRefused msg={err.response.data.message}/>)
+                    })
                     break;
                 default:
                     break;
@@ -74,14 +81,18 @@ function ListItemComponent(props) {
                     requestTV.popular().then(res => {
                         props.category("Tv Popular")
                         props.setCards(<Cards result={res.data}/>)
-                    }).catch()
+                    }).catch((err) => {
+                        props.setCards(<ConnectionRefused msg={err.response.data.message}/>)
+                    })
                     break;
 
                 case(TV_TOP_RATED):
                     requestTV.topRated().then(res => {
                         props.category("Tv Top Rated")
                         props.setCards(<Cards result={res.data}/>)
-                    }).catch()
+                    }).catch((err) => {
+                        props.setCards(<ConnectionRefused msg={err.response.data.message}/>)
+                    })
                     break;
                 default:
                     break;
@@ -107,7 +118,9 @@ function ListItemComponent(props) {
                 requestActors.popular().then(res => {
                     props.category("Actors Popular")
                     props.setCards(<Cards result={res.data}/>)
-                }).catch()
+                }).catch((err) => {
+                    props.setCards(<ConnectionRefused msg={err.response.data.message}/>)
+                })
                 break;
 
             default:

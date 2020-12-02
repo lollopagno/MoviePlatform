@@ -29,7 +29,7 @@ search = (req, res) => {
 }
 
 function getInfo(res, options) {
-    https.get(options, (result) => {
+    const req = https.get(options, (result) => {
 
         let allData = '';
         let actors = [];
@@ -45,7 +45,7 @@ function getInfo(res, options) {
                     actors.push({
                         _id: actor.id,
                         name: actor.name,
-                        img: actor.profile_path !== null? IMAGE + actor.profile_path : null,
+                        img: actor.profile_path !== null ? IMAGE + actor.profile_path : null,
                         popularity: actor.popularity,
                         department: actor.known_for_department
                     })
@@ -56,6 +56,12 @@ function getInfo(res, options) {
             utils.requestJsonFailed(res, codeStatus.badRequest, 'Actors not found!')
         }
     })
+
+    req.on("error", err => {
+        utils.requestJsonFailed(res, codeStatus.serverError, "Connection refused.")
+    })
+
+    req.end()
 }
 
 

@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 import {requestMovies} from "../../../../requests/movies";
 import Cards from '../card'
 import ListItemComponent from "./listItemToolbar";
-
+import ConnectionRefused from "../connectionRefused";
 
 /**
  * Menu button
@@ -21,7 +21,9 @@ function ButtonToolbar(props) {
         requestMovies.popular().then(res => {
             props.category("Movies Popular")
             props.setCards(<Cards result={res.data}/>)
-        }).catch()
+        }).catch((err) => {
+            props.setCards(<ConnectionRefused msg={err.response.data.message}/>)
+        })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

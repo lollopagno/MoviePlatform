@@ -21,6 +21,7 @@ import {requestMovies} from "../../requests/movies";
 import Cards from "./utility/card";
 import {requestTV} from "../../requests/tv";
 import {requestActors} from "../../requests/actors";
+import ConnectionRefused from "./utility/connectionRefused";
 
 const MOVIES = 'Movies'
 const TV = 'Tv'
@@ -53,17 +54,23 @@ function Dashboard() {
             requestMovies.search(contentSearch).then((res) => {
                 setCategory("Search Movies: " + contentSearch)
                 setCards(<Cards result={res.data}/>)
-            }).catch()
+            }).catch((err) => {
+                setCards(<ConnectionRefused msg={err.response.data.message}/>)
+            })
         } else if (category.includes(TV)) {
             requestTV.search(contentSearch).then((res) => {
                 setCategory("Search Tv programs: " + contentSearch)
                 setCards(<Cards result={res.data}/>)
-            }).catch()
+            }).catch((err) => {
+                setCards(<ConnectionRefused msg={err.response.data.message}/>)
+            })
         } else {
             requestActors.search(contentSearch).then((res) => {
                 setCategory("Search Actors: " + contentSearch)
                 setCards(<Cards result={res.data}/>)
-            }).catch()
+            }).catch((err) => {
+                setCards(<ConnectionRefused msg={err.response.data.message}/>)
+            })
         }
     }
 

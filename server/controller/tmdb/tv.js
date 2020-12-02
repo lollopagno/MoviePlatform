@@ -47,8 +47,7 @@ search = (req, res) => {
 }
 
 function getInfo(res, option_requests) {
-
-    https.get(option_requests, (result) => {
+    const req = https.get(option_requests, (result) => {
 
         let allData = ''
         let TVs = [];
@@ -66,7 +65,7 @@ function getInfo(res, option_requests) {
                         _id: tv.id,
                         title: tv.original_name,
                         date: tv.first_air_date,
-                        img: tv.poster_path !== null? IMAGE + tv.poster_path : null,
+                        img: tv.poster_path !== null ? IMAGE + tv.poster_path : null,
                         language: tv.original_language,
                         vote: tv.vote_average
                     })
@@ -77,6 +76,11 @@ function getInfo(res, option_requests) {
             utils.requestJsonFailed(res, codeStatus.badRequest, 'Programs TV not found!')
         }
     })
+    req.on("error", err => {
+        utils.requestJsonFailed(res, codeStatus.serverError, "Connection refused.")
+    })
+
+    req.end()
 }
 
 module.exports = {
