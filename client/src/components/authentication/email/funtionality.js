@@ -7,12 +7,11 @@ import {makeStyles} from "@material-ui/core/styles";
 import {Grid, Typography} from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import {setTokenEmail} from "../../../redux/reducer/tokenReducer";
+import history from "../../../history";
 
 const useStyles = makeStyles((theme) => ({
     button: {
-        margin: theme.spacing(3, 65, 0, 65),
-        width: 150,
-        height: 45
+        marginTop: theme.spacing(2)
     },
     alert: {
         margin: theme.spacing(2, 5, 0, 5),
@@ -64,31 +63,45 @@ export function ButtonResendEmail() {
     }
 
     return (
-        <div>
-            <Grid container justify={"center"}>
-                {resendEmail.state &&
-                <Alert severity="warning" variant="standard" className={classes.alert}>
-                    {resendEmail.info}
-                </Alert>}
+        <Grid container justify={"center"}>
+            {resendEmail.state &&
+            <Alert severity="warning" variant="standard" className={classes.alert}>
+                {resendEmail.info}
+            </Alert>}
+            <Grid container spacing={4} justify={"center"} className={classes.button}>
+                <Grid item >
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        value="resend"
+                        onClick={() => {
+                            authentication.resendTokenEmail(data).then(res => {
+                                setResendEmail({...resendEmail, info: res.data.message, state: true})
+                                // Saved new token
+                                store.dispatch(setTokenEmail(res.data.token))
+                            }).catch(err => {
+                                setResendEmail({...resendEmail, info: err.response.data.message, state: true})
+                            })
+                        }}
+                    >
+                        Resend email
+                    </Button>
+                </Grid>
+                <Grid item >
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        value="submit"
+                        onClick={() => {
+                            history.push('/signIn')
+                        }}
+                    >
+                        Sign In
+                    </Button>
+                </Grid>
             </Grid>
-            <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                value="resend"
-                onClick={() => {
-                    authentication.resendTokenEmail(data).then(res => {
-                        setResendEmail({...resendEmail, info: res.data.message, state: true})
-                        // Saved new token
-                        store.dispatch(setTokenEmail(res.data.token))
-                    }).catch(err => {
-                        setResendEmail({...resendEmail, info: err.response.data.message, state: true})
-                    })
-                }}
-                className={classes.button}
-            >
-                Resend email
-            </Button>
-        </div>
+        </Grid>
     )
 }
