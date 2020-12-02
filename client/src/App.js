@@ -32,7 +32,7 @@ function App() {
                 console.log("[APP] ERR TOKEN EXPIRED")
                 store.dispatch(meFromTokenFailure())                // Reset token redux
                 store.dispatch(resetUser())                         // Reset user redux
-                store.dispatch(setAlert(err.response.data.message)) // Set error redux
+                store.dispatch(setAlert({alert: err.response.data.message, isSuccess: false})) // Set error redux
                 history.push('/')
             });
         }

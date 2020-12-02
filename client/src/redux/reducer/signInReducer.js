@@ -4,18 +4,22 @@ export const signIn = createSlice({
     name: 'signIn',
     initialState: {
         alert: undefined,
+        isSuccess: undefined
     },
     reducers: {
         setAlert: (state, action) => {
+            const {alert, isSuccess} = action.payload
             return {
                 ...state,
-                alert: action.payload
+                alert: alert,
+                isSuccess : isSuccess
             }
         },
         resetAlert: (state) => {
             return {
                 ...state,
-                alert: undefined
+                alert: undefined,
+                isSuccess : undefined
             }
         },
     }

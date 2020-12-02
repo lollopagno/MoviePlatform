@@ -49,7 +49,7 @@ function Account() {
         } else if (event.currentTarget.id === ID_LOG_OUT) {
             store.dispatch(resetUser())
             store.dispatch(deleteToken())
-            store.dispatch(setAlert('Sign out completed!'))
+            store.dispatch(setAlert({alert: 'Sign out completed!', isSuccess: true}))
             history.push('/signIn')
         }
     }

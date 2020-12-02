@@ -24,6 +24,7 @@ import {useSelector} from "react-redux";
 import {Alert} from "@material-ui/lab";
 import {meFromTokenSuccess} from "../../../redux/reducer/tokenReducer";
 import {resetAlert} from "../../../redux/reducer/signInReducer";
+import {Redirect, Route} from "react-router-dom";
 
 function Copyright() {
     return (
@@ -43,20 +44,24 @@ function SignIn() {
     const {username, password} = userData
     const [typePassword, setTypePassword] = useState(false);
     const [infoAlert, setInfoAlert] = useState(null)
-    const alertRedux = useSelector(state => state.signIn.alert)
+    const [stateAlert, setStateAlert] = useState(false)
+    const alertRedux = useSelector(state => state.signIn)
+    const idUser = useSelector(state => state.user._id)
 
     useEffect(() => {
 
-        console.log("[SIGN IN] USE EFFECT APP: " )
+        console.log("[SIGN IN] USE EFFECT ")
         // Check tp show alert
-        if (alertRedux !== undefined && alertRedux.length > 0) {
-            setInfoAlert(alertRedux)
+        if (alertRedux.alert !== undefined && alertRedux.alert.length > 0) {
+            setInfoAlert(alertRedux.alert)
+            setStateAlert(alertRedux.isSuccess)
             store.dispatch(resetAlert())
         }
-        //else{
-        //     history.push('/dashboard')
+        // else if(idUser){
+        //     // Redirect to dashboard
+        //     console.log("redirect")
+        //     history.push("/dashboard")
         // }
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -80,6 +85,7 @@ function SignIn() {
         setUserData({...userData, username: '', password: ''})
         setTypePassword(false)
         setInfoAlert(null)
+        setStateAlert(false)
     }
 
     /**
@@ -88,6 +94,8 @@ function SignIn() {
      */
     const onSubmit = event => {
         event.preventDefault()
+        setStateAlert(false)
+
         if (username && password) {
             request.signIn(userData).then(res => {
                 setInfoAlert(null)
@@ -158,7 +166,7 @@ function SignIn() {
                         </Grid>
                         <Grid container justify={"center"}>
                             {infoAlert &&
-                            <Alert severity="error" variant="standard" className={classes.alert}>
+                            <Alert severity={stateAlert? 'success':'error'} variant="standard" className={classes.alert}>
                                 {infoAlert}
                             </Alert>}
                         </Grid>
