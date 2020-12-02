@@ -40,6 +40,12 @@ function Dashboard() {
         setContentSearch(event.target.value)
     }
 
+    const onKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            onClickSearch()
+        }
+    }
+
     const onClickSearch = () => {
         setContentSearch('')
 
@@ -48,12 +54,12 @@ function Dashboard() {
                 setCategory("Search Movies: " + contentSearch)
                 setCards(<Cards result={res.data}/>)
             }).catch()
-        } else if(category.includes(TV)){
+        } else if (category.includes(TV)) {
             requestTV.search(contentSearch).then((res) => {
                 setCategory("Search Tv programs: " + contentSearch)
                 setCards(<Cards result={res.data}/>)
             }).catch()
-        } else{
+        } else {
             requestActors.search(contentSearch).then((res) => {
                 setCategory("Search Actors: " + contentSearch)
                 setCards(<Cards result={res.data}/>)
@@ -81,6 +87,7 @@ function Dashboard() {
                             placeholder={category.includes(MOVIES) ? 'Search movies' : category.includes(TV) ? 'Search tv programs' : 'Search actors'}
                             classes={{root: classes.inputRoot, input: classes.inputInput}}
                             onChange={onChangeSearch}
+                            onKeyDown={onKeyDown}
                             value={contentSearch}
                             inputProps={{'aria-label': 'search '}}
                             endAdornment={
