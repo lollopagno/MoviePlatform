@@ -266,7 +266,7 @@ function SignUp() {
                             </Grid>
                             <Grid container justify={"center"}>
                                 {infoAlert !== '' &&
-                                <Alert severity='error' variant="outlined" className={classes.alert}>
+                                <Alert severity='error' variant="standard" className={classes.alert}>
                                     {infoAlert}
                                 </Alert>}
                             </Grid>

@@ -67,7 +67,7 @@ export function ButtonResendEmail() {
         <div>
             <Grid container justify={"center"}>
                 {resendEmail.state &&
-                <Alert severity="warning" variant="outlined" className={classes.alert}>
+                <Alert severity="warning" variant="standard" className={classes.alert}>
                     {resendEmail.info}
                 </Alert>}
             </Grid>

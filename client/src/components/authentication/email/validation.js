@@ -66,7 +66,7 @@ function ValidateEmail() {
 
     return (
         <Grid container justify={"center"}>
-            <Alert severity={alert.state? 'success':'error'} variant="outlined" className={classes.alert}>
+            <Alert severity={alert.state? 'success':'error'} variant="standard" className={classes.alert}>
                 {infoValidation}
             </Alert>
             {alert.state && signIn}
