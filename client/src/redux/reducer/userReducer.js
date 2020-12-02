@@ -3,10 +3,10 @@ import {createSlice} from '@reduxjs/toolkit';
 export const user = createSlice({
     name: 'user',
     initialState: {
-        email: '',
-        username: '',
-        name: '',
-        _id: ''
+        email: undefined,
+        username: undefined,
+        name: undefined,
+        _id: undefined
     },
     reducers: {
         signUpSuccess: (state, action) => {
@@ -31,10 +31,10 @@ export const user = createSlice({
         resetUser: (state) => {
             return {
                 ...state,
-                email: '',
-                username: '',
-                name: '',
-                _id: ''
+                email: undefined,
+                username: undefined,
+                name: undefined,
+                _id: undefined
             }
         }
     }
