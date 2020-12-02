@@ -7,6 +7,7 @@ import Error from "../components/error";
 import SignIn from "../components/authentication/signIn/signIn";
 import SignUp from "../components/authentication/signUp/signUp";
 import {ResendToken} from "../components/authentication/email/funtionality";
+import MyProfile from "../components/myProfile/myProfile";
 
 export default class RoutesWithToken extends Component {
     render() {
@@ -19,6 +20,7 @@ export default class RoutesWithToken extends Component {
                     <Route path='/resendToken' component={ResendToken}/>
                     <Route path='/confirmation' component={ValidateEmail}/>
                     <Route path='/dashboard' component={Dashboard}/>
+                    <Route path='/myProfile' component={MyProfile}/>
                     <Route component={Error}/>
                 </Switch>
             </Router>
