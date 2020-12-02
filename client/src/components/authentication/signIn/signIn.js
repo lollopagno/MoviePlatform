@@ -94,15 +94,16 @@ function SignIn() {
      */
     const onSubmit = event => {
         event.preventDefault()
-        setStateAlert(false)
 
         if (username && password) {
             request.signIn(userData).then(res => {
+                setStateAlert(false)
                 setInfoAlert(null)
                 store.dispatch(signInSuccess(res.data.data))
                 store.dispatch(meFromTokenSuccess(res.data.token));
                 history.push('/dashboard')
             }).catch(err => {
+                setStateAlert(false)
                 console.log(err.response.data.message)
                 setInfoAlert(err.response.data.message)
                 setUserData({...userData, password: ''})
