@@ -11,6 +11,8 @@ import {Container} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import {Markup} from 'interweave';
 import Divider from "@material-ui/core/Divider";
+import IMAGE_NOT_FOUND from '../../../resource/image_not_found.png'
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
     media: {
@@ -32,21 +34,26 @@ const useStyles = makeStyles((theme) => ({
     cardGrid: {
         paddingTop: theme.spacing(8),
         paddingBottom: theme.spacing(8),
+    },
+    alertContainer: {
+        marginTop: theme.spacing(2),
+        fontsize: 50
     }
 }));
 
 function Cards(props) {
     const classes = useStyles();
+    const collection = props.result.data
 
     return (
         <Container className={classes.cardGrid} maxWidth="md">
             <Grid container spacing={4}>
-                {props.result.data.map((item) => (
+                {collection.length > 0 && collection.map((item) => (
                     <Grid item xs={12} sm={6} md={4} key={item._id}>
                         <Card className={classes.card}>
                             <CardMedia
                                 className={classes.media}
-                                image={item.img}
+                                image={item.img !== null ? item.img : IMAGE_NOT_FOUND}
                                 title={"Img" + item.title !== undefined ? item.title : item.name}
                             />
                             <CardContent className={classes.cardContent}>
@@ -77,6 +84,15 @@ function Cards(props) {
                         </Card>
                     </Grid>
                 ))}
+                {collection.length === 0 && (
+                    <Grid container justify={"center"} className={classes.alertContainer}>
+                        <Grid item xs={6}>
+                            <Alert variant="standard" severity="error"  >
+                                The search did not give any results!
+                            </Alert>
+                        </Grid>
+                    </Grid>
+                )}
             </Grid>
         </Container>
     )
