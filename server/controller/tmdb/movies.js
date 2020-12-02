@@ -91,7 +91,7 @@ function getInfo(res, options_requests) {
     })
 
     req.on("error", err => {
-        utils.requestJsonFailed(res, codeStatus.serverError, "Connection refused. Check your internet connection!")
+        utils.requestJsonFailed(res, codeStatus.serverError, "Connection refused. Internet error!")
     })
 
     req.end()
