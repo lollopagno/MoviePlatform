@@ -22,6 +22,7 @@ const sectionsLogin = [
     {id: 2, value: 'Logout'}
 ];
 
+const ID_MY_PROFILE = '1'
 const ID_LOG_OUT = '2'
 
 function Account() {
@@ -44,8 +45,8 @@ function Account() {
         setSelectedIndex(index);
         setAnchorEl(null);
 
-        if (event.currentTarget.id === '1') {
-            console.log('my profile')
+        if (event.currentTarget.id === ID_MY_PROFILE) {
+            history.push('/myProfile')
         } else if (event.currentTarget.id === ID_LOG_OUT) {
             store.dispatch(resetUser())
             store.dispatch(deleteToken())

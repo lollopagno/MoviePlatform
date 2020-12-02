@@ -18,13 +18,14 @@ app.use(bodyParser.json())
 app.use(function (req, res, next) {
 
     let token = req.headers['authorization']
-    console.log("[SERVER] Token index " + token)
+    console.log("[SERVER] Token " + token)
     if (!token) return next();
 
     token = token.replace('Bearer ', '');
 
     jwt.verify(token, config.JWTSecret, function (err, decode) {
         if (err) {
+            console.log("Expired")
             utils.requestJsonFailed(res, codeStatus.badRequest, 'Authentication expired! Please sign in.')
         } else {
             req.auth = decode;
