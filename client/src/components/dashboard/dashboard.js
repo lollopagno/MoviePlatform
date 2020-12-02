@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Icon, Toolbar} from "@material-ui/core";
+import {Toolbar} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import {useStyles} from "./styles";
 import Grid from "@material-ui/core/Grid";
