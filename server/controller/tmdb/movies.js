@@ -26,8 +26,6 @@ const PATH_UPCOMING = '/3/movie/upcoming?api_key='
 const PATH_SEARCH = '/3/search/movie?api_key='
 
 const IMAGE = 'https://image.tmdb.org/t/p/w500/'
-// todo creare una soluzione su dove caricarla
-const IMAGE_NOT_FOUND = 'https://www.svaghiamo.it/wp-content/uploads/2016/09/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png'
 
 popular = (req, res) => {
     const options = {
@@ -80,7 +78,7 @@ function getInfo(res, options_requests) {
                         _id: movie.id,
                         title: movie.original_title,
                         date: movie.release_date,
-                        img: movie.poster_path !== null? IMAGE + movie.poster_path : IMAGE_NOT_FOUND,
+                        img: movie.poster_path !== null? IMAGE + movie.poster_path : null,
                         language: movie.original_language,
                         vote: movie.vote_average
                     })

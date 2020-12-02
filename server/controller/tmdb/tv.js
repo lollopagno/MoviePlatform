@@ -21,8 +21,6 @@ const PATH_TOP_RATED = '/3/tv/top_rated?api_key='
 const PATH_SEARCH = '/3/search/tv?api_key='
 
 const IMAGE = 'https://image.tmdb.org/t/p/w500/'
-// todo creare una soluzione su dove caricarla
-const IMAGE_NOT_FOUND = 'https://www.svaghiamo.it/wp-content/uploads/2016/09/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png'
 
 popular = (req, res) => {
     const options = {
@@ -68,7 +66,7 @@ function getInfo(res, option_requests) {
                         _id: tv.id,
                         title: tv.original_name,
                         date: tv.first_air_date,
-                        img: tv.poster_path !== null? IMAGE + tv.poster_path : IMAGE_NOT_FOUND,
+                        img: tv.poster_path !== null? IMAGE + tv.poster_path : null,
                         language: tv.original_language,
                         vote: tv.vote_average
                     })

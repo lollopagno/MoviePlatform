@@ -10,8 +10,6 @@ const PATH_POPULAR = '/3/person/popular?api_key='
 const PATH_SEARCH = '/3/search/person?api_key='
 
 const IMAGE = 'https://image.tmdb.org/t/p/w500/'
-// todo creare una soluzione su dove caricarla
-const IMAGE_NOT_FOUND = 'https://www.svaghiamo.it/wp-content/uploads/2016/09/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png'
 
 popular = (req, res) => {
 
@@ -47,7 +45,7 @@ function getInfo(res, options) {
                     actors.push({
                         _id: actor.id,
                         name: actor.name,
-                        img: actor.profile_path !== null? IMAGE + actor.profile_path : IMAGE_NOT_FOUND,
+                        img: actor.profile_path !== null? IMAGE + actor.profile_path : null,
                         popularity: actor.popularity,
                         department: actor.known_for_department
                     })
