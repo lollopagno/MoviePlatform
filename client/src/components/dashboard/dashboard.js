@@ -51,22 +51,22 @@ function Dashboard() {
         setContentSearch('')
 
         if (category.includes(MOVIES)) {
+            setCategory("Search Movies: " + contentSearch)
             requestMovies.search(contentSearch).then((res) => {
-                setCategory("Search Movies: " + contentSearch)
                 setCards(<Cards result={res.data}/>)
             }).catch((err) => {
                 setCards(<ConnectRefused msg={err.response.data.message}/>)
             })
         } else if (category.includes(TV)) {
+            setCategory("Search Tv programs: " + contentSearch)
             requestTV.search(contentSearch).then((res) => {
-                setCategory("Search Tv programs: " + contentSearch)
                 setCards(<Cards result={res.data}/>)
             }).catch((err) => {
                 setCards(<ConnectRefused msg={err.response.data.message}/>)
             })
         } else {
+            setCategory("Search Actors: " + contentSearch)
             requestActors.search(contentSearch).then((res) => {
-                setCategory("Search Actors: " + contentSearch)
                 setCards(<Cards result={res.data}/>)
             }).catch((err) => {
                 setCards(<ConnectRefused msg={err.response.data.message}/>)

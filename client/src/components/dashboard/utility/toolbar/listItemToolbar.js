@@ -47,8 +47,8 @@ function ListItemComponent(props) {
         if (event.currentTarget.ariaLabel === MOVIES) {
             switch (event.currentTarget.id) {
                 case(MOVIES_POPULAR):
+                    props.category("Movies Popular")
                     requestMovies.popular().then(res => {
-                        props.category("Movies Popular")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch((err) => {
                         props.setCards(<ConnectRefused msg={err.response.data.message}/>)
@@ -56,8 +56,8 @@ function ListItemComponent(props) {
                     break;
 
                 case(MOVIES_TOP_RATED):
+                    props.category("Movies Top Rated")
                     requestMovies.topRated().then(res => {
-                        props.category("Movies Top Rated")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch((err) => {
                         props.setCards(<ConnectRefused msg={err.response.data.message}/>)
@@ -65,8 +65,8 @@ function ListItemComponent(props) {
                     break;
 
                 case(MOVIES_UPCOMING):
+                    props.category("Movies Upcoming")
                     requestMovies.upcoming().then(res => {
-                        props.category("Movies Upcoming")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch((err) => {
                         props.setCards(<ConnectRefused msg={err.response.data.message}/>)
@@ -78,8 +78,8 @@ function ListItemComponent(props) {
         } else if (event.currentTarget.ariaLabel === TV) {
             switch (event.currentTarget.id) {
                 case(TV_POPULAR):
+                    props.category("Tv Popular")
                     requestTV.popular().then(res => {
-                        props.category("Tv Popular")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch((err) => {
                         props.setCards(<ConnectRefused msg={err.response.data.message}/>)
@@ -87,8 +87,8 @@ function ListItemComponent(props) {
                     break;
 
                 case(TV_TOP_RATED):
+                    props.category("Tv Top Rated")
                     requestTV.topRated().then(res => {
-                        props.category("Tv Top Rated")
                         props.setCards(<Cards result={res.data}/>)
                     }).catch((err) => {
                         props.setCards(<ConnectRefused msg={err.response.data.message}/>)
@@ -115,8 +115,8 @@ function ListItemComponent(props) {
                 break;
 
             case(ACTORS):
+                props.category("Actors Popular")
                 requestActors.popular().then(res => {
-                    props.category("Actors Popular")
                     props.setCards(<Cards result={res.data}/>)
                 }).catch((err) => {
                     props.setCards(<ConnectRefused msg={err.response.data.message}/>)

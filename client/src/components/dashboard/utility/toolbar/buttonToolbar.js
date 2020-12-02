@@ -18,8 +18,8 @@ const sectionsMenu = [
 function ButtonToolbar(props) {
 
     useEffect(() => {
+        props.category("Movies Popular")
         requestMovies.popular().then(res => {
-            props.category("Movies Popular")
             props.setCards(<Cards result={res.data}/>)
         }).catch((err) => {
             props.setCards(<ConnectRefused msg={err.response.data.message}/>)
