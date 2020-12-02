@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
     },
     alertContainer: {
         marginTop: theme.spacing(2),
-        fontsize: 50
     }
 }));
 
