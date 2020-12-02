@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import {signInSuccess} from "../../../redux/reducer/userReducer";
-import {authentication} from '../../../requests/authentication'
 import {request} from '../../../requests/user'
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -24,6 +23,7 @@ import history from '../../../history'
 import {useSelector} from "react-redux";
 import {Alert} from "@material-ui/lab";
 import {meFromTokenSuccess} from "../../../redux/reducer/tokenReducer";
+import {resetAlert} from "../../../redux/reducer/signInReducer";
 
 function Copyright() {
     return (
@@ -41,20 +41,22 @@ function SignIn() {
         password: ''
     })
     const {username, password} = userData
-
     const [typePassword, setTypePassword] = useState(false);
-    const [infoAlert, setInfoAlert] = useState('')
-    const token = useSelector(state => state.token.signIn)
+    const [infoAlert, setInfoAlert] = useState(null)
+    const alertRedux = useSelector(state => state.signIn.alert)
 
     useEffect(() => {
-        const headers = {headers: {'Authorization': token === undefined ? '' : 'Bearer ' + token}}
 
-        authentication.meFromToken(headers).then(() => {
-            history.push('/dashboard')
-        }).catch(err => {
-            console.log("ERROR CHECK TOKEN " + err.response.data.message)
-            setInfoAlert(err.response.data.message)
-        });
+        console.log("[SIGN IN] USE EFFECT APP: " )
+        // Check tp show alert
+        if (alertRedux !== undefined && alertRedux.length > 0) {
+            setInfoAlert(alertRedux)
+            store.dispatch(resetAlert())
+        }
+        //else{
+        //     history.push('/dashboard')
+        // }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -77,7 +79,7 @@ function SignIn() {
     const onReset = () => {
         setUserData({...userData, username: '', password: ''})
         setTypePassword(false)
-        setInfoAlert('')
+        setInfoAlert(null)
     }
 
     /**
@@ -88,7 +90,7 @@ function SignIn() {
         event.preventDefault()
         if (username && password) {
             request.signIn(userData).then(res => {
-                setInfoAlert('')
+                setInfoAlert(null)
                 store.dispatch(signInSuccess(res.data.data))
                 store.dispatch(meFromTokenSuccess(res.data.token));
                 history.push('/dashboard')
@@ -155,8 +157,8 @@ function SignIn() {
                             </FormControl>
                         </Grid>
                         <Grid container justify={"center"}>
-                            {infoAlert !== '' &&
-                            <Alert severity='error' variant="outlined" className={classes.alert}>
+                            {infoAlert &&
+                            <Alert severity="error" variant="outlined" className={classes.alert}>
                                 {infoAlert}
                             </Alert>}
                         </Grid>
