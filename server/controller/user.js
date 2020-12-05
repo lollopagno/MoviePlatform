@@ -1,7 +1,7 @@
 const utils = require('../utils/commons')
 const UserSchema = require('../model/user')
 const EmailSchema = require('../model/tokenEmail')
-const FavoritesSchema = require('../model/favorites')
+const RatingSchema = require('../model/rating')
 const codeStatus = require('../utils/status')
 const email = require('./email')
 const crypto = require('crypto')
@@ -90,17 +90,16 @@ signUp = (req, res) => {
                         })
 
                         tokenEmail.save(function (err) {
-                            // Saved token email failed
                             if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
                         })
 
-                        // Create favorites contents document
-                        const contents = new FavoritesSchema({
+                        // Create rating document
+                        const rating = new RatingSchema({
                             _userId: user._id,
                             content: []
-                        });
+                        })
 
-                        contents.save(function (err) {
+                        rating.save(function (err) {
                             if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
                         })
 
