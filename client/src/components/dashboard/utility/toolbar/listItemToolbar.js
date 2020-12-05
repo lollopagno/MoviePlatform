@@ -1,15 +1,16 @@
 import React, {useState} from "react";
-import {requestMovies} from "../../../../requests/movies";
+import {requestMovies} from "../../../../requests/content/movies";
 import Cards from "../card";
-import {requestTV} from "../../../../requests/tv";
+import {requestTV} from "../../../../requests/content/tv";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import {requestActors} from "../../../../requests/actors";
+import {requestActors} from "../../../../requests/content/actors";
 import ConnectRefused from "../connectRefused";
+import {useSelector} from "react-redux";
 
 /**
  * Sections movies
@@ -39,6 +40,7 @@ function ListItemComponent(props) {
     // State for Menu item toolbar
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(1);
+    const id = useSelector(state => state.user._id)
 
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
@@ -48,7 +50,7 @@ function ListItemComponent(props) {
             switch (event.currentTarget.id) {
                 case(MOVIES_POPULAR):
                     props.category("Movies Popular")
-                    requestMovies.popular().then(res => {
+                    requestMovies.popular(id).then(res => {
                         props.setCards(<Cards result={res.data}/>)
                     }).catch((err) => {
                         props.setCards(<ConnectRefused msg={err.response.data.message}/>)
@@ -167,6 +169,5 @@ function ListItemComponent(props) {
         </Grid>
     )
 }
-
 
 export default ListItemComponent;

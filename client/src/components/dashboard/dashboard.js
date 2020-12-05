@@ -17,14 +17,15 @@ import Divider from "@material-ui/core/Divider";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import CheckIcon from '@material-ui/icons/Check';
 import Paper from "@material-ui/core/Paper";
-import {requestMovies} from "../../requests/movies";
+import {requestMovies} from "../../requests/content/movies";
 import Cards from "./utility/card";
-import {requestTV} from "../../requests/tv";
-import {requestActors} from "../../requests/actors";
+import {requestTV} from "../../requests/content/tv";
+import {requestActors} from "../../requests/content/actors";
 import ConnectRefused from "./utility/connectRefused";
 
 const MOVIES = 'Movies'
 const TV = 'Tv'
+const ACTORS = 'Actors'
 
 function Dashboard() {
 
@@ -49,28 +50,37 @@ function Dashboard() {
 
     const onClickSearch = () => {
         setContentSearch('')
+        switch(true){
 
-        if (category.includes(MOVIES)) {
-            setCategory("Search Movies: " + contentSearch)
-            requestMovies.search(contentSearch).then((res) => {
-                setCards(<Cards result={res.data}/>)
-            }).catch((err) => {
-                setCards(<ConnectRefused msg={err.response.data.message}/>)
-            })
-        } else if (category.includes(TV)) {
-            setCategory("Search Tv programs: " + contentSearch)
-            requestTV.search(contentSearch).then((res) => {
-                setCards(<Cards result={res.data}/>)
-            }).catch((err) => {
-                setCards(<ConnectRefused msg={err.response.data.message}/>)
-            })
-        } else {
-            setCategory("Search Actors: " + contentSearch)
-            requestActors.search(contentSearch).then((res) => {
-                setCards(<Cards result={res.data}/>)
-            }).catch((err) => {
-                setCards(<ConnectRefused msg={err.response.data.message}/>)
-            })
+            case category.includes(MOVIES):
+                setCategory("Search Movies: " + contentSearch)
+                requestMovies.search(contentSearch).then((res) => {
+                    setCards(<Cards result={res.data} category={MOVIES}/>)
+                }).catch((err) => {
+                    setCards(<ConnectRefused msg={err.response.data.message}/>)
+                })
+                break;
+
+            case category.includes(TV):
+                setCategory("Search Tv programs: " + contentSearch)
+                requestTV.search(contentSearch).then((res) => {
+                    setCards(<Cards result={res.data} category={TV}/>)
+                }).catch((err) => {
+                    setCards(<ConnectRefused msg={err.response.data.message}/>)
+                })
+                break;
+
+            case category.includes(ACTORS):
+                setCategory("Search Actors: " + contentSearch)
+                requestActors.search(contentSearch).then((res) => {
+                    setCards(<Cards result={res.data}/>)
+                }).catch((err) => {
+                    setCards(<ConnectRefused msg={err.response.data.message} category={ACTORS}/>)
+                })
+                break;
+
+            default:
+                break;
         }
     }
 
