@@ -7,6 +7,8 @@ const Movies = require('../controller/tmdb/movies');
 const TVPrograms = require('../controller/tmdb/tv');
 const Actors = require('../controller/tmdb/actors');
 
+const Rating = require('../controller/tmdb/rating')
+
 const router = express.Router();
 
 // User
@@ -36,6 +38,9 @@ router.get('/tmdb/tv/search', (req, res) => TVPrograms.search(req, res));
 // Actors
 router.get('/tmdb/actors/popular', (req, res) => Actors.popular(req, res));
 router.get('/tmdb/actors/search', (req, res) => Actors.search(req, res));
+
+// Contents
+router.post('/tmdb/rating/update', (req, res) => Rating.update(req, res));
 
 module.exports = router;
 
