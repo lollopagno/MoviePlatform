@@ -6,8 +6,8 @@ import {Home} from "@material-ui/icons";
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
-import FavoriteIcon from '@material-ui/icons/MeetingRoom';
-import React from "react";
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import React, {useState} from "react";
 import {useStyles} from "./styles";
 import history from '../../history'
 import {store} from "../../redux/store";
@@ -18,13 +18,13 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import Favorites from "./favorites";
 
-;
 
 function MyProfile() {
 
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
 
     const logOut = () => {
         store.dispatch(resetUser())
@@ -62,12 +62,17 @@ function MyProfile() {
                     setValue(newValue);
                 }}
                 showLabels
-                className={classes.bottomNavigation}
-            >
+                    className={classes.bottomNavigation}
+                >
                 <BottomNavigationAction label="Favorites" icon={<FavoriteIcon/>}/>
-                <BottomNavigationAction label="Favorites" icon={<AddCircleOutlineIcon/>}/>
-                <BottomNavigationAction label="Favorites" icon={<AccountBoxIcon/>}/>
+                <BottomNavigationAction label="Add" icon={<AddCircleOutlineIcon/>}/>
+                <BottomNavigationAction label="About" icon={<AccountBoxIcon/>}/>
             </BottomNavigation>
+
+            {value === 0 && <Favorites/>}
+            {/*{value === 1 && <AddContent/>}*/}
+            {/*{value === 2 && <About/>}*/}
+
         </Grid>
     )
 }

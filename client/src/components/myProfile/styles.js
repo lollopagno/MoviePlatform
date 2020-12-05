@@ -7,9 +7,13 @@ const useStyles = makeStyles((theme) => ({
     homeIcon: {
         marginLeft: theme.spacing(34),
     },
+    noticeIcon: {
+        marginLeft: theme.spacing(85),
+    },
     bottomNavigation: {
         width: 500,
-    },
+        margin: theme.spacing(4, 0, 0, 65)
+    }
 }));
 
 export {useStyles}
