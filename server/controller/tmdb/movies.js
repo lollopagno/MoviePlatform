@@ -1,6 +1,7 @@
 const KEY = require('../../utils/env').apiKeyTmdb
 const https = require('https');
 
+const rating = require('./rating')
 const utils = require('../../utils/commons')
 const codeStatus = require('../../utils/status')
 const HOST = 'api.themoviedb.org'
@@ -32,7 +33,7 @@ popular = (req, res) => {
         host: HOST,
         path: PATH_POPULAR + KEY
     };
-    getInfo(res, options)
+    getInfo(res, options, req.query.userId)
 }
 
 topRated = (req, res) => {
@@ -40,7 +41,7 @@ topRated = (req, res) => {
         host: HOST,
         path: PATH_TOP_RATED + KEY
     };
-    getInfo(res, options)
+    getInfo(res, options, req.query.userId)
 }
 
 upcoming = (req, res) => {
@@ -48,7 +49,7 @@ upcoming = (req, res) => {
         host: HOST,
         path: PATH_UPCOMING + KEY
     };
-    getInfo(res, options)
+    getInfo(res, options, req.query.userId)
 }
 
 search = (req, res) => {
@@ -56,39 +57,48 @@ search = (req, res) => {
         host: HOST,
         path: PATH_SEARCH + KEY + "&query=" + (req.query.query).replace(/\s/g, '%20')
     };
-    getInfo(res, options)
+    getInfo(res, options, req.query.userId)
 }
 
-function getInfo(res, options_requests) {
+function getInfo(res, options_requests, userId) {
     const req = https.get(options_requests, (result) => {
 
-        let allData = '';
-        let movies = [];
+            let allData = '';
+            let movies = [];
 
-        if (result.statusCode === 200) {
-            result.setEncoding('utf8');
-            result.on('data', (data) => {
-                allData += data
-            }).on("error", err => {
-                utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
-            }).on('close', () => {
-                JSON.parse(allData).results.forEach((movie) => {
-                    movies.push({
-                        _id: movie.id,
-                        title: movie.original_title,
-                        date: movie.release_date,
-                        img: movie.poster_path !== null ? IMAGE + movie.poster_path : null,
-                        language: movie.original_language,
-                        vote: movie.vote_average
+            if (result.statusCode === 200) {
+                result.setEncoding('utf8');
+                result.on('data', (data) => {
+                    allData += data
+                }).on("error", err => {
+                    utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+                }).on('close', () => {
+
+                    let countData = 0
+                    const data = JSON.parse(allData).results
+                    data.forEach((movie) => {
+
+                        rating.search(userId, movie.id, 'Movies').then(value => {
+                            movies.push({
+                                _id: movie.id,
+                                title: movie.original_title,
+                                date: movie.release_date,
+                                img: movie.poster_path !== null ? IMAGE + movie.poster_path : null,
+                                language: movie.original_language,
+                                vote: movie.vote_average,
+                                rating: value
+                            })
+
+                            countData++
+                            if (data.length === countData) utils.requestJsonSuccess(res, codeStatus.OK, 'Movies found.', movies)
+                        })
                     })
                 });
-                utils.requestJsonSuccess(res, codeStatus.OK, 'Movies found.', movies)
-
-            });
-        } else {
-            utils.requestJsonFailed(res, codeStatus.badRequest, 'Movies not found!')
+            } else {
+                utils.requestJsonFailed(res, codeStatus.badRequest, 'Movies not found!')
+            }
         }
-    })
+    )
 
     req.on("error", err => {
         utils.requestJsonFailed(res, codeStatus.serverError, "Connection refused. Internet error!")
