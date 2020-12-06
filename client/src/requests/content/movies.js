@@ -6,12 +6,12 @@ const popular = (id) => {
     return axios.get(API + '/tmdb/movies/popular',{params:{ userId: id}})
 }
 
-const topRated = () => {
-    return axios.get(API + '/tmdb/movies/top_rated',)
+const topRated = (id) => {
+    return axios.get(API + '/tmdb/movies/top_rated', {params:{ userId: id}})
 }
 
-const upcoming = () => {
-    return axios.get(API + '/tmdb/movies/upcoming',)
+const upcoming = (id) => {
+    return axios.get(API + '/tmdb/movies/upcoming',{params:{ userId: id}})
 }
 
 const search = (data) => {
