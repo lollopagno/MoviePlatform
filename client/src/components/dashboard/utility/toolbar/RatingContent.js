@@ -6,10 +6,6 @@ import Rating from "@material-ui/lab/Rating";
 import StarBorderIcon from '@material-ui/icons/StarBorder'
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
-const MOVIES = 'Movies'
-const TV = 'Tv'
-const ACTORS = 'Actors'
-
 const useStyles = makeStyles((theme) => ({
     cardAction: {
         paddingLeft: theme.spacing(1.5)
@@ -25,34 +21,19 @@ function RatingContent(props) {
     const onChangeFavorites = (event) => {
 
         const contentId = event.currentTarget.name.split("-")[0]
-        const name = event.currentTarget.name.split("-")[1]
+        const category = event.currentTarget.name.split("-")[1]
         setValue(event.currentTarget.value)
 
-        switch (name) {
-            case MOVIES:
-                // Update rating
-                requestRating.update(contentId, userId, MOVIES, event.currentTarget.value).then(() => {
-                }).catch(err => {
-                    console.log(err.response.data.message)
-                })
-
-                break;
-
-            case TV:
-                break;
-
-            case ACTORS:
-                break;
-
-            default:
-                break;
-        }
+        requestRating.update(contentId, userId, category, event.currentTarget.value).then(() => {
+        }).catch(err => {
+            console.log(err.response.data.message)
+        })
     }
 
     return (
         <CardActions disableSpacing className={classes.cardAction}>
             <Rating
-                name={props.id+"-"+props.category}
+                name={props.id + "-" + props.category}
                 defaultValue={0}
                 value={parseInt(value)}
                 precision={1}
