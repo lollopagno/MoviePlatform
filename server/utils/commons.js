@@ -2,6 +2,10 @@ const JWT_SECRET = require('../utils/env').JWTSecret
 const jwt = require('jsonwebtoken');
 
 module.exports = {
+
+    HOST: 'api.themoviedb.org',
+    IMAGE: 'https://image.tmdb.org/t/p/w500/',
+
     requestJsonFailed: function (res, statusCode, message) {
         return res.status(statusCode).json({
             success: false,
