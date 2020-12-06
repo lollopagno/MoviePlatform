@@ -61,7 +61,7 @@ function getInfo(res, option_requests, userId) {
 
                 let countData = 0
                 const data = JSON.parse(allData).results
-                data.results.forEach((tv) => {
+                data.forEach((tv) => {
 
                     rating.search(userId, tv.id, CATEGORY).then(value => {
                         TVs.push({

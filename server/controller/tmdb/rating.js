@@ -1,24 +1,23 @@
 const RatingSchema = require('../../model/rating')
-const codeStatus = require('../../utils/status')
-const utils = require('../../utils/commons')
 
 module.exports = {
 
-    search: function (userId, contentId, category) {
-        RatingSchema.find({
-            $and: [{'_userId': userId}, {
-                'content': [{
+    search: async function (userId, contentId, category) {
+        const result = await RatingSchema.findOne({'_userId': userId}).select({
+            content: {
+                $elemMatch: {
                     '_contentId': contentId,
-                    'category': category,
-                }]
-            }]
-        }, function (err, content) {
-            if (err || content === undefined) return 0
-            else return content.value
+                    'category': category
+                }
+            }
         })
+
+        if (result.content.length === 0) return 0
+        else return result.content[0].value
     },
 
     update: async function (req, res) {
+
         const {userId, contentId, category, value} = req.body.params
         if (!userId || !contentId || !category || !value)
             return res.status(404).json({
@@ -26,58 +25,34 @@ module.exports = {
                 message: 'Must pass params',
             })
 
-        RatingSchema.updateOne({'_userId': userId}, {'content._contentId': contentId},
-            {
-                $set: {
-                    content: [{
-                        category: category,
-                        _contentId: contentId,
-                        value: value
-                    }]
-                }
-            },
-            function (err, added) {
-                console.log(added)
-                console.log(err)
-                if (err)
-                    return res.status(404).json({
-                        success: false,
-                        message: err.message,
-                    })
-                else {
-                    console.log("[NEW CONTENT UPDATED]")
-                    return res.status(200).json({
-                        success: true
-                    })
-                }
-            })
+        const updated = await RatingSchema.findOneAndUpdate(
+            {'_userId': userId, 'content._contentId': contentId},
+            {$set: {'content.$.value': value}})
 
-        // Check document is created
-        // await RatingSchema.findOne({$and: [{'_userId': userId}, {'category': category}, {'content': [{'_contentId': contentId}]}]}, function (err, result) {
-        //     console.log("[RESULT FIND ONE] " + result)
-        //     console.log("[ERR FIND ONE] " + err)
-        //     if (err) {
-        //         utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
-        //     } else if (result === null) {
-        //
-        //         console.log("[DOCUMENT CREATED]")
-        //         // Create document
-        //         const newContent = new RatingSchema({
-        //             _userId: userId,
-        //             content: [{
-        //                 category: category,
-        //                 _contentId: contentId
-        //             }]
-        //         })
-        //         newContent.save(function (err) {
-        //             if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
-        //             console.log("CONTENT SAVED")
-        //         })
-        //         updateData(res, userId, category, contentId, value)
-        //     }else {
-        //         updateData(res, userId, category, contentId, value)
-        //     }
-        // })
+        if (updated === null) {
+
+            // Added content to document
+            await RatingSchema.updateOne(
+                {'_userId': userId},
+                {
+                    $push: {
+                        content: {
+                            category: category,
+                            _contentId: contentId,
+                            value: value
+                        }
+                    }
+                })
+            console.log("[CONTENT ADDED]")
+            return res.status(200).json({
+                success: true
+            })
+        } else {
+            console.log("[CONTENT UPDATED]")
+            return res.status(200).json({
+                success: true
+            })
+        }
     },
 
     delete: function (id) {
