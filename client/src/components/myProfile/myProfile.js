@@ -19,6 +19,7 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import Favorites from "./favorites";
+import About from "./about";
 
 
 function MyProfile() {
@@ -71,7 +72,7 @@ function MyProfile() {
 
             {value === 0 && <Favorites/>}
             {/*{value === 1 && <AddContent/>}*/}
-            {/*{value === 2 && <About/>}*/}
+            {value === 2 && <About/>}
 
         </Grid>
     )
