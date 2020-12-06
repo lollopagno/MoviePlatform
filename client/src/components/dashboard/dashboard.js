@@ -22,6 +22,7 @@ import Cards from "./utility/card";
 import {requestTV} from "../../requests/content/tv";
 import {requestActors} from "../../requests/content/actors";
 import ConnectRefused from "./utility/connectRefused";
+import {useSelector} from "react-redux";
 
 const MOVIES = 'Movies'
 const TV = 'Tv'
@@ -33,6 +34,7 @@ function Dashboard() {
     const [cards, setCards] = useState([]);
     const [category, setCategory] = useState('Movies Popular')
     const [contentSearch, setContentSearch] = useState('')
+    const id = useSelector(state => state.user._id)
 
     const onClickHome = () => {
         window.location.reload()
@@ -50,11 +52,11 @@ function Dashboard() {
 
     const onClickSearch = () => {
         setContentSearch('')
-        switch(true){
+        switch (true) {
 
             case category.includes(MOVIES):
                 setCategory("Search Movies: " + contentSearch)
-                requestMovies.search(contentSearch).then((res) => {
+                requestMovies.search(contentSearch, id).then((res) => {
                     setCards(<Cards result={res.data} category={MOVIES}/>)
                 }).catch((err) => {
                     setCards(<ConnectRefused msg={err.response.data.message}/>)
@@ -63,7 +65,7 @@ function Dashboard() {
 
             case category.includes(TV):
                 setCategory("Search Tv programs: " + contentSearch)
-                requestTV.search(contentSearch).then((res) => {
+                requestTV.search(contentSearch, id).then((res) => {
                     setCards(<Cards result={res.data} category={TV}/>)
                 }).catch((err) => {
                     setCards(<ConnectRefused msg={err.response.data.message}/>)
@@ -72,10 +74,10 @@ function Dashboard() {
 
             case category.includes(ACTORS):
                 setCategory("Search Actors: " + contentSearch)
-                requestActors.search(contentSearch).then((res) => {
-                    setCards(<Cards result={res.data}/>)
+                requestActors.search(contentSearch, id).then((res) => {
+                    setCards(<Cards result={res.data} category={ACTORS}/>)
                 }).catch((err) => {
-                    setCards(<ConnectRefused msg={err.response.data.message} category={ACTORS}/>)
+                    setCards(<ConnectRefused msg={err.response.data.message}/>)
                 })
                 break;
 
