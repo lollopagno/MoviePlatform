@@ -39,8 +39,9 @@ router.get('/tmdb/tv/search', (req, res) => TVPrograms.search(req, res));
 router.get('/tmdb/actors/popular', (req, res) => Actors.popular(req, res));
 router.get('/tmdb/actors/search', (req, res) => Actors.search(req, res));
 
-// Contents
+// Rating
 router.post('/tmdb/rating/update', (req, res) => Rating.update(req, res));
+router.get('/tmdb/rating/search', (req, res) => Rating.searchAll(req, res));
 
 module.exports = router;
 

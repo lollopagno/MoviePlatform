@@ -13,4 +13,15 @@ const update = (contentId, userId, category, value) => {
     })
 }
 
-export const requestRating = {update};
+const search = (userId, isMovies, isTvs, isActors) => {
+    return axios.get(API + '/tmdb/rating/search', {
+        params: {
+            userId: userId,
+            isMovies: isMovies,
+            isTvs: isTvs,
+            isActors: isActors
+        }
+    })
+}
+
+export const requestRating = {update, search};
