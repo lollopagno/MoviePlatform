@@ -4,7 +4,7 @@ const https = require('https');
 const rating = require('./rating')
 const utils = require('../../utils/commons')
 const codeStatus = require('../../utils/status')
-const HOST = 'api.themoviedb.org'
+const CATEGORY = 'Movies'
 
 /**
  * Parameter to request a get api popular
@@ -26,11 +26,9 @@ const PATH_UPCOMING = '/3/movie/upcoming?api_key='
  */
 const PATH_SEARCH = '/3/search/movie?api_key='
 
-const IMAGE = 'https://image.tmdb.org/t/p/w500/'
-
 popular = (req, res) => {
     const options = {
-        host: HOST,
+        host: utils.HOST,
         path: PATH_POPULAR + KEY
     };
     getInfo(res, options, req.query.userId)
@@ -38,7 +36,7 @@ popular = (req, res) => {
 
 topRated = (req, res) => {
     const options = {
-        host: HOST,
+        host: utils.HOST,
         path: PATH_TOP_RATED + KEY
     };
     getInfo(res, options, req.query.userId)
@@ -46,7 +44,7 @@ topRated = (req, res) => {
 
 upcoming = (req, res) => {
     const options = {
-        host: HOST,
+        host: utils.HOST,
         path: PATH_UPCOMING + KEY
     };
     getInfo(res, options, req.query.userId)
@@ -54,7 +52,7 @@ upcoming = (req, res) => {
 
 search = (req, res) => {
     const options = {
-        host: HOST,
+        host: utils.HOST,
         path: PATH_SEARCH + KEY + "&query=" + (req.query.query).replace(/\s/g, '%20')
     };
     getInfo(res, options, req.query.userId)
@@ -78,12 +76,12 @@ function getInfo(res, options_requests, userId) {
                     const data = JSON.parse(allData).results
                     data.forEach((movie) => {
 
-                        rating.search(userId, movie.id, 'Movies').then(value => {
+                        rating.search(userId, movie.id, CATEGORY).then(value => {
                             movies.push({
                                 _id: movie.id,
                                 title: movie.original_title,
                                 date: movie.release_date,
-                                img: movie.poster_path !== null ? IMAGE + movie.poster_path : null,
+                                img: movie.poster_path !== null ? utils.IMAGE + movie.poster_path : null,
                                 language: movie.original_language,
                                 vote: movie.vote_average,
                                 rating: value
@@ -100,7 +98,7 @@ function getInfo(res, options_requests, userId) {
         }
     )
 
-    req.on("error", err => {
+    req.on("error", () => {
         utils.requestJsonFailed(res, codeStatus.serverError, "Connection refused. Internet error!")
     })
 

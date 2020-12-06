@@ -1,10 +1,10 @@
 const KEY = require('../../utils/env').apiKeyTmdb
 const https = require('https');
 
+const rating = require('./rating')
 const utils = require('../../utils/commons')
 const codeStatus = require('../../utils/status')
-const HOST = 'api.themoviedb.org'
-
+const CATEGORY = 'Tv'
 /**
  * Parameter to request a get api popular
  */
@@ -20,33 +20,31 @@ const PATH_TOP_RATED = '/3/tv/top_rated?api_key='
  */
 const PATH_SEARCH = '/3/search/tv?api_key='
 
-const IMAGE = 'https://image.tmdb.org/t/p/w500/'
-
 popular = (req, res) => {
     const options = {
-        host: HOST,
+        host: utils.HOST,
         path: PATH_POPULAR + KEY
     };
-    getInfo(res, options)
+    getInfo(res, options, req.query.userId)
 }
 
 topRated = (req, res) => {
     const options = {
-        host: HOST,
+        host: utils.HOST,
         path: PATH_TOP_RATED + KEY
     };
-    getInfo(res, options)
+    getInfo(res, options, req.query.userId)
 }
 
 search = (req, res) => {
     const options = {
-        host: HOST,
+        host: utils.HOST,
         path: PATH_SEARCH + KEY + "&query=" + (req.query.query).replace(/\s/g, '%20')
     };
-    getInfo(res, options)
+    getInfo(res, options, req.query.userId)
 }
 
-function getInfo(res, option_requests) {
+function getInfo(res, option_requests, userId) {
     const req = https.get(option_requests, (result) => {
 
         let allData = ''
@@ -60,23 +58,32 @@ function getInfo(res, option_requests) {
             }).on("error", err => {
                 utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
             }).on('close', () => {
-                JSON.parse(allData).results.forEach((tv) => {
-                    TVs.push({
-                        _id: tv.id,
-                        title: tv.original_name,
-                        date: tv.first_air_date,
-                        img: tv.poster_path !== null ? IMAGE + tv.poster_path : null,
-                        language: tv.original_language,
-                        vote: tv.vote_average
+
+                let countData = 0
+                const data = JSON.parse(allData).results
+                data.results.forEach((tv) => {
+
+                    rating.search(userId, tv.id, CATEGORY).then(value => {
+                        TVs.push({
+                            _id: tv.id,
+                            title: tv.original_name,
+                            date: tv.first_air_date,
+                            img: tv.poster_path !== null ? utils.IMAGE + tv.poster_path : null,
+                            language: tv.original_language,
+                            vote: tv.vote_average,
+                            rating: value
+                        })
+
+                        countData++
+                        if (data.length === countData) utils.requestJsonSuccess(res, codeStatus.OK, 'Programs TV found.', TVs)
                     })
                 });
-                utils.requestJsonSuccess(res, codeStatus.OK, 'Programs TV found.', TVs)
             });
         } else {
             utils.requestJsonFailed(res, codeStatus.badRequest, 'Programs TV not found!')
         }
     })
-    req.on("error", err => {
+    req.on("error", () => {
         utils.requestJsonFailed(res, codeStatus.serverError, "Connection refused. Internet error!")
     })
 
