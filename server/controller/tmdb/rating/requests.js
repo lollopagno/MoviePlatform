@@ -23,7 +23,8 @@ function getDetails(options, userId, category, callback) {
                             img: content.poster_path !== null ? utils.IMAGE + content.poster_path : null,
                             language: content.original_language,
                             vote: content.vote_average,
-                            rating: value
+                            rating: value,
+                            category: category
                         })
                     } else {
                         callback({
@@ -32,7 +33,8 @@ function getDetails(options, userId, category, callback) {
                             img: content.profile_path !== null ? utils.IMAGE + content.profile_path : null,
                             popularity: content.popularity,
                             department: content.known_for_department,
-                            rating: value
+                            rating: value,
+                            category: category
                         })
                     }
                 })
