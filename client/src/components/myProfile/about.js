@@ -4,10 +4,12 @@ import TextField from "@material-ui/core/TextField";
 import {Container} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import {AccountCircle} from "@material-ui/icons";
+import {AccountCircle, Edit} from "@material-ui/icons";
 import {useSelector} from "react-redux";
 import Checkbox from "@material-ui/core/Checkbox";
 import {request} from "../../requests/user";
+import Button from "@material-ui/core/Button";
+import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -23,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
     check: {
         marginTop: theme.spacing(-7),
         marginLeft: theme.spacing(50)
-    }
+    },
+    submit: {}
 }));
 
 function About() {
@@ -85,10 +88,14 @@ function About() {
         setEmail(event.target.value)
     }
 
+    const onSubmit = () => {
+
+    }
+
     return (
         <Container component={'main'} maxWidth="xs">
             <div className={classes.paper}>
-                <form className={classes.form}>
+                <form className={classes.form} onSubmit={onSubmit}>
                     <Grid container spacing={7}>
                         <Grid item xs={12}>
                             <TextField
@@ -113,6 +120,9 @@ function About() {
                                 onChange={onChangeName}
                             />
                             <Checkbox
+                                icon={<EditIcon />}
+                                checkedIcon={<Edit />}
+                                color={'primary'}
                                 className={classes.check}
                                 checked={checkName}
                                 onChange={handleChangeCheck}
@@ -142,6 +152,9 @@ function About() {
                                 onChange={onChangeUsername}
                             />
                             <Checkbox
+                                icon={<EditIcon />}
+                                checkedIcon={<Edit />}
+                                color={'primary'}
                                 className={classes.check}
                                 checked={checkUsername}
                                 onChange={handleChangeCheck}
@@ -171,11 +184,28 @@ function About() {
                                 onChange={onChangeEmail}
                             />
                             <Checkbox
+                                icon={<EditIcon />}
+                                checkedIcon={<Edit />}
+                                color={'primary'}
                                 className={classes.check}
                                 checked={checkEmail}
                                 onChange={handleChangeCheck}
                                 inputProps={{'aria-label': 'Email'}}
                             />
+                        </Grid>
+                        <Grid container justify={'center'}>
+                            <Grid item xs={6}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
+                                    value={"submit"}
+                                >
+                                    Save
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </form>
