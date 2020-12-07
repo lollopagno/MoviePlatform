@@ -10,7 +10,7 @@ import {Markup} from 'interweave';
 import Divider from "@material-ui/core/Divider";
 import IMAGE_NOT_FOUND from '../../../resource/image_not_found.png'
 import Alert from "@material-ui/lab/Alert";
-import RatingContent from "./toolbar/RatingContent";
+import RatingContent from "./toolbar/ratingContent";
 
 const useStyles = makeStyles((theme) => ({
     media: {
