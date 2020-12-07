@@ -7,7 +7,7 @@ const Movies = require('../controller/tmdb/movies');
 const TVPrograms = require('../controller/tmdb/tv');
 const Actors = require('../controller/tmdb/actors');
 
-const Rating = require('../controller/tmdb/rating')
+const Rating = require('../controller/tmdb/rating/rating')
 
 const router = express.Router();
 

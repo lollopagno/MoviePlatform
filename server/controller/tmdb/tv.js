@@ -1,7 +1,7 @@
 const KEY = require('../../utils/env').apiKeyTmdb
 const https = require('https');
 
-const rating = require('./rating')
+const rating = require('./rating/requests')
 const utils = require('../../utils/commons')
 const codeStatus = require('../../utils/status')
 const CATEGORY = 'Tv'
