@@ -58,6 +58,8 @@ function Cards(props) {
                     <Divider variant={"middle"}/><br/>
                     <Typography variant="body2" align="left" component="span"
                                 className={classes.typography}>
+                        {item.category !== undefined ? <Markup
+                            content={"<strong>Category</strong>: " + item.category + "<br/>"}/> : ""}
                         {item.language !== undefined ? <Markup
                             content={"<strong>Language</strong>: " + item.language + "<br/>"}/> : ""}
                         {item.date !== undefined ? <Markup
@@ -71,7 +73,7 @@ function Cards(props) {
                     </Typography>
                 </CardContent>
                 <Divider variant={"middle"}/>
-                <RatingContent key={item._id} id={item._id} category={props.category} value={item.rating}/>
+                <RatingContent key={item._id} id={item._id} category={item.category !== undefined? item.category : props.category} value={item.rating}/>
             </Card>
         </Grid>
     )
