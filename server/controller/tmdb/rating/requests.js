@@ -6,13 +6,17 @@ function getDetails(options, userId, category, callback) {
 
     const req = https.get(options, (result) => {
 
+        let allData = '';
+
         if (result.statusCode === 200) {
             result.setEncoding('utf8');
-            result.on("error", err => {
-                return []
-            }).on('data', async (data) => {
+            result.on('data', (data) => {
+                allData += data
+            }).on("error", err => {
+                callback([])
+            }).on('close', () => {
 
-                const content = JSON.parse(data)
+                const content = JSON.parse(allData)
                 search(userId, content.id, category).then(value => {
 
                     if (category !== 'Actors') {
