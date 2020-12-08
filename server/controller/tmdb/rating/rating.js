@@ -90,54 +90,60 @@ module.exports = {
                 message: 'No contents found!',
             })
         } else {
-            let countData = 0
-            this.result.forEach(elem => {
-
-                let allData = []
-                let CATEGORY = ''
-                let options = {}
-
-                switch (elem.category) {
-                    case 'Movies':
-                        CATEGORY = 'Movies'
-                        options = {
-                            host: utils.HOST,
-                            path: '/3/movie/' + elem._contentId + '?api_key=' + KEY
-                        };
-                        break;
-                    case 'Tv':
-                        CATEGORY = 'Tv'
-                        options = {
-                            host: utils.HOST,
-                            path: '/3/tv/' + elem._contentId + '?api_key=' + KEY
-                        };
-                        break;
-                    case 'Actors':
-                        CATEGORY = 'Actors'
-                        options = {
-                            host: utils.HOST,
-                            path: '/3/person/' + elem._contentId + '?api_key=' + KEY
-                        };
-                        break;
-                }
-
-                requests.getDetails(options, userId, CATEGORY, obj => {
-                    if (Object.keys(obj).length !== 0) {
-                        allData.push(obj)
-                        countData++
-                        if (this.result.length === countData) {
-                            console.log("[RETURN] ALL DATA "+allData.length)
-                            console.log(allData)
-                            return res.status(200).json({
-                                success: true,
-                                message: 'Contents found!',
-                                data: allData
-                            })
-                        }
-                    }
-                })
-            })
+            getApiContents(res, userId, this.result)
         }
     },
+}
+
+function getApiContents(res, userId, result) {
+
+    let countContent = 0
+    let allContent = [];
+    result.forEach(elem => {
+
+        let CATEGORY = ''
+        let options = {}
+
+        switch (elem.category) {
+            case 'Movies':
+                CATEGORY = 'Movies'
+                console.log("MOVIES "+elem._contentId)
+                options = {
+                    host: utils.HOST,
+                    path: '/3/movie/' + elem._contentId + '?api_key=' + KEY
+                };
+                break;
+            case 'Tv':
+                CATEGORY = 'Tv'
+                console.log("Tv "+elem._contentId)
+                options = {
+                    host: utils.HOST,
+                    path: '/3/tv/' + elem._contentId + '?api_key=' + KEY
+                };
+                break;
+            case 'Actors':
+                CATEGORY = 'Actors'
+                console.log("Actors "+elem._contentId)
+                options = {
+                    host: utils.HOST,
+                    path: '/3/person/' + elem._contentId + '?api_key=' + KEY
+                };
+                break;
+        }
+
+        requests.getDetails(options, userId, CATEGORY, obj => {
+            if (Object.keys(obj).length !== 0) {
+                allContent.push(obj)
+                countContent++
+                if (result.length === countContent) {
+                    return res.status(200).json({
+                        success: true,
+                        message: 'Contents found!',
+                        data: allContent
+                    })
+                }
+            }
+        })
+    })
 }
 
