@@ -22,7 +22,7 @@ function getDetails(options, userId, category, callback) {
                     if (category !== 'Actors') {
                         callback({
                             _id: content.id,
-                            title: content.original_title,
+                            title: category === 'Movies'? content.original_title: content.original_name,
                             date: content.release_date,
                             img: content.poster_path !== null ? utils.IMAGE + content.poster_path : null,
                             language: content.original_language,

@@ -107,7 +107,6 @@ function getApiContents(res, userId, result) {
         switch (elem.category) {
             case 'Movies':
                 CATEGORY = 'Movies'
-                console.log("MOVIES "+elem._contentId)
                 options = {
                     host: utils.HOST,
                     path: '/3/movie/' + elem._contentId + '?api_key=' + KEY
@@ -115,7 +114,6 @@ function getApiContents(res, userId, result) {
                 break;
             case 'Tv':
                 CATEGORY = 'Tv'
-                console.log("Tv "+elem._contentId)
                 options = {
                     host: utils.HOST,
                     path: '/3/tv/' + elem._contentId + '?api_key=' + KEY
@@ -123,7 +121,6 @@ function getApiContents(res, userId, result) {
                 break;
             case 'Actors':
                 CATEGORY = 'Actors'
-                console.log("Actors "+elem._contentId)
                 options = {
                     host: utils.HOST,
                     path: '/3/person/' + elem._contentId + '?api_key=' + KEY
