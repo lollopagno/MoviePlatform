@@ -59,16 +59,13 @@ sameField = (req, res) => {
 sameFieldExceptUser = (req, res) => {
 
     const query = {
-            "$match": {
-                [req.query.field]: req.query.data.trim(),
-                _id: {$ne: ObjectId(req.query.id)}
-            }
+        "$match": {
+            [req.query.field]: req.query.data.trim(),
+            _id: {$ne: ObjectId(req.query.id)}
         }
+    }
 
     UserSchema.aggregate([query], function (err, user) {
-        // todo test
-        console.log("[ERR] " + err)
-            console.log("[RESULT] " + user)
         if (err) utils.requestJsonFailed(res, codeStatus.badRequest, 'Search failed!')
         else {
             if (!user) utils.requestJsonSuccess(res, codeStatus.OK, 'There is no user!', [])
@@ -140,6 +137,22 @@ signUp = (req, res) => {
     }
 }
 
+changeData = (req, res) => {
+    const body = req.body
+    if (!body) utils.requestJsonFailed(res, codeStatus.paymentRequired, 'You must provide a parameters to changed data!')
+    else {
+        UserSchema.findOneAndUpdate({_id: body.userId}, {
+            $set: {'name': body.name, 'username': body.username, 'email': body.email}
+        }, {new: true}, function (err, user) {
+            if (err) {
+                utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+            } else {
+                utils.requestJsonSuccess(res, codeStatus.OK, 'The new data has been saved!', user)
+            }
+        })
+    }
+}
+
 module.exports = {
-    signIn, signUp, sameField, sameFieldExceptUser
+    signIn, signUp, sameField, sameFieldExceptUser, changeData
 }
