@@ -36,11 +36,20 @@ export const user = createSlice({
                 name: undefined,
                 _id: undefined
             }
+        },
+        changeData: (state, action) => {
+            const {name, username, email} = action.payload
+            return {
+                ...state,
+                name: name,
+                username: username,
+                email: email
+            }
         }
     }
 });
 
-export const {signUpSuccess, signInSuccess, resetUser} = user.actions;
+export const {signUpSuccess, signInSuccess, resetUser, changeData} = user.actions;
 
 export default user.reducer;
 
