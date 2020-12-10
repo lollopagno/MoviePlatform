@@ -33,7 +33,6 @@ module.exports = {
             name: user.name,
             email: user.email,
             username: user.username,
-            admin: user.admin
         };
         return jwt.sign(tokenData, JWT_SECRET, {
             algorithm: "HS256",
@@ -53,7 +52,6 @@ module.exports = {
             name: userClean.name,
             email: userClean.email,
             username: userClean.username,
-            //admin: userClean.admin,
             //createdAt: userClean.createdAt,
             //updatedAt: userClean.updatedAt
         }

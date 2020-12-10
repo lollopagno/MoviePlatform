@@ -5,7 +5,6 @@ const userSchema = mongoose.Schema(
         email: {type: String, required: true, unique: true},
         username: {type: String, required: true, unique: true},
         password: {type: String, required: true},
-        admin: Boolean,
         isVerified: {type: Boolean, default: false},
         // TODO da verificare se questi due parametri sono da inserire
         passwordResetToken: String,

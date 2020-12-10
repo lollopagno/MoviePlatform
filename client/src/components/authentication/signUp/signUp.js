@@ -41,8 +41,7 @@ function SignUp() {
         name: '',
         username: '',
         email: '',
-        password: '',
-        admin: false
+        password: ''
     })
     const {name, username, password, email} = userData
 

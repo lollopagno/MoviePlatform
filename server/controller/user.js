@@ -72,7 +72,6 @@ signUp = (req, res) => {
                     email: body.email.trim(),
                     username: body.username.trim(),
                     password: hash,
-                    admin: body.admin
                 })
 
                 hash = undefined;
