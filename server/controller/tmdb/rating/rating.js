@@ -113,7 +113,7 @@ function getApiContents(res, userId, result) {
                 };
                 break;
             case 'Tv':
-                CATEGORY = 'Tv'
+                CATEGORY = 'Tv programs'
                 options = {
                     host: utils.HOST,
                     path: '/3/tv/' + elem._contentId + '?api_key=' + KEY
