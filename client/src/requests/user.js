@@ -22,6 +22,10 @@ const signIn = (credential) => {
     return axios.post(API + '/user/sign_in', credential)
 }
 
+const updateUserData = (userId, name, username, email) => {
+    return axios.put(API + '/user/change_data', {userId: userId, name: name, username: username, email: email})
+}
+
 /**
  * Check if the email is format valid
  */
@@ -35,34 +39,41 @@ async function isEmailFormatValid(email) {
  */
 async function isEmailValid(email, checkIsPresent, userId) {
 
-    let users = []
     if (checkIsPresent) {
-        users = await sameField("email", email)
-    } else {
-        users = await sameFieldExceptUser("email", email, userId)
-    }
-    const usernameDb = users.data.data
-    if (usernameDb !== []) {
-        if (usernameDb.email === email) {
-            return false
+        const users = await sameField("email", email)
+        const usernameDb = users.data.data
+        if (usernameDb !== []) {
+            if (usernameDb.email === email) {
+                return false
+            }
         }
+        return true
+    } else {
+        const users = await sameFieldExceptUser("email", email, userId)
+        return users.data.data.length === 0
     }
-    return true
+
 }
 
 /**
  * Check if the username is already present
  */
-async function isUserValid(username) {
-    const users = await sameField("username", username)
-    const usernameDb = users.data.data
-    if (usernameDb !== []) {
-        if (usernameDb.username === username) {
-            return false
+async function isUserValid(username, checkPresent, userId) {
+
+    if (checkPresent) {
+        const users = await sameField("username", username)
+        const usernameDb = users.data.data
+        if (usernameDb !== []) {
+            if (usernameDb.username === username) {
+                return false
+            }
         }
+        return true
+    } else {
+        const users = await sameFieldExceptUser("username", username, userId)
+        return users.data.data.length === 0
     }
-    return true
 }
 
 
-export const request = {signUp, signIn, isEmailValid, isUserValid, isEmailFormatValid};
+export const request = {signUp, signIn, isEmailValid, isUserValid, isEmailFormatValid, updateUserData};
