@@ -75,7 +75,7 @@ function SignUp() {
 
         // Actions to username
         if (name === USERNAME) {
-            request.isUserValid(value).then(res => {
+            request.isUserValid(value, true, userId).then(res => {
                 if (!res) {
                     setErrorUsername(true)
                 } else {
@@ -117,7 +117,7 @@ function SignUp() {
     const onSubmit = event => {
         event.preventDefault()
 
-        isValidField(userData, setErrorName, setUsername, errorEmail, setErrorEmail)
+        isValidForm(userData, setErrorName, setUsername, errorEmail, setErrorEmail)
         if (password && verifyPassword && password === verifyPassword) {
 
             setErrorPassword(false)
@@ -302,7 +302,7 @@ function SignUp() {
 /**
  * Check to show error
  */
-function isValidField(userData, setErrorName, setErrorUsername, errorEmail, setErrorEmail) {
+function isValidForm(userData, setErrorName, setErrorUsername, errorEmail, setErrorEmail) {
     const {name, username, email} = userData
     setErrorName(name === '')
     setErrorUsername(username === '')

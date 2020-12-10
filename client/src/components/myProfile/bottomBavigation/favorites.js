@@ -13,7 +13,7 @@ import {Alert} from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
     switchContainer: {
-        marginTop: theme.spacing(5)
+        marginTop: theme.spacing(2)
     },
     switch: {
         marginLeft: theme.spacing(5)
