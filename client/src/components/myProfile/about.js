@@ -49,6 +49,7 @@ function About() {
     const [disabledEmail, setDisabledEmail] = useState(true)
 
     // State error
+    const [errorUsername, setErrorUsername] = useState(false)
     const [errorEmail, setErrorEmail] = useState({
         isError: false,
         text: ''
@@ -83,20 +84,26 @@ function About() {
     }
 
     const onChangeUsername = (event) => {
-        setUsername(event.target.value)
+        const {value} = event.target
+        setUsername(value)
+        request.isUserValid(value).then(res => {
+            if (!res) {
+                setErrorUsername(true)
+            } else {
+                setErrorUsername(false)
+            }
+        })
     }
 
     const onChangeEmail = (event) => {
         const {value} = event.target
-        console.log("[ocChangeEmail] "+value)
         setEmail(value)
         request.isEmailFormatValid(value).then(res => {
             if (!res[0]) {
                 setErrorEmail({...errorEmail, isError: true, text: res[1]})
             } else {
-                request.isEmailValid(value).then((res) => {
+                request.isEmailValid(value, false).then((res) => {
                     if (!res) {
-                        console.log("ERROR")
                         setErrorEmail({...errorEmail, isError: true, text: 'Email is already present!'})
                     } else {
                         setErrorEmail({...errorEmail, isError: false, text: ''})
@@ -160,6 +167,8 @@ function About() {
                                 autoFocus
                                 value={username}
                                 disabled={disabledUsername}
+                                //error={errorUsername ? true : blankFieldUsername}
+                                //helperText={errorUsername ? 'Username already present!' : blankFieldUsername ? 'Username must not be empty' : ''}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
