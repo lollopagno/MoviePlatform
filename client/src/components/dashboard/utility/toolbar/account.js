@@ -46,7 +46,7 @@ function Account() {
         setAnchorEl(null);
 
         if (event.currentTarget.id === ID_MY_PROFILE) {
-            history.push('/myProfile')
+            history.push('/myProfile#favorite')
         } else if (event.currentTarget.id === ID_LOG_OUT) {
             store.dispatch(resetUser())
             store.dispatch(deleteToken())

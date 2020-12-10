@@ -68,9 +68,9 @@ function MyProfile() {
                 showLabels
                 className={classes.bottomNavigation}
             >
-                <BottomNavigationAction label="Favorites" icon={<FavoriteIcon/>}/>
-                <BottomNavigationAction label="Add" icon={<AddCircleOutlineIcon/>}/>
-                <BottomNavigationAction label="About" icon={<AccountBoxIcon/>}/>
+                <BottomNavigationAction label="Favorites" icon={<FavoriteIcon/>} href={'#favoriteContent'}/>
+                <BottomNavigationAction label="Add" icon={<AddCircleOutlineIcon/>} href={'#addContent'}/>
+                <BottomNavigationAction label="About" icon={<AccountBoxIcon/>} href={'#about'}/>
             </BottomNavigation>
 
             {value === 0 && <Favorites/>}

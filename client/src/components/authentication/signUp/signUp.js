@@ -73,7 +73,7 @@ function SignUp() {
 
         // Actions to username
         if (name === USERNAME) {
-            isUserValid(value).then(res => {
+            request.isUserValid(value).then(res => {
                 if (!res) {
                     setErrorUsername(true)
                 } else {
@@ -83,11 +83,11 @@ function SignUp() {
         }
         // Actions for email
         else if (name === EMAIL) {
-            isEmailFormatValid(value).then(res => {
+            request.isEmailFormatValid(value).then(res => {
                 if (!res[0]) {
                     setErrorEmail({...errorEmail, isError: true, text: res[1]})
                 } else {
-                    isEmailValid(value).then((res) => {
+                    request.isEmailValid(value).then((res) => {
                         if (!res) {
                             setErrorEmail({...errorEmail, isError: true, text: 'Email is already present!'})
                         } else {
@@ -307,42 +307,6 @@ function isValidField(userData, setErrorName, setErrorUsername, errorEmail, setE
     if (!errorEmail.isError) {
         setErrorEmail({...errorEmail, isError: email === '', text: email === '' ? 'Email must not be empty!' : ''})
     }
-}
-
-/**
- * Check if the email is format valid
- */
-async function isEmailFormatValid(email) {
-    const res = await request.isValidEmail(email)
-    return [res.data.email, res.data.message]
-}
-
-/**
- * Check if the email is already present
- */
-async function isEmailValid(email) {
-    const users = await request.sameField("email", email)
-    const usernameDb = users.data.data
-    if (usernameDb !== []) {
-        if (usernameDb.email === email) {
-            return false
-        }
-    }
-    return true
-}
-
-/**
- * Check if the username is already present
- */
-async function isUserValid(username) {
-    const users = await request.sameField("username", username)
-    const usernameDb = users.data.data
-    if (usernameDb !== []) {
-        if (usernameDb.username === username) {
-            return false
-        }
-    }
-    return true
 }
 
 export default SignUp;

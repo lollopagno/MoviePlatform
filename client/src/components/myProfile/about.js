@@ -88,12 +88,13 @@ function About() {
 
     const onChangeEmail = (event) => {
         const {value} = event.target
+        console.log("[ocChangeEmail] "+value)
         setEmail(value)
-        isEmailFormatValid(value).then(res => {
+        request.isEmailFormatValid(value).then(res => {
             if (!res[0]) {
                 setErrorEmail({...errorEmail, isError: true, text: res[1]})
             } else {
-                isEmailValid(value).then((res) => {
+                request.isEmailValid(value).then((res) => {
                     if (!res) {
                         console.log("ERROR")
                         setErrorEmail({...errorEmail, isError: true, text: 'Email is already present!'})
@@ -159,8 +160,6 @@ function About() {
                                 autoFocus
                                 value={username}
                                 disabled={disabledUsername}
-                                error={errorEmail.isError}
-                                helperText={errorEmail.text}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -184,7 +183,6 @@ function About() {
                     <Grid container justify={'center'} className={classes.contText}>
                         <Grid item xs={3}>
                             <TextField
-                                //helperText={errorName ? 'Name must not be empty' : ''}
                                 autoComplete="fname"
                                 name="name"
                                 variant="standard"
@@ -195,6 +193,8 @@ function About() {
                                 autoFocus
                                 value={email}
                                 disabled={disabledEmail}
+                                error={errorEmail.isError}
+                                helperText={errorEmail.text}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -234,42 +234,4 @@ function About() {
         </Grid>
     )
 }
-
-
-/**
- * Check if the email is format valid
- */
-async function isEmailFormatValid(email) {
-    const res = await request.isValidEmail(email)
-    return [res.data.email, res.data.message]
-}
-
-/**
- * Check if the email is already present
- */
-async function isEmailValid(email) {
-    const users = await request.sameField("email", email)
-    const usernameDb = users.data.data
-    if (usernameDb !== []) {
-        if (usernameDb.email === email) {
-            return false
-        }
-    }
-    return true
-}
-
-/**
- * Check if the username is already present
- */
-async function isUserValid(username) {
-    const users = await request.sameField("username", username)
-    const usernameDb = users.data.data
-    if (usernameDb !== []) {
-        if (usernameDb.username === username) {
-            return false
-        }
-    }
-    return true
-}
-
 export default About
