@@ -83,7 +83,7 @@ function SignUp() {
         }
         // Actions for email
         else if (name === EMAIL) {
-            isEmailFormatValid(value).then((res) => {
+            isEmailFormatValid(value).then(res => {
                 if (!res[0]) {
                     setErrorEmail({...errorEmail, isError: true, text: res[1]})
                 } else {

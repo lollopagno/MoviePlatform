@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {Container} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import {AccountCircle, Edit} from "@material-ui/icons";
@@ -14,19 +13,16 @@ import EditIcon from '@material-ui/icons/Edit';
 const useStyles = makeStyles((theme) => ({
     form: {
         width: '100%',
-        marginTop: theme.spacing(17),
-        marginRight: theme.spacing(128)
     },
-    paper: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
+    contText:{
+      marginTop: theme.spacing(5)
     },
     check: {
-        marginTop: theme.spacing(-7),
-        marginLeft: theme.spacing(50)
+        marginTop: theme.spacing(2),
     },
-    submit: {}
+    submit: {
+        marginTop: theme.spacing(4)
+    }
 }));
 
 function About() {
@@ -51,6 +47,12 @@ function About() {
     const [disabledName, setDisabledName] = useState(true)
     const [disabledUsername, setDisabledUsername] = useState(true)
     const [disabledEmail, setDisabledEmail] = useState(true)
+
+    // State error
+    const [errorEmail, setErrorEmail] = useState({
+        isError: false,
+        text: ''
+    })
 
     const [name, setName] = useState(reduxName)
     const [username, setUsername] = useState(reduxUsername)
@@ -85,19 +87,33 @@ function About() {
     }
 
     const onChangeEmail = (event) => {
-        setEmail(event.target.value)
+        const {value} = event.target
+        setEmail(value)
+        isEmailFormatValid(value).then(res => {
+            if (!res[0]) {
+                setErrorEmail({...errorEmail, isError: true, text: res[1]})
+            } else {
+                isEmailValid(value).then((res) => {
+                    if (!res) {
+                        console.log("ERROR")
+                        setErrorEmail({...errorEmail, isError: true, text: 'Email is already present!'})
+                    } else {
+                        setErrorEmail({...errorEmail, isError: false, text: ''})
+                    }
+                })
+            }
+        })
     }
 
-    const onSubmit = () => {
-
+    const onSubmit = event => {
     }
 
     return (
-        <Container component={'main'} maxWidth="xs">
-            <div className={classes.paper}>
-                <form className={classes.form} onSubmit={onSubmit}>
-                    <Grid container spacing={7}>
-                        <Grid item xs={12}>
+        <Grid container justify={'center'}>
+            <form className={classes.form} onSubmit={onSubmit}>
+                <Grid container justify={'center'}>
+                    <Grid container justify={'center'} className={classes.contText}>
+                        <Grid item xs={3}>
                             <TextField
                                 //helperText={errorName ? 'Name must not be empty' : ''}
                                 autoComplete="fname"
@@ -119,19 +135,20 @@ function About() {
                                 }}
                                 onChange={onChangeName}
                             />
-                            <Checkbox
-                                icon={<EditIcon />}
-                                checkedIcon={<Edit />}
-                                color={'primary'}
-                                className={classes.check}
-                                checked={checkName}
-                                onChange={handleChangeCheck}
-                                inputProps={{'aria-label': 'Name'}}
-                            />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Checkbox
+                            icon={<EditIcon/>}
+                            checkedIcon={<Edit/>}
+                            color={'primary'}
+                            className={classes.check}
+                            checked={checkName}
+                            onChange={handleChangeCheck}
+                            inputProps={{'aria-label': 'Name'}}
+                        />
+                    </Grid>
+                    <Grid container justify={'center'}  className={classes.contText}>
+                        <Grid item xs={3}>
                             <TextField
-                                //helperText={errorName ? 'Name must not be empty' : ''}
                                 autoComplete="fname"
                                 name="name"
                                 variant="standard"
@@ -142,6 +159,8 @@ function About() {
                                 autoFocus
                                 value={username}
                                 disabled={disabledUsername}
+                                error={errorEmail.isError}
+                                helperText={errorEmail.text}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -151,17 +170,19 @@ function About() {
                                 }}
                                 onChange={onChangeUsername}
                             />
-                            <Checkbox
-                                icon={<EditIcon />}
-                                checkedIcon={<Edit />}
-                                color={'primary'}
-                                className={classes.check}
-                                checked={checkUsername}
-                                onChange={handleChangeCheck}
-                                inputProps={{'aria-label': 'Username'}}
-                            />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Checkbox
+                            icon={<EditIcon/>}
+                            checkedIcon={<Edit/>}
+                            color={'primary'}
+                            className={classes.check}
+                            checked={checkUsername}
+                            onChange={handleChangeCheck}
+                            inputProps={{'aria-label': 'Username'}}
+                        />
+                    </Grid>
+                    <Grid container justify={'center'} className={classes.contText}>
+                        <Grid item xs={3}>
                             <TextField
                                 //helperText={errorName ? 'Name must not be empty' : ''}
                                 autoComplete="fname"
@@ -183,34 +204,34 @@ function About() {
                                 }}
                                 onChange={onChangeEmail}
                             />
-                            <Checkbox
-                                icon={<EditIcon />}
-                                checkedIcon={<Edit />}
-                                color={'primary'}
-                                className={classes.check}
-                                checked={checkEmail}
-                                onChange={handleChangeCheck}
-                                inputProps={{'aria-label': 'Email'}}
-                            />
                         </Grid>
-                        <Grid container justify={'center'}>
-                            <Grid item xs={6}>
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.submit}
-                                    value={"submit"}
-                                >
-                                    Save
-                                </Button>
-                            </Grid>
+                        <Checkbox
+                            icon={<EditIcon/>}
+                            checkedIcon={<Edit/>}
+                            color={'primary'}
+                            className={classes.check}
+                            checked={checkEmail}
+                            onChange={handleChangeCheck}
+                            inputProps={{'aria-label': 'Email'}}
+                        />
+                    </Grid>
+                    <Grid container justify={'center'} spacing={3}>
+                        <Grid item xs={2}>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                value={"submit"}
+                            >
+                                Save
+                            </Button>
                         </Grid>
                     </Grid>
-                </form>
-            </div>
-        </Container>
+                </Grid>
+            </form>
+        </Grid>
     )
 }
 

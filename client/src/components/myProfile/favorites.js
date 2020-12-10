@@ -42,7 +42,7 @@ function Favorites() {
         setState({...state, [event.target.name]: event.target.checked});
     };
 
-    const onClickSearch = (event) => {
+    const onClickSearch = () => {
         requestRating.search(id, state.movies, state.tvs, state.actors).then((res) => {
             setAlert(null)
             setCards(<Cards result={res.data}/>)
