@@ -9,19 +9,32 @@ import Checkbox from "@material-ui/core/Checkbox";
 import {request} from "../../../requests/user";
 import Button from "@material-ui/core/Button";
 import EditIcon from '@material-ui/icons/Edit';
+import SaveIcon from '@material-ui/icons/Save';
+import {Alert} from "@material-ui/lab";
+import {changeData} from "../../../redux/reducer/userReducer";
+import {store} from "../../../redux/store";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
 
 const useStyles = makeStyles((theme) => ({
     form: {
         width: '100%',
     },
-    contText:{
-      marginTop: theme.spacing(5)
+    contText: {
+        marginTop: theme.spacing(5)
     },
     check: {
         marginTop: theme.spacing(2),
     },
-    submit: {
-        marginTop: theme.spacing(4)
+    button: {
+        marginTop: theme.spacing(5),
+    },
+    alert:{
+        marginTop : theme.spacing(3)
     }
 }));
 
@@ -29,9 +42,6 @@ function About() {
 
     const classes = useStyles()
     const userId = useSelector(state => state.user._id)
-    // todo 1- Inserire logica errore per i singoli textfiled
-    // todo 2- pulsante di save
-    // todo 3- inserire le funzioni asincrone (vedi in fondo file)
 
     // Info redux
     const reduxName = useSelector(state => state.user.name)
@@ -49,11 +59,21 @@ function About() {
     const [disabledEmail, setDisabledEmail] = useState(true)
 
     // State error
+    const [errorName, setErrorName] = useState(false)
     const [errorUsername, setErrorUsername] = useState(false)
+    const [blankFieldUsername, setBlankUsername] = useState(false)
     const [errorEmail, setErrorEmail] = useState({
         isError: false,
         text: ''
     })
+
+    // State alert
+    const [alert, setAlert] = useState({
+        isError: false,
+        text: ''
+    })
+
+    const [open, setOpen] = useState(false);
 
     const [name, setName] = useState(reduxName)
     const [username, setUsername] = useState(reduxUsername)
@@ -86,7 +106,7 @@ function About() {
     const onChangeUsername = (event) => {
         const {value} = event.target
         setUsername(value)
-        request.isUserValid(value).then(res => {
+        request.isUserValid(value, false, userId).then(res => {
             if (!res) {
                 setErrorUsername(true)
             } else {
@@ -114,16 +134,46 @@ function About() {
     }
 
     const onSubmit = event => {
+        event.preventDefault()
+        isValidForm(name, username, setErrorName, setBlankUsername, errorEmail, setErrorEmail, email)
+
+        if (!errorName && !errorUsername && !errorEmail.isError) {
+            request.updateUserData(userId, name, username, email).then((res) => {
+                store.dispatch(changeData(res.data.data))
+                setDisabledEmail(true)
+                setDisabledUsername(true)
+                setDisabledName(true)
+                setCheckEmail(false)
+                setCheckUsername(false)
+                setCheckName(false)
+                setAlert({...alert, text: res.data.message})
+            }).catch((err) => {
+                setAlert({...alert, text: err.response.data.message, isError: true})
+            })
+        }
     }
+
+    // todo 1- far si che quando si clicca delete non parte la submit del form
+    // todo 2- eliminare l'account quando si clicca nel dialog e fare signout
+    const handleClickOpen = () => {
+        console.log("[OPEN DIALOG]")
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        console.log("[CLOSE DIALOG]")
+        setOpen(false);
+    };
 
     return (
         <Grid container justify={'center'}>
-            <form className={classes.form} onSubmit={onSubmit}>
+            <form className={classes.form} onSubmit={onSubmit} noValidate>
                 <Grid container justify={'center'}>
                     <Grid container justify={'center'} className={classes.contText}>
                         <Grid item xs={3}>
                             <TextField
-                                //helperText={errorName ? 'Name must not be empty' : ''}
+                                error={errorName}
+                                helperText={errorName ? 'Name must not be empty' : ''}
                                 autoComplete="fname"
                                 name="name"
                                 variant="standard"
@@ -154,7 +204,7 @@ function About() {
                             inputProps={{'aria-label': 'Name'}}
                         />
                     </Grid>
-                    <Grid container justify={'center'}  className={classes.contText}>
+                    <Grid container justify={'center'} className={classes.contText}>
                         <Grid item xs={3}>
                             <TextField
                                 autoComplete="fname"
@@ -167,8 +217,8 @@ function About() {
                                 autoFocus
                                 value={username}
                                 disabled={disabledUsername}
-                                //error={errorUsername ? true : blankFieldUsername}
-                                //helperText={errorUsername ? 'Username already present!' : blankFieldUsername ? 'Username must not be empty' : ''}
+                                error={errorUsername ? true : blankFieldUsername}
+                                helperText={errorUsername ? 'Username already present!' : blankFieldUsername ? 'Username must not be empty' : ''}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -225,17 +275,58 @@ function About() {
                         />
                     </Grid>
                     <Grid container justify={'center'} spacing={3}>
-                        <Grid item xs={2}>
+                        <Grid item xs={1} >
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                className={classes.submit}
+                                className={classes.button}
                                 value={"submit"}
+                                startIcon={<SaveIcon/>}
                             >
                                 Save
                             </Button>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Button
+                                type="delete"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.button}
+                                onClick={handleClickOpen}
+                                startIcon={<DeleteIcon/>}
+                            >
+                                Delete Account
+                            </Button>
+                        </Grid>
+                        <Dialog
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">{"Delete your account?"}</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                    Are you sure you want to delete the account?
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose} color="primary">
+                                    Cancel
+                                </Button>
+                                <Button onClick={handleClose} color="primary" autoFocus>
+                                    Ok, delete
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                        <Grid container justify={'center'}>
+                            {alert.text &&
+                            <Alert severity={alert.isError? 'error': 'success'} variant="standard" className={classes.alert}>
+                                {alert.text}
+                            </Alert>}
                         </Grid>
                     </Grid>
                 </Grid>
@@ -243,4 +334,13 @@ function About() {
         </Grid>
     )
 }
+
 export default About
+
+function isValidForm(name, username, setErrName, setErrUsername, errorEmail, setErrorEmail, email) {
+    setErrName(name === '')
+    setErrUsername(username === '')
+    if (!errorEmail.isError) {
+        setErrorEmail({...errorEmail, isError: email === '', text: email === '' ? 'Email must not be empty!' : ''})
+    }
+}
