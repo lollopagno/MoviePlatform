@@ -4,11 +4,11 @@ import React, {useState} from "react";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {requestRating} from "../../requests/content/rating";
+import {requestRating} from "../../../requests/content/rating";
 import {useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import SearchIcon from '@material-ui/icons/Search';
-import Cards from "../dashboard/utility/card";
+import Cards from "../../dashboard/utility/card";
 import {Alert} from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({

@@ -6,7 +6,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import {AccountCircle, Edit} from "@material-ui/icons";
 import {useSelector} from "react-redux";
 import Checkbox from "@material-ui/core/Checkbox";
-import {request} from "../../requests/user";
+import {request} from "../../../requests/user";
 import Button from "@material-ui/core/Button";
 import EditIcon from '@material-ui/icons/Edit';
 
