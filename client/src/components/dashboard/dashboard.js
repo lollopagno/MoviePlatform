@@ -149,8 +149,10 @@ function Dashboard() {
                     </Typography>
                 </Grid>
             </Grid>
-            <Grid item xs={7} className={classes.dividerCategory}>
-                <Divider/>
+            <Grid container justify={'center'}>
+                <Grid item xs={7}>
+                    <Divider/>
+                </Grid>
             </Grid>
             <Grid
                 container

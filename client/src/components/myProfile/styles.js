@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
     bottomNavigation: {
         width: 500,
         margin: theme.spacing(4, 0, 0, 65)
+    },
+    divider:{
+        marginTop: theme.spacing(3)
     }
 }));
 

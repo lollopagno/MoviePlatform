@@ -18,9 +18,11 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import Favorites from "./favorites";
-import About from "./about";
+import Favorites from "./bottomBavigation/favorites";
+import About from "./bottomBavigation/about";
 import Box from "@material-ui/core/Box";
+import AddContents from "./bottomBavigation/addContent";
+import Divider from "@material-ui/core/Divider";
 
 
 function MyProfile() {
@@ -69,14 +71,19 @@ function MyProfile() {
                 className={classes.bottomNavigation}
             >
                 <BottomNavigationAction label="Favorites" icon={<FavoriteIcon/>} href={'#favoriteContent'}/>
-                <BottomNavigationAction label="Add" icon={<AddCircleOutlineIcon/>} href={'#addContent'}/>
+                <BottomNavigationAction label="Add contents" icon={<AddCircleOutlineIcon/>} href={'#addContent'}/>
                 <BottomNavigationAction label="About" icon={<AccountBoxIcon/>} href={'#about'}/>
             </BottomNavigation>
 
-            {value === 0 && <Favorites/>}
-            {/*{value === 1 && <AddContent/>}*/}
-            {value === 2 && <About/>}
+            <Grid container justify={'center'}>
+                <Grid item xs={6} className={classes.divider}>
+                    <Divider/>
+                </Grid>
+            </Grid>
 
+            {value === 0 && <Favorites/>}
+            {value === 1 && <AddContents/>}
+            {value === 2 && <About/>}
         </Grid>
     )
 }

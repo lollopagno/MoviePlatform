@@ -5,9 +5,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1
     },
-    dividerCategory: {
-        marginLeft: theme.spacing(39.5),
-    },
     dividerSearchBar:{
         margin: 0.5,
         height: 20,
