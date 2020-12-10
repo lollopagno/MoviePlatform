@@ -1,7 +1,11 @@
 const utils = require('../utils/commons')
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId
+
 const UserSchema = require('../model/user')
 const EmailSchema = require('../model/tokenEmail')
 const RatingSchema = require('../model/rating')
+
 const codeStatus = require('../utils/status')
 const email = require('./email')
 const crypto = require('crypto')
@@ -29,7 +33,7 @@ signIn = (req, res) => {
                         else {
                             // SignIn successful, generate token
                             const token = utils.generateToken(user);
-                            console.log("[New token created (signIn)] "+token)
+                            console.log("[New token created (signIn)] " + token)
                             console.log("[SERVER] Authentication user completed!")
                             utils.requestJsonSuccess(res, codeStatus.created, 'Sign in completed!', utils.getCleanUser(user), token)
                         }
@@ -44,6 +48,27 @@ signIn = (req, res) => {
  */
 sameField = (req, res) => {
     UserSchema.findOne({[req.query.field]: req.query.data.trim()}, function (err, user) {
+        if (err) utils.requestJsonFailed(res, codeStatus.badRequest, 'Search failed!')
+        else {
+            if (!user) utils.requestJsonSuccess(res, codeStatus.OK, 'There is no user!', [])
+            else utils.requestJsonSuccess(res, codeStatus.OK, 'There is the user!', user)
+        }
+    })
+}
+
+sameFieldExceptUser = (req, res) => {
+
+    const query = {
+            "$match": {
+                [req.query.field]: req.query.data.trim(),
+                _id: {$ne: ObjectId(req.query.id)}
+            }
+        }
+
+    UserSchema.aggregate([query], function (err, user) {
+        // todo test
+        console.log("[ERR] " + err)
+            console.log("[RESULT] " + user)
         if (err) utils.requestJsonFailed(res, codeStatus.badRequest, 'Search failed!')
         else {
             if (!user) utils.requestJsonSuccess(res, codeStatus.OK, 'There is no user!', [])
@@ -116,5 +141,5 @@ signUp = (req, res) => {
 }
 
 module.exports = {
-    signIn, signUp, sameField
+    signIn, signUp, sameField, sameFieldExceptUser
 }
