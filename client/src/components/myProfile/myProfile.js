@@ -20,6 +20,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import Favorites from "./favorites";
 import About from "./about";
+import Box from "@material-ui/core/Box";
 
 
 function MyProfile() {
@@ -42,18 +43,20 @@ function MyProfile() {
         <Grid container className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton className={classes.homeIcon} id="account" onClick={onClickHome}>
-                        <Home style={{color: 'white'}}/>
-                    </IconButton>
-                    <IconButton className={classes.noticeIcon} aria-label="show 11 new notifications"
-                                color="inherit">
-                        <Badge badgeContent={0} /* todo imposta il numero di notifiche*/ color="secondary">
-                            <NotificationsIcon/>
-                        </Badge>
-                    </IconButton>
-                    <IconButton onClick={logOut}>
-                        <MeetingRoomIcon style={{color: 'white'}}/>
-                    </IconButton>
+                    <Box display='flex' flexGrow={1} className={classes.box}>
+                        <IconButton id="account" onClick={onClickHome}>
+                            <Home style={{color: 'white'}}/>
+                        </IconButton>
+                        <IconButton aria-label="show 11 new notifications"
+                                    color="inherit">
+                            <Badge badgeContent={0} /* todo imposta il numero di notifiche*/ color="secondary">
+                                <NotificationsIcon/>
+                            </Badge>
+                        </IconButton>
+                        <IconButton onClick={logOut}>
+                            <MeetingRoomIcon style={{color: 'white'}}/>
+                        </IconButton>
+                    </Box>
                 </Toolbar>
             </AppBar>
 
@@ -63,8 +66,8 @@ function MyProfile() {
                     setValue(newValue);
                 }}
                 showLabels
-                    className={classes.bottomNavigation}
-                >
+                className={classes.bottomNavigation}
+            >
                 <BottomNavigationAction label="Favorites" icon={<FavoriteIcon/>}/>
                 <BottomNavigationAction label="Add" icon={<AddCircleOutlineIcon/>}/>
                 <BottomNavigationAction label="About" icon={<AccountBoxIcon/>}/>

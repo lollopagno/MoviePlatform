@@ -26,11 +26,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const MOVIES = 'Movies'
-const TV = 'Tv'
-const ACTORS = 'Actors'
-
-
 function Favorites() {
 
     const classes = useStyles()
@@ -50,7 +45,7 @@ function Favorites() {
     const onClickSearch = (event) => {
         requestRating.search(id, state.movies, state.tvs, state.actors).then((res) => {
             setAlert(null)
-            setCards(<Cards result={res.data} category={MOVIES}/>)
+            setCards(<Cards result={res.data}/>)
         }).catch(err => {
             setCards([])
             setAlert(err.response.data.message)
