@@ -87,7 +87,7 @@ function SignUp() {
                 if (!res[0]) {
                     setErrorEmail({...errorEmail, isError: true, text: res[1]})
                 } else {
-                    request.isEmailValid(value).then((res) => {
+                    request.isEmailValid(value, true).then((res) => {
                         if (!res) {
                             setErrorEmail({...errorEmail, isError: true, text: 'Email is already present!'})
                         } else {

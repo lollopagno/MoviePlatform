@@ -10,6 +10,10 @@ const sameField = (field, data) => {
     return axios.get(API + '/user/same_field', {params: {field: field, data: data}})
 }
 
+const sameFieldExceptUser = (field, data) => {
+    return axios.get(API + '/user/not_same_field', {params: {field: field, data: data}})
+}
+
 const isValidEmail = email => {
     return axios.get(API + '/email/validation', {params: {email: email}})
 }
@@ -29,8 +33,14 @@ async function isEmailFormatValid(email) {
 /**
  * Check if the email is already present
  */
-async function isEmailValid(email) {
-    const users = await sameField("email", email)
+async function isEmailValid(email, checkIsPresent) {
+
+    let users = []
+    if (checkIsPresent) {
+        users = await sameField("email", email)
+    } else {
+        users = await sameFieldExceptUser("email", email)
+    }
     const usernameDb = users.data.data
     if (usernameDb !== []) {
         if (usernameDb.email === email) {
