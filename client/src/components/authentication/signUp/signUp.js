@@ -22,6 +22,7 @@ import {store} from '../../../redux/store'
 import history from '../../../history'
 import {Alert} from "@material-ui/lab";
 import {setTokenEmail} from "../../../redux/reducer/tokenReducer";
+import {useSelector} from "react-redux";
 
 function Copyright() {
     return (
@@ -36,6 +37,7 @@ function SignUp() {
     const USERNAME = 'username'
     const EMAIL = 'email'
     const classes = useStyles();
+    const userId = useSelector(state => state.user._id)
 
     const [userData, setUserData] = useState({
         name: '',
@@ -87,7 +89,7 @@ function SignUp() {
                 if (!res[0]) {
                     setErrorEmail({...errorEmail, isError: true, text: res[1]})
                 } else {
-                    request.isEmailValid(value, true).then((res) => {
+                    request.isEmailValid(value, true, userId).then((res) => {
                         if (!res) {
                             setErrorEmail({...errorEmail, isError: true, text: 'Email is already present!'})
                         } else {

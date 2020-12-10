@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 function About() {
 
     const classes = useStyles()
-
+    const userId = useSelector(state => state.user._id)
     // todo 1- Inserire logica errore per i singoli textfiled
     // todo 2- pulsante di save
     // todo 3- inserire le funzioni asincrone (vedi in fondo file)
@@ -102,7 +102,7 @@ function About() {
             if (!res[0]) {
                 setErrorEmail({...errorEmail, isError: true, text: res[1]})
             } else {
-                request.isEmailValid(value, false).then((res) => {
+                request.isEmailValid(value, false, userId).then((res) => {
                     if (!res) {
                         setErrorEmail({...errorEmail, isError: true, text: 'Email is already present!'})
                     } else {
