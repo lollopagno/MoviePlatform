@@ -5,6 +5,7 @@ const ObjectId = mongoose.Types.ObjectId
 const UserSchema = require('../model/user')
 const EmailSchema = require('../model/tokenEmail')
 const RatingSchema = require('../model/rating')
+const newContents = require('../model/newContents')
 
 const codeStatus = require('../utils/status')
 const email = require('./email')
@@ -144,15 +145,37 @@ changeData = (req, res) => {
         UserSchema.findOneAndUpdate({_id: body.userId}, {
             $set: {'name': body.name, 'username': body.username, 'email': body.email}
         }, {new: true}, function (err, user) {
-            if (err) {
-                utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
-            } else {
-                utils.requestJsonSuccess(res, codeStatus.OK, 'The new data has been saved!', user)
+            if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+            else utils.requestJsonSuccess(res, codeStatus.OK, 'The new data has been saved!', user)
+        })
+    }
+}
+
+deleteUser = (req, res) => {
+    const userId = req.body.userId
+    if (!userId) utils.requestJsonFailed(res, codeStatus.paymentRequired, 'You must provide a user id!')
+    else {
+
+        // Delete document user
+        UserSchema.deleteOne({_id: userId}, function(err){
+            if(err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+            else{
+                // Delete document rating
+                RatingSchema.deleteOne({_userId: userId}, function(err){
+                    if(err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+                    else{
+                        // Delete document new contents
+                        newContents.deleteOne({_userId: userId}, function(err){
+                            if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+                            else utils.requestJsonSuccess(res, codeStatus.OK, 'Delete user.')
+                        })
+                    }
+                })
             }
         })
     }
 }
 
 module.exports = {
-    signIn, signUp, sameField, sameFieldExceptUser, changeData
+    signIn, signUp, sameField, sameFieldExceptUser, changeData, deleteUser
 }
