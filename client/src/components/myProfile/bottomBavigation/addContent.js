@@ -5,10 +5,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import {AccountCircle} from "@material-ui/icons";
 import MoviesTvContents from "./categotyContent/moviesTv";
+import Actors from "./categotyContent/actors";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -16,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         minWidth: 120,
     },
+    select:{
+        width: 250
+    }
 }));
 
 function AddContents() {
@@ -25,8 +26,6 @@ function AddContents() {
     const [openSelect, setOpenSelect] = useState(false);
 
     const onChangeSelect = (event) => {
-        console.log(event.target.value)
-        console.log(typeof event.target.value)
         setValueSelect(event.target.value);
     };
 
@@ -43,6 +42,7 @@ function AddContents() {
             <FormControl className={classes.formControl}>
                 <InputLabel id="demo-controlled-open-select-label">Category</InputLabel>
                 <Select
+                    className={classes.select}
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
                     open={openSelect}
@@ -56,12 +56,12 @@ function AddContents() {
                     <MenuItem value={3}>Actors</MenuItem>
                 </Select>
 
-                {(valueSelect === 1 || valueSelect === 2) && <MoviesTvContents/>}
-                {/*{valueSelect === 3 && <Actors/>}*/}
+                {valueSelect === 1 && <MoviesTvContents category={'Movies'}/>}
+                {valueSelect === 2 && <MoviesTvContents category={'Tv'}/>}
+                {valueSelect === 3 && <Actors category={'Actors'}/>}
             </FormControl>
         </Grid>
     )
 }
-
 
 export default AddContents
