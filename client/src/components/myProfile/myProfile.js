@@ -23,12 +23,14 @@ import About from "./bottomBavigation/about";
 import Box from "@material-ui/core/Box";
 import AddContents from "./bottomBavigation/addContent";
 import Divider from "@material-ui/core/Divider";
-
+import Typography from "@material-ui/core/Typography";
+import {useSelector} from "react-redux";
 
 function MyProfile() {
 
     const classes = useStyles();
     const [value, setValue] = useState(0);
+    const name = useSelector(state => state.user.name)
 
     const logOut = () => {
         store.dispatch(resetUser())
@@ -46,7 +48,10 @@ function MyProfile() {
             <AppBar position="static">
                 <Toolbar>
                     <Box display='flex' flexGrow={1} className={classes.box}>
-                        <IconButton id="account" onClick={onClickHome}>
+                        <Typography variant="subtitle1" className={classes.name}>
+                            {"Hi "+name+", "}
+                        </Typography>
+                        <IconButton id="account" onClick={onClickHome} className={classes.homeIcon}>
                             <Home style={{color: 'white'}}/>
                         </IconButton>
                         <IconButton aria-label="show 11 new notifications"
