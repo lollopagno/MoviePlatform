@@ -5,6 +5,7 @@ const ObjectId = mongoose.Types.ObjectId
 const UserSchema = require('../model/user')
 const EmailSchema = require('../model/tokenEmail')
 const RatingSchema = require('../model/rating')
+const NewContentsSchema = require('../model/newContents')
 
 const codeStatus = require('../utils/status')
 const email = require('./email')
@@ -104,7 +105,7 @@ signUp = (req, res) => {
                     else {
                         console.log("[SERVER] User created!")
 
-                        // Create token email document
+                        // CREATE token email document
                         const tokenEmail = new EmailSchema({
                             _userId: user._id,
                             token: crypto.randomBytes(16).toString('hex')
@@ -114,13 +115,22 @@ signUp = (req, res) => {
                             if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
                         })
 
-                        // Create rating document
+                        // CREATE rating document
                         const rating = new RatingSchema({
                             _userId: user._id,
                             content: []
                         })
 
                         rating.save(function (err) {
+                            if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+                        })
+
+                        // CREATE new contents document
+                        const newContents = new NewContentsSchema({
+                            _userId: user.id
+                        })
+
+                        newContents.save(function (err) {
                             if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
                         })
 
