@@ -8,6 +8,7 @@ const TVPrograms = require('../controller/tmdb/tv');
 const Actors = require('../controller/tmdb/actors');
 
 const Rating = require('../controller/tmdb/rating/rating')
+const NewContents = require('../controller/tmdb/newContents/newContents')
 
 const router = express.Router();
 
@@ -44,6 +45,9 @@ router.get('/tmdb/actors/search', (req, res) => Actors.search(req, res));
 // Rating
 router.post('/tmdb/rating/update', (req, res) => Rating.update(req, res));
 router.get('/tmdb/rating/search', (req, res) => Rating.searchAll(req, res));
+
+// New contents
+router.post('/tmdb/new_content', (req, res) => NewContents.added(req, res))
 
 module.exports = router;
 
