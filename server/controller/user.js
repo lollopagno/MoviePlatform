@@ -5,7 +5,6 @@ const ObjectId = mongoose.Types.ObjectId
 const UserSchema = require('../model/user')
 const EmailSchema = require('../model/tokenEmail')
 const RatingSchema = require('../model/rating')
-const NewContentsSchema = require('../model/newContents')
 
 const codeStatus = require('../utils/status')
 const email = require('./email')
@@ -122,15 +121,6 @@ signUp = (req, res) => {
                         })
 
                         rating.save(function (err) {
-                            if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
-                        })
-
-                        // CREATE new contents document
-                        const newContents = new NewContentsSchema({
-                            _userId: user.id
-                        })
-
-                        newContents.save(function (err) {
                             if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
                         })
 
