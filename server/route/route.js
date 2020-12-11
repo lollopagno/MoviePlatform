@@ -18,6 +18,7 @@ router.get('/user/not_same_field', (req, res) => User.sameFieldExceptUser(req, r
 router.post('/user/sign_in', (req, res) => User.signIn(req, res));
 router.post('/user/new_user', (req, res) => User.signUp(req, res));
 router.put('/user/change_data', (req, res) => User.changeData(req, res));
+router.delete('/user/delete_account', (req, res) => User.deleteUser(req, res));
 
 // Email
 router.get('/email/validation', (req, res) => Email.validationEmail(req, res));

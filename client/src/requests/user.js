@@ -26,6 +26,10 @@ const updateUserData = (userId, name, username, email) => {
     return axios.put(API + '/user/change_data', {userId: userId, name: name, username: username, email: email})
 }
 
+const deleteUser = (userId) => {
+    return axios.delete(API + '/user/delete_account', {data: {userId: userId}})
+}
+
 /**
  * Check if the email is format valid
  */
@@ -76,4 +80,4 @@ async function isUserValid(username, checkPresent, userId) {
 }
 
 
-export const request = {signUp, signIn, isEmailValid, isUserValid, isEmailFormatValid, updateUserData};
+export const request = {signUp, signIn, isEmailValid, isUserValid, isEmailFormatValid, updateUserData, deleteUser};
