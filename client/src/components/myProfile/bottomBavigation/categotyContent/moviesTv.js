@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function MoviesTvContents() {
+function MoviesTvContents(props) {
 
     const classes = useStyles()
     const userId = useSelector(state => state.user.id)
@@ -53,7 +53,7 @@ function MoviesTvContents() {
         image: false
     })
 
-    const [alertImg, setAlertImg] = useState({
+    const [alert, setAlert] = useState({
         text: '',
         isError: false
     })
@@ -65,11 +65,10 @@ function MoviesTvContents() {
 
     const onImageChange = (event) => {
         if (event.target.files[0]) {
-            const img = event.target.files[0]
-            setField({...field, image: URL.createObjectURL(img)})
-            setAlertImg({...alertImg, isError: false, text: 'Image loaded correctly!'})
+            setField({...field, image: event.target.files[0]})
+            setAlert({...alert, isError: false, text: 'Image loaded correctly!'})
         } else {
-            setAlertImg({...alertImg, isError: true, text: "Image not loaded!"})
+            setAlert({...alert, isError: true, text: "Image not loaded!"})
         }
     }
 
@@ -84,14 +83,16 @@ function MoviesTvContents() {
             image: field.image === null
         })
 
-        if (field.image === null) {
-            setAlertImg({...alertImg, isError: true, text: 'Image not loaded!'})
-        }
-        if (!error.title && !error.date && !error.language && !error.vote && field.image !== null) {
-            requestNewContents.added(userId, field).then((res) => {
-                console.log("RES "+res.data)
+        // if (field.image === null) {
+        //     setAlert({...alert, isError: true, text: 'Image not loaded!'})
+        // }
+
+        if (!error.title && !error.date && !error.language && !error.vote /*&& field.image !== null*/) {
+            requestNewContents.added(userId, field, props.category).then((res) => {
+                setAlert({...alert, isError: false, text: "Content loaded successfully!"})
+                setField({...field, title: '', date: '', vote: '', language: '', image: null})
             }).catch((err) => {
-                console.log("ERR "+err.response.data.message)
+                setAlert({...alert, isError: true, text: err.response.data.message})
             })
         }
     }
@@ -209,10 +210,10 @@ function MoviesTvContents() {
                             </Button>
                         </label>
                     </Grid>
-                    {alertImg.text &&
-                    <Alert severity={alertImg.isError ? 'error' : 'success'} className={classes.alert}
+                    {alert.text &&
+                    <Alert severity={alert.isError ? 'error' : 'success'} className={classes.alert}
                            variant="standard">
-                        {alertImg.text}
+                        {alert.text}
                     </Alert>}
                 </Grid>
                 <Grid container justify={'center'}>

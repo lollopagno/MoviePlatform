@@ -9,6 +9,8 @@ import {Alert} from "@material-ui/lab";
 import SaveIcon from "@material-ui/icons/Save";
 import {makeStyles} from "@material-ui/core/styles";
 import MovieIcon from '@material-ui/icons/Movie';
+import {requestNewContents} from "../../../../requests/content/newContents";
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     contText: {
@@ -28,9 +30,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Actors() {
+function Actors(props) {
 
     const classes = useStyles()
+    const userId = useSelector(state => state.user.id)
 
     // State contents
     const [field, setField] = useState({
@@ -47,7 +50,7 @@ function Actors() {
         image: false
     })
 
-    const [alertImg, setAlertImg] = useState({
+    const [alert, setAlert] = useState({
         text: '',
         isError: false
     })
@@ -60,10 +63,10 @@ function Actors() {
     const onImageChange = (event) => {
         if (event.target.files[0]) {
             const img = event.target.files[0]
-            setField({...field, image: URL.createObjectURL(img)})
-            setAlertImg({...alertImg, text: 'Image loaded correctly!'})
+            setField({...field, image: img})
+            setAlert({...alert, text: 'Image loaded correctly!'})
         } else {
-            setAlertImg({...alertImg, isError: true, text: "Image not loaded!"})
+            setAlert({...alert, isError: true, text: "Image not loaded!"})
         }
     }
 
@@ -77,12 +80,17 @@ function Actors() {
             image: field.image === null
         })
 
-        if (field.image === null) {
-            setAlertImg({...alertImg, isError: true, text: 'Image not loaded!'})
-        }
+        // if (field.image === null) {
+        //     setAlert({...alert, isError: true, text: 'Image not loaded!'})
+        // }
 
-        if (!error.title && !error.department && !error.popularity && field.image !== null) {
-            console.log('[ON SUBMIT]')
+        if (!error.title && !error.department && !error.popularity /*&& field.image !== null*/) {
+            requestNewContents.added(userId, field, props.category).then((res) => {
+                setAlert({...alert, isError: false, text: "Content loaded successfully!"})
+                setField({...field, title: '', popularity: '', department: '', image: null})
+            }).catch((err) => {
+                setAlert({...alert, isError: true, text: err.response.data.message})
+            })
         }
     }
 
@@ -175,10 +183,10 @@ function Actors() {
                             </Button>
                         </label>
                     </Grid>
-                    {alertImg.text &&
-                    <Alert severity={alertImg.isError ? 'error' : 'success'} className={classes.alert}
+                    {alert.text &&
+                    <Alert severity={alert.isError ? 'error' : 'success'} className={classes.alert}
                            variant="standard">
-                        {alertImg.text}
+                        {alert.text}
                     </Alert>}
                 </Grid>
                 <Grid container justify={'center'}>
