@@ -10,8 +10,7 @@ import {request} from "../../../requests/user";
 import Button from "@material-ui/core/Button";
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
-import {Alert} from "@material-ui/lab";
-import {changeData} from "../../../redux/reducer/userReducer";
+import {changeData, resetUser} from "../../../redux/reducer/userReducer";
 import {store} from "../../../redux/store";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Dialog from "@material-ui/core/Dialog";
@@ -19,6 +18,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
+import {deleteToken} from "../../../redux/reducer/tokenReducer";
+import {setAlert} from "../../../redux/reducer/signInReducer";
+import history from "../../../history";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -33,8 +36,8 @@ const useStyles = makeStyles((theme) => ({
     button: {
         marginTop: theme.spacing(5),
     },
-    alert:{
-        marginTop : theme.spacing(3)
+    alert: {
+        marginTop: theme.spacing(3)
     }
 }));
 
@@ -68,7 +71,7 @@ function About() {
     })
 
     // State alert
-    const [alert, setAlert] = useState({
+    const [alertInfo, setAlertInfo] = useState({
         isError: false,
         text: ''
     })
@@ -137,7 +140,7 @@ function About() {
         event.preventDefault()
         isValidForm(name, username, setErrorName, setBlankUsername, errorEmail, setErrorEmail, email)
 
-        if (!errorName && !errorUsername && !errorEmail.isError) {
+        if (name && username && email && !errorEmail.isError) {
             request.updateUserData(userId, name, username, email).then((res) => {
                 store.dispatch(changeData(res.data.data))
                 setDisabledEmail(true)
@@ -146,23 +149,28 @@ function About() {
                 setCheckEmail(false)
                 setCheckUsername(false)
                 setCheckName(false)
-                setAlert({...alert, text: res.data.message})
+                setAlertInfo({...alert, text: res.data.message})
             }).catch((err) => {
-                setAlert({...alert, text: err.response.data.message, isError: true})
+                setAlertInfo({...alert, text: err.response.data.message, isError: true})
             })
         }
     }
 
-    // todo 1- far si che quando si clicca delete non parte la submit del form
-    // todo 2- eliminare l'account quando si clicca nel dialog e fare signout
-    const handleClickOpen = () => {
-        console.log("[OPEN DIALOG]")
+    const onOpenDialog = () => {
         setOpen(true);
     };
 
-    const handleClose = () => {
-        console.log("[CLOSE DIALOG]")
+    const onDialogCancel= () => setOpen(false)
+
+    const onDialogDelete = () => {
         setOpen(false);
+        request.deleteUser(userId).then(() => {
+            store.dispatch(resetUser())
+            store.dispatch(deleteToken())
+            store.dispatch(setAlert({alert: 'Account deleted!', isSuccess: true}))
+            history.push('/signIn')
+        }).catch()
+
     };
 
     return (
@@ -275,7 +283,7 @@ function About() {
                         />
                     </Grid>
                     <Grid container justify={'center'} spacing={3}>
-                        <Grid item xs={1} >
+                        <Grid item xs={1}>
                             <Button
                                 type="submit"
                                 fullWidth
@@ -290,12 +298,12 @@ function About() {
                         </Grid>
                         <Grid item xs={2}>
                             <Button
-                                type="delete"
+                                type="button"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                                 className={classes.button}
-                                onClick={handleClickOpen}
+                                onClick={onOpenDialog}
                                 startIcon={<DeleteIcon/>}
                             >
                                 Delete Account
@@ -303,7 +311,7 @@ function About() {
                         </Grid>
                         <Dialog
                             open={open}
-                            onClose={handleClose}
+                            onClose={onDialogCancel}
                             aria-labelledby="alert-dialog-title"
                             aria-describedby="alert-dialog-description"
                         >
@@ -314,18 +322,19 @@ function About() {
                                 </DialogContentText>
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={handleClose} color="primary">
+                                <Button onClick={onDialogCancel} color="primary">
                                     Cancel
                                 </Button>
-                                <Button onClick={handleClose} color="primary" autoFocus>
+                                <Button onClick={onDialogDelete} color="primary" autoFocus>
                                     Ok, delete
                                 </Button>
                             </DialogActions>
                         </Dialog>
                         <Grid container justify={'center'}>
-                            {alert.text &&
-                            <Alert severity={alert.isError? 'error': 'success'} variant="standard" className={classes.alert}>
-                                {alert.text}
+                            {alertInfo.text &&
+                            <Alert severity={alertInfo.isError ? 'error' : 'success'} variant="standard"
+                                   className={classes.alert}>
+                                {alertInfo.text}
                             </Alert>}
                         </Grid>
                     </Grid>
