@@ -143,7 +143,7 @@ changeData = (req, res) => {
     if (!body) utils.requestJsonFailed(res, codeStatus.paymentRequired, 'You must provide a parameters to changed data!')
     else {
         UserSchema.findOneAndUpdate({_id: body.userId}, {
-            $set: {'name': body.name, 'username': body.username, 'email': body.email}
+            $set: {'name': body.name, 'username': body.username, 'email': body.email, 'updateAt': new Date}
         }, {new: true}, function (err, user) {
             if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
             else utils.requestJsonSuccess(res, codeStatus.OK, 'The new data has been saved!', user)
