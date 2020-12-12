@@ -165,7 +165,7 @@ deleteUser = (req, res) => {
                     if(err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
                     else{
                         // Delete document new contents
-                        newContents.deleteOne({_userId: userId}, function(err){
+                        newContents.deleteMany({_userId: userId}, function(err){
                             if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
                             else utils.requestJsonSuccess(res, codeStatus.OK, 'Delete user.')
                         })
