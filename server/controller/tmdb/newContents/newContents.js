@@ -25,7 +25,6 @@ module.exports = {
             })
 
             newContents.save(function (err) {
-                console.log(err)
                 if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
             })
             utils.requestJsonSuccess(res, codeStatus.OK, 'Content added.')
@@ -33,7 +32,7 @@ module.exports = {
         } else {
             /* Actors */
 
-            const {title, popularity, department, img} = req.body
+            const {title, vote, department, img} = req.body
 
             // CREATE new contents document
             const newContents = new NewContentsSchema({
@@ -41,7 +40,7 @@ module.exports = {
                 _userId: _userId,
                 title: title,
                 department: department,
-                vote: popularity
+                vote: vote
             })
 
             newContents.save(function (err) {
