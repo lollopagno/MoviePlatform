@@ -8,7 +8,7 @@ const newContents = mongoose.Schema(
         department: {type: String},     /* only actors */
         vote: {type: Number},           /* vote for movies/tv, popularity for actors */
         img: {data: Buffer, contentType: String},
-        _userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+        _userId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
     }, {
         versionKey: false
     });
