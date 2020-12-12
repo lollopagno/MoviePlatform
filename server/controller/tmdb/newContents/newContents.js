@@ -8,7 +8,7 @@ module.exports = {
 
     added: function (req, res) {
 
-        let {userId, category} = req.body
+        let {_userId, category} = req.body
 
         if (category !== 'Actors') {
             /* Movies and tv */
@@ -17,14 +17,15 @@ module.exports = {
             // CREATE new contents document
             const newContents = new NewContentsSchema({
                 category: category,
-                _userId: userId,
                 title: title,
                 date: new Date(date),
                 language: language,
-                vote: vote
+                vote: vote,
+                _userId: _userId
             })
 
             newContents.save(function (err) {
+                console.log(err)
                 if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
             })
             utils.requestJsonSuccess(res, codeStatus.OK, 'Content added.')
@@ -37,7 +38,7 @@ module.exports = {
             // CREATE new contents document
             const newContents = new NewContentsSchema({
                 category: category,
-                _userId: userId,
+                _userId: _userId,
                 title: title,
                 department: department,
                 vote: popularity
