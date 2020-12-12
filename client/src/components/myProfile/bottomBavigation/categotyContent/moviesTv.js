@@ -12,13 +12,17 @@ import SaveIcon from "@material-ui/icons/Save";
 import {Alert} from "@material-ui/lab";
 import {requestNewContents} from "../../../../requests/content/newContents";
 import {useSelector} from "react-redux";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles((theme) => ({
     contText: {
         marginTop: theme.spacing(5)
     },
     form: {
-        width: '100%',
+        width: 450,
     },
     input: {
         display: 'none',
@@ -28,13 +32,23 @@ const useStyles = makeStyles((theme) => ({
     },
     alert: {
         marginTop: theme.spacing(2)
+    },
+    formControl: {
+        marginTop: theme.spacing(5),
+    },
+    select: {
+        width: 450
     }
 }));
 
 function MoviesTvContents(props) {
 
     const classes = useStyles()
-    const userId = useSelector(state => state.user.id)
+    const userId = useSelector(state => state.user._id)
+
+    // State select
+    const [valueSelect, setValueSelect] = useState('');
+    const [openSelect, setOpenSelect] = useState(false);
 
     // State contents
     const [field, setField] = useState({
@@ -58,6 +72,18 @@ function MoviesTvContents(props) {
         isError: false
     })
 
+    const onChangeSelect = (event) => {
+        setValueSelect(event.target.value);
+    };
+
+    const onCloseSelect = () => {
+        setOpenSelect(false);
+    };
+
+    const onOpenSelect = () => {
+        setOpenSelect(true);
+    };
+
     const onChange = (event) => {
         const {name, value} = event.target
         setField({...field, [name]: value})
@@ -74,21 +100,11 @@ function MoviesTvContents(props) {
 
     const onSubmit = (event) => {
         event.preventDefault()
-        setError({
-            ...error,
-            title: field.title === '',
-            date: field.date === '',
-            language: field.language === '',
-            vote: (field.vote === '' || (parseFloat(field.vote) > 10 || parseFloat(field.vote) < 0)),
-            image: field.image === null
-        })
+        isValidForm(error, setError, field)
 
-        // if (field.image === null) {
-        //     setAlert({...alert, isError: true, text: 'Image not loaded!'})
-        // }
-
-        if (!error.title && !error.date && !error.language && !error.vote /*&& field.image !== null*/) {
+        if (field.title && field.date && field.language && parseFloat(field.vote) <= 10 && parseFloat(field.vote) >= 0 /*&& field.image !== null*/) {
             requestNewContents.added(userId, field, props.category).then((res) => {
+                setValueSelect(1)
                 setAlert({...alert, isError: false, text: "Content loaded successfully!"})
                 setField({...field, title: '', date: '', vote: '', language: '', image: null})
             }).catch((err) => {
@@ -100,6 +116,25 @@ function MoviesTvContents(props) {
     return (
         <Grid container justify={'center'}>
             <form noValidate className={classes.form} onSubmit={onSubmit}>
+                <FormControl className={classes.formControl}>
+                    <InputLabel id="demo-controlled-open-select-label">Section</InputLabel>
+                    <Select
+                        className={classes.select}
+                        labelId="demo-controlled-open-select-label"
+                        id="demo-controlled-open-select"
+                        open={openSelect}
+                        onClose={onCloseSelect}
+                        onOpen={onOpenSelect}
+                        value={valueSelect}
+                        onChange={onChangeSelect}
+                    >
+                        {props.category === 'Movies' && <MenuItem value={1}>Popular</MenuItem>}
+                        {(props.category === 'Movies' || props.category === 'Tv') &&
+                        <MenuItem value={2}>Top Rated</MenuItem>}
+                        {(props.category === 'Movies' || props.category === 'Tv') &&
+                        <MenuItem value={3}>Upcoming</MenuItem>}
+                    </Select>
+                </FormControl>
                 <Grid item xs={12} className={classes.contText}>
                     <TextField
                         error={error.title}
@@ -237,3 +272,21 @@ function MoviesTvContents(props) {
 }
 
 export default MoviesTvContents;
+
+
+function isValidForm(error, setError, field) {
+    setError({
+        ...error,
+        title: field.title === '',
+        date: field.date === '',
+        language: field.language === '',
+        vote: (field.vote === '' || (parseFloat(field.vote) > 10 || parseFloat(field.vote) < 0)),
+        image: field.image === null
+    })
+
+    // if (field.image === null) {
+    //     setAlert({...alert, isError: true, text: 'Image not loaded!'})
+    // }else{
+    //     setAlert({...alert, isError: false, text: ''})
+    // }
+}

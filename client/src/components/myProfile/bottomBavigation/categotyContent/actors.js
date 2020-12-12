@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(5)
     },
     form: {
-        width: '100%',
+        width: 450,
     },
     input: {
         display: 'none',
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 function Actors(props) {
 
     const classes = useStyles()
-    const userId = useSelector(state => state.user.id)
+    const userId = useSelector(state => state.user._id)
 
     // State contents
     const [field, setField] = useState({
@@ -72,19 +72,9 @@ function Actors(props) {
 
     const onSubmit = (event) => {
         event.preventDefault()
-        setError({
-            ...error,
-            title: field.title === '',
-            department: field.department === '',
-            popularity: (field.popularity === '' || (parseFloat(field.popularity) > 100 || parseFloat(field.popularity) < 0)),
-            image: field.image === null
-        })
+        isValidForm(error, setError, field)
 
-        // if (field.image === null) {
-        //     setAlert({...alert, isError: true, text: 'Image not loaded!'})
-        // }
-
-        if (!error.title && !error.department && !error.popularity /*&& field.image !== null*/) {
+        if (field.title && field.department && parseFloat(field.popularity) <= 100 && parseFloat(field.popularity) >= 0 /*&& field.image !== null*/) {
             requestNewContents.added(userId, field, props.category).then((res) => {
                 setAlert({...alert, isError: false, text: "Content loaded successfully!"})
                 setField({...field, title: '', popularity: '', department: '', image: null})
@@ -210,3 +200,19 @@ function Actors(props) {
 }
 
 export default Actors
+
+function isValidForm(error, setError, field){
+    setError({
+        ...error,
+        title: field.title === '',
+        department: field.department === '',
+        popularity: (field.popularity === '' || (parseFloat(field.popularity) > 100 || parseFloat(field.popularity) < 0)),
+        image: field.image === null
+    })
+
+    // if (field.image === null) {
+    //     setAlert({...alert, isError: true, text: 'Image not loaded!'})
+    // }else{
+    //     setAlert({...alert, isError: false, text: ''})
+    // }
+}
