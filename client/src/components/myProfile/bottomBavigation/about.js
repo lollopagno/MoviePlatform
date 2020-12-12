@@ -140,7 +140,7 @@ function About() {
         event.preventDefault()
         isValidForm(name, username, setErrorName, setBlankUsername, errorEmail, setErrorEmail, email)
 
-        if (name && username && email && !errorEmail.isError) {
+        if (name && username && email && !errorEmail.isError && !errorUsername) {
             request.updateUserData(userId, name, username, email).then((res) => {
                 store.dispatch(changeData(res.data.data))
                 setDisabledEmail(true)
