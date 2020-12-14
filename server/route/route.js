@@ -48,7 +48,8 @@ router.post('/tmdb/rating/update', (req, res) => Rating.update(req, res));
 router.get('/tmdb/rating/search', (req, res) => Rating.searchAll(req, res));
 
 // New contents
-router.post('/tmdb/new_content', (req, res) => NewContents.added(req, res))
+router.post('/tmdb/new_content/add', (req, res) => NewContents.added(req, res))
+router.put('/tmdb/new_content/update', (req, res) => NewContents.updated(req, res))
 
 module.exports = router;
 
