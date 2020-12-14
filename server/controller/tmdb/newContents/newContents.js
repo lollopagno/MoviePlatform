@@ -14,11 +14,12 @@ module.exports = {
 
         if (category !== 'Actors') {
             /* Movies and tv */
-            const {title, date, language, vote} = req.body
+            const {title, date, language, vote, section} = req.body
 
             // CREATE new contents document
             const newContents = new NewContentsSchema({
                 category: category,
+                section : section,
                 title: title,
                 date: new Date(date),
                 language: language,
@@ -28,7 +29,7 @@ module.exports = {
 
             newContents.save(function (err, content) {
                 if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
-                utils.requestJsonSuccess(res, codeStatus.OK, 'Content added.', content)
+                utils.requestJsonSuccess(res, codeStatus.OK, 'The Content '+content.title +' has been added.', content)
             })
 
         } else {
@@ -47,7 +48,7 @@ module.exports = {
 
             newContents.save(function (err, content) {
                 if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
-                else utils.requestJsonSuccess(res, codeStatus.OK, 'Content added.', content)
+                else utils.requestJsonSuccess(res, codeStatus.OK, 'The Content '+content.title +' has been added.', content)
             })
         }
     },
@@ -61,9 +62,9 @@ module.exports = {
 
             NewContentsSchema.findOneAndUpdate({_id: _id}, {
                 $set: {'img.data': fs.readFileSync(fileImg.path), 'img.contentType': fileImg.mimetype}
-            }, {new: true}, function (err) {
+            }, {new: true}, function (err, content) {
                 if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
-                else utils.requestJsonSuccess(res, codeStatus.OK, 'The image has been saved into new contents schema!')
+                else utils.requestJsonSuccess(res, codeStatus.OK, 'The Content '+content.title +' has been added.')
             })
         }
     },

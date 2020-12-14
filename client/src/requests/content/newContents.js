@@ -8,6 +8,7 @@ const addData = (userId, data, category) => {
     return axios.post(API + '/tmdb/new_content/add', {
         _userId: userId,
         category: category,
+        section: data.section,
         title: data.title,
         date: data.date,
         language: data.language,
