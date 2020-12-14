@@ -12,6 +12,18 @@ const NewContents = require('../controller/tmdb/newContents/newContents')
 
 const router = express.Router();
 
+const multer = require("multer");
+
+let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './images/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+const upload = multer({storage: storage}).single('img');
+
 // User
 router.get('/user/same_field', (req, res) => User.sameField(req, res));
 router.get('/user/not_same_field', (req, res) => User.sameFieldExceptUser(req, res));
@@ -49,7 +61,7 @@ router.get('/tmdb/rating/search', (req, res) => Rating.searchAll(req, res));
 
 // New contents
 router.post('/tmdb/new_content/add', (req, res) => NewContents.added(req, res))
-router.put('/tmdb/new_content/update', (req, res) => NewContents.updated(req, res))
+router.put('/tmdb/new_content/update', upload, (req, res) => NewContents.updated(req, res))
 
 module.exports = router;
 
