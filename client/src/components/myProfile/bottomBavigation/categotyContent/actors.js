@@ -25,9 +25,14 @@ const useStyles = makeStyles((theme) => ({
     button: {
         marginTop: theme.spacing(4),
     },
-    alert: {
-        marginTop: theme.spacing(2)
-    }
+    alertImage: {
+        marginTop: theme.spacing(4),
+        height: 20
+    },
+    alertInfo: {
+        marginTop: theme.spacing(3),
+        width: 500
+    },
 }));
 
 function Actors(props) {
@@ -50,6 +55,11 @@ function Actors(props) {
         image: false
     })
 
+    const [alertImage, setAlertImage] = useState({
+        text: '',
+        isError: false
+    })
+
     const [alert, setAlert] = useState({
         text: '',
         isError: false
@@ -62,11 +72,8 @@ function Actors(props) {
 
     const onImageChange = (event) => {
         if (event.target.files[0]) {
-            const img = event.target.files[0]
-            setField({...field, image: img})
-            setAlert({...alert, text: 'Image loaded correctly!'})
-        } else {
-            setAlert({...alert, isError: true, text: "Image not loaded!"})
+            setField({...field, image: event.target.files[0]})
+            setAlertImage({...alertImage, isError: false, text: 'Image loaded correctly!'})
         }
     }
 
@@ -74,11 +81,24 @@ function Actors(props) {
         event.preventDefault()
         isValidForm(error, setError, field)
 
-        if (field.title && field.department && parseFloat(field.popularity) <= 100 && parseFloat(field.popularity) >= 0 /*&& field.image !== null*/) {
-            requestNewContents.added(userId, field, props.category).then((res) => {
-                setAlert({...alert, isError: false, text: "Content loaded successfully!"})
-                setField({...field, title: '', popularity: '', department: '', image: null})
-            }).catch((err) => {
+        if (field.title && field.department && parseFloat(field.popularity) <= 100 && parseFloat(field.popularity) >= 0) {
+            requestNewContents.addData(userId, field, props.category).then((res) => {
+                // Upload image
+                if (field.image !== null) {
+                    requestNewContents.addImage(res.data.data._id, field.image).then((res) => {
+                        setAlertImage({...alertImage, isError: false, text : ''})
+                        setAlert({...alert, isError: false, text: res.data.message})
+                        setField({...field, title: '', popularity: '', department: '', image: null})
+                    }).catch(err => {
+                        setAlert({...alert, isError: true, text: err.response.data.message})
+                    })
+                } else {
+                    setAlertImage({...alertImage, isError: false, text : ''})
+                    setAlert({...alert, isError: false, text: res.data.message})
+                    setField({...field, title: '', popularity: '', department: '', image: null})
+                }
+            }).catch(err => {
+                setAlertImage({...alertImage, isError: false, text : ''})
                 setAlert({...alert, isError: true, text: err.response.data.message})
             })
         }
@@ -173,10 +193,10 @@ function Actors(props) {
                             </Button>
                         </label>
                     </Grid>
-                    {alert.text &&
-                    <Alert severity={alert.isError ? 'error' : 'success'} className={classes.alert}
+                    {alertImage.text &&
+                    <Alert severity={alertImage.isError ? 'error' : 'success'} className={classes.alertImage}
                            variant="standard">
-                        {alert.text}
+                        {alertImage.text}
                     </Alert>}
                 </Grid>
                 <Grid container justify={'center'}>
@@ -193,6 +213,11 @@ function Actors(props) {
                             Save
                         </Button>
                     </Grid>
+                    {alert.text &&
+                    <Alert severity={alert.isError ? 'error' : 'success'} className={classes.alertInfo}
+                           variant="standard">
+                        {alert.text}
+                    </Alert>}
                 </Grid>
             </form>
         </Grid>
@@ -209,10 +234,4 @@ function isValidForm(error, setError, field){
         popularity: (field.popularity === '' || (parseFloat(field.popularity) > 100 || parseFloat(field.popularity) < 0)),
         image: field.image === null
     })
-
-    // if (field.image === null) {
-    //     setAlert({...alert, isError: true, text: 'Image not loaded!'})
-    // }else{
-    //     setAlert({...alert, isError: false, text: ''})
-    // }
 }
