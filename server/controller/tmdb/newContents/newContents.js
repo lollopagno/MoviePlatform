@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const rating = require('../rating/requests')
 const NewContentsSchema = require('../../../model/newContents')
 
@@ -12,7 +14,7 @@ module.exports = {
 
         if (category !== 'Actors') {
             /* Movies and tv */
-            const {title, date, language, vote, img} = req.body
+            const {title, date, language, vote} = req.body
 
             // CREATE new contents document
             const newContents = new NewContentsSchema({
@@ -24,15 +26,15 @@ module.exports = {
                 _userId: _userId
             })
 
-            newContents.save(function (err) {
+            newContents.save(function (err, content) {
                 if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+                utils.requestJsonSuccess(res, codeStatus.OK, 'Content added.', content)
             })
-            utils.requestJsonSuccess(res, codeStatus.OK, 'Content added.')
 
         } else {
             /* Actors */
 
-            const {title, vote, department, img} = req.body
+            const {title, vote, department} = req.body
 
             // CREATE new contents document
             const newContents = new NewContentsSchema({
@@ -43,14 +45,30 @@ module.exports = {
                 vote: vote
             })
 
-            newContents.save(function (err) {
+            newContents.save(function (err, content) {
                 if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+                else utils.requestJsonSuccess(res, codeStatus.OK, 'Content added.', content)
             })
-            utils.requestJsonSuccess(res, codeStatus.OK, 'Content added.')
         }
     },
 
-    searchContentToShow: async function(userId){
+    updated: function (req, res) {
+
+        if (!req.file) utils.requestJsonSuccess(res, codeStatus.serverError, 'File was not found.')
+        else {
+            const _id = req.headers['_id']
+            const fileImg = req.file
+
+            NewContentsSchema.findOneAndUpdate({_id: _id}, {
+                $set: {'img.data': fs.readFileSync(fileImg.path), 'img.contentType': fileImg.mimetype}
+            }, {new: true}, function (err) {
+                if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+                else utils.requestJsonSuccess(res, codeStatus.OK, 'The image has been saved into new contents schema!')
+            })
+        }
+    },
+
+    searchContentToShow: async function (userId) {
         NewContentsSchema.find().then(contents => {
             let allData = []
             let countData = 0
@@ -58,8 +76,8 @@ module.exports = {
                 rating.search(userId, content._id, content.category).then(value => {
                     content.rating = value
                     allData.push(content)
-                    countData ++
-                    if(countData === contents.length) return allData
+                    countData++
+                    if (countData === contents.length) return allData
                 })
             })
         })
