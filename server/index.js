@@ -3,6 +3,7 @@ const config = require('./utils/env')
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const fileUpload = require("express-fileupload");
 const router = require('./route/route');
 const jwt = require('jsonwebtoken');
 const utils = require('./utils/commons')
@@ -14,6 +15,7 @@ const app = express()
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(cors())
 app.use(bodyParser.json())
+app.use(fileUpload(1))
 
 app.use(function (req, res, next) {
 
