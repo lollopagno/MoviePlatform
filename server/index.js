@@ -3,7 +3,6 @@ const config = require('./utils/env')
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const fileUpload = require("express-fileupload");
 const router = require('./route/route');
 const jwt = require('jsonwebtoken');
 const utils = require('./utils/commons')
@@ -13,10 +12,9 @@ const PORT = config.serverPort
 
 const app = express()
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(cors())
 app.use(bodyParser.json())
-app.use(fileUpload(1))
 
+app.use(cors())
 app.use(function (req, res, next) {
 
     let token = req.headers['authorization']
@@ -38,5 +36,4 @@ app.use(function (req, res, next) {
 
 // Routing
 app.use('/api', router);
-
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
