@@ -20,7 +20,6 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import Favorites from "./bottomBavigation/favorites";
 import About from "./bottomBavigation/about";
-import Box from "@material-ui/core/Box";
 import AddContents from "./bottomBavigation/addContent";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
@@ -44,52 +43,53 @@ function MyProfile() {
     }
 
     return (
-        <Grid container className={classes.root}>
+        <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <Box display='flex' flexGrow={1} className={classes.box}>
-                        <Typography variant="subtitle1" className={classes.name}>
-                            {"Hi "+name+", "}
-                        </Typography>
-                        <IconButton id="account" onClick={onClickHome} className={classes.homeIcon}>
-                            <Home style={{color: 'white'}}/>
-                        </IconButton>
-                        <IconButton aria-label="show 11 new notifications"
-                                    color="inherit">
-                            <Badge badgeContent={0} /* todo imposta il numero di notifiche*/ color="secondary">
-                                <NotificationsIcon/>
-                            </Badge>
-                        </IconButton>
-                        <IconButton onClick={logOut}>
-                            <MeetingRoomIcon style={{color: 'white'}}/>
-                        </IconButton>
-                    </Box>
+                    <Typography variant="h6">
+                        {"Hi " + name + ", "}
+                    </Typography>
+                    <IconButton id="account" onClick={onClickHome} className={classes.homeIcon}>
+                        <Home style={{color: 'white'}}/>
+                    </IconButton>
+                    <IconButton aria-label="show 11 new notifications"
+                                color="inherit">
+                        <Badge badgeContent={0} /* todo imposta il numero di notifiche*/ color="secondary">
+                            <NotificationsIcon/>
+                        </Badge>
+                    </IconButton>
+                    <IconButton onClick={logOut}>
+                        <MeetingRoomIcon style={{color: 'white'}}/>
+                    </IconButton>
                 </Toolbar>
             </AppBar>
 
-            <BottomNavigation
-                value={value}
-                onChange={(event, newValue) => {
-                    setValue(newValue);
-                }}
-                showLabels
-                className={classes.bottomNavigation}
-            >
-                <BottomNavigationAction label="Favorites" icon={<FavoriteIcon/>} href={'#favoriteContent'}/>
-                <BottomNavigationAction label="Add contents" icon={<AddCircleOutlineIcon/>} href={'#addContent'}/>
-                <BottomNavigationAction label="About" icon={<AccountBoxIcon/>} href={'#about'}/>
-            </BottomNavigation>
-
             <Grid container justify={'center'}>
-                <Grid item xs={6} className={classes.divider}>
-                    <Divider/>
-                </Grid>
-            </Grid>
+                <BottomNavigation
+                    value={value}
+                    onChange={(event, newValue) => {
+                        setValue(newValue);
+                    }}
+                    showLabels
+                    className={classes.bottomNavigation}
+                >
+                    <BottomNavigationAction label="Favorites" icon={<FavoriteIcon/>} href={'#favoriteContent'}/>
+                    <BottomNavigationAction label="Add contents" icon={<AddCircleOutlineIcon/>}
+                                            href={'#addContent'}/>
+                    <BottomNavigationAction label="About" icon={<AccountBoxIcon/>} href={'#about'}/>
+                </BottomNavigation>
 
-            {value === 0 && <Favorites/>}
-            {value === 1 && <AddContents/>}
-            {value === 2 && <About/>}
-        </Grid>
+                <Grid container justify={'center'}>
+                    <Grid item xs={6} className={classes.divider}>
+                        <Divider/>
+                    </Grid>
+                </Grid>
+
+                {value === 0 && <Favorites/>}
+                {value === 1 && <AddContents/>}
+                {value === 2 && <About/>}
+            </Grid>
+        </div>
     )
 }
 

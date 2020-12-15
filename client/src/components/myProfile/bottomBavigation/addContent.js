@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import Grid from "@material-ui/core/Grid";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -7,14 +6,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import MoviesTvContents from "./categotyContent/moviesTv";
 import Actors from "./categotyContent/actors";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
-        marginTop: theme.spacing(5),
         margin: theme.spacing(1),
-    },
-    select:{
-        width: 450
+        minWidth: 200
     }
 }));
 
@@ -37,11 +34,10 @@ function AddContents() {
     };
 
     return (
-        <Grid container justify={'center'}>
+        <Container component="main" maxWidth="xs">
             <FormControl className={classes.formControl}>
                 <InputLabel id="demo-controlled-open-select-label">Category</InputLabel>
                 <Select
-                    className={classes.select}
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
                     open={openSelect}
@@ -54,12 +50,11 @@ function AddContents() {
                     <MenuItem value={2}>Tv programs</MenuItem>
                     <MenuItem value={3}>Actors</MenuItem>
                 </Select>
-
-                {valueSelect === 1 && <MoviesTvContents category={'Movies'}/>}
-                {valueSelect === 2 && <MoviesTvContents category={'Tv'}/>}
-                {valueSelect === 3 && <Actors category={'Actors'}/>}
             </FormControl>
-        </Grid>
+            {valueSelect === 1 && <MoviesTvContents category={'Movies'}/>}
+            {valueSelect === 2 && <MoviesTvContents category={'Tv'}/>}
+            {valueSelect === 3 && <Actors category={'Actors'}/>}
+        </Container>
     )
 }
 

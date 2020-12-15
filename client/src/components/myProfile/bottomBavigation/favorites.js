@@ -15,13 +15,7 @@ const useStyles = makeStyles((theme) => ({
     switchContainer: {
         marginTop: theme.spacing(2)
     },
-    switch: {
-        marginLeft: theme.spacing(5)
-    },
-    saveButton: {
-        margin: theme.spacing(3),
-    },
-    alert:{
+    alert: {
         marginTop: theme.spacing(2)
     }
 }));
@@ -53,42 +47,38 @@ function Favorites() {
     }
 
     return (
-        <Grid container justify={'center'} className={classes.switchContainer}>
-            <FormGroup row>
-                <FormControlLabel
-                    control={<Switch size="small" checked={state.movies} onChange={onChangeSwitch} name="movies"
-                                     className={classes.switch}/>}
-                    label="Movies"
-                />
-                <FormControlLabel
-                    control={<Switch size="small" checked={state.tvs} onChange={onChangeSwitch} name="tvs"
-                                     className={classes.switch}/>}
-                    label="TV programs"
-                />
-                <FormControlLabel
-                    control={<Switch size="small" checked={state.actors} onChange={onChangeSwitch} name="actors"
-                                     className={classes.switch}/>}
-                    label="Actors"
-                />
-            </FormGroup>
-            <Button
-                variant="contained"
-                color="default"
-                className={classes.saveButton}
-                onClick={onClickSearch}
-                startIcon={<SearchIcon/>}
-            >
-                Search
-            </Button>
+        <div>
+            <Grid container justify={'center'} className={classes.switchContainer}>
+                <FormGroup row>
+                    <FormControlLabel
+                        control={<Switch size="small" checked={state.movies} onChange={onChangeSwitch} name="movies"/>}
+                        label="Movies"
+                    />
+                    <FormControlLabel
+                        control={<Switch size="small" checked={state.tvs} onChange={onChangeSwitch} name="tvs"/>}
+                        label="TV programs"
+                    />
+                    <FormControlLabel
+                        control={<Switch size="small" checked={state.actors} onChange={onChangeSwitch} name="actors"/>}
+                        label="Actors"
+                    />
+                </FormGroup>
+                <Button
+                    variant="contained"
+                    color="default"
+                    onClick={onClickSearch}
+                    startIcon={<SearchIcon/>}
+                >
+                    Search
+                </Button>
+            </Grid>
             {cards}
             {alert && <Grid container justify={'center'}>
-                <Grid item xs={4}>
-                    <Alert severity={'error'} variant="standard" className={classes.alert}>
-                        {alert}
-                    </Alert>
-                </Grid>
+                <Alert severity={'error'} variant="standard" className={classes.alert}>
+                    {alert}
+                </Alert>
             </Grid>}
-        </Grid>
+        </div>
     )
 }
 

@@ -18,32 +18,27 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles((theme) => ({
-    contText: {
-        marginTop: theme.spacing(5)
-    },
     form: {
-        width: 450,
+        width: '100%',
+    },
+    formControl: {
+        margin: theme.spacing(1),
+    },
+    contText:{
+        marginTop : theme.spacing(1)
     },
     input: {
         display: 'none',
     },
-    button: {
-        marginTop: theme.spacing(4),
-    },
     alertImage: {
         marginTop: theme.spacing(4),
-        height: 20
     },
     alertInfo: {
         marginTop: theme.spacing(3),
-        width: 500
     },
-    formControl: {
-        marginTop: theme.spacing(5),
+    button: {
+        marginTop: theme.spacing(4),
     },
-    select: {
-        width: 450
-    }
 }));
 
 function MoviesTvContents(props) {
@@ -127,14 +122,14 @@ function MoviesTvContents(props) {
                     requestNewContents.addImage(res.data.data._id, field.image).then((res) => {
                         setAlertImage({...alertImage, isError: false, text: ''})
                         setAlert({...alert, isError: false, text: res.data.message})
-                        setField({...field, title: '', date: '', section:'', vote: '', language: '', image: null})
+                        setField({...field, title: '', date: '', section: '', vote: '', language: '', image: null})
                     }).catch(err => {
                         setAlert({...alert, isError: true, text: err.response.data.message})
                     })
                 } else {
                     setAlertImage({...alertImage, isError: false, text: ''})
                     setAlert({...alert, isError: false, text: res.data.message})
-                    setField({...field, title: '', date: '', section:'', vote: '', language: '', image: null})
+                    setField({...field, title: '', date: '', section: '', vote: '', language: '', image: null})
                 }
             }).catch(err => {
                 setAlertImage({...alertImage, isError: false, text: ''})
@@ -149,7 +144,6 @@ function MoviesTvContents(props) {
                 <FormControl className={classes.formControl}>
                     <InputLabel id="demo-controlled-open-select-label">Section</InputLabel>
                     <Select
-                        className={classes.select}
                         labelId="demo-controlled-open-select-label"
                         id="demo-controlled-open-select"
                         open={openSelect}
@@ -164,143 +158,145 @@ function MoviesTvContents(props) {
                         {(props.category === 'Movies' || props.category === 'Tv') &&
                         <MenuItem value={3}>Upcoming</MenuItem>}
                     </Select>
-                </FormControl>
-                <Grid item xs={12} className={classes.contText}>
-                    <TextField
-                        error={error.title}
-                        helperText={error.title ? 'Title must not be empty' : ''}
-                        autoComplete="ftitle"
-                        name="title"
-                        variant="standard"
-                        required
-                        fullWidth
-                        id="title"
-                        label="Title"
-                        autoFocus
-                        value={field.title}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <TitleIcon/>
-                                </InputAdornment>
-                            ),
-                        }}
-                        onChange={onChange}
-                    />
-                </Grid>
-                <Grid item xs={12} className={classes.contText}>
-                    <TextField
-                        error={error.date}
-                        helperText={error.date ? 'Release date must not be empty' : ''}
-                        type={"date"}
-                        autoComplete="freleaseDate"
-                        name="date"
-                        variant="standard"
-                        required
-                        fullWidth
-                        id="releaseDate"
-                        label="Release Date"
-                        autoFocus
-                        value={field.date}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <DateRangeIcon/>
-                                </InputAdornment>
-                            ),
-                        }}
-                        onChange={onChange}
-                    />
-                </Grid>
-                <Grid item xs={12} className={classes.contText}>
-                    <TextField
-                        error={error.language}
-                        helperText={error.language ? 'Language must not be empty' : ''}
-                        autoComplete="flanguage"
-                        name="language"
-                        variant="standard"
-                        required
-                        fullWidth
-                        id="language"
-                        label="Language"
-                        autoFocus
-                        value={field.language}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <LanguageIcon/>
-                                </InputAdornment>
-                            ),
-                        }}
-                        onChange={onChange}
-                    />
-                </Grid>
-                <Grid item xs={12} className={classes.contText}>
-                    <TextField
-                        error={error.vote}
-                        helperText={error.vote ? 'Vote must not be empty and not greater than 10' : ''}
-                        autoComplete="fvote"
-                        type={"number"}
-                        name="vote"
-                        variant="standard"
-                        required
-                        fullWidth
-                        id="vote"
-                        label="Vote"
-                        autoFocus
-                        value={field.vote}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <ThumbUpIcon/>
-                                </InputAdornment>
-                            ), inputProps: {min: 0, max: 10, step: 0.1}
-                        }}
-                        onChange={onChange}
-                    />
-                </Grid>
-                <Grid container justify={'center'} spacing={2}>
-                    <Grid item xs={6}>
-                        <input
-                            accept="image/*"
-                            className={classes.input}
-                            id="contained-button-file"
-                            multiple
-                            type="file"
-                            onChange={onImageChange}
-                        />
-                        <label htmlFor="contained-button-file">
-                            <Button variant="contained" color="primary" component="span" className={classes.button}>
-                                Upload
+                    <Grid container spacing={2} className={classes.contText}>
+                        <Grid item xs={12}>
+                            <TextField
+                                error={error.title}
+                                helperText={error.title ? 'Title must not be empty' : ''}
+                                autoComplete="ftitle"
+                                name="title"
+                                variant="standard"
+                                required
+                                fullWidth
+                                id="title"
+                                label="Title"
+                                autoFocus
+                                value={field.title}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <TitleIcon/>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                onChange={onChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                error={error.date}
+                                helperText={error.date ? 'Release date must not be empty' : ''}
+                                type={"date"}
+                                autoComplete="freleaseDate"
+                                name="date"
+                                variant="standard"
+                                required
+                                fullWidth
+                                id="releaseDate"
+                                label="Release Date"
+                                autoFocus
+                                value={field.date}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <DateRangeIcon/>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                onChange={onChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                error={error.language}
+                                helperText={error.language ? 'Language must not be empty' : ''}
+                                autoComplete="flanguage"
+                                name="language"
+                                variant="standard"
+                                required
+                                fullWidth
+                                id="language"
+                                label="Language"
+                                autoFocus
+                                value={field.language}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <LanguageIcon/>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                onChange={onChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                error={error.vote}
+                                helperText={error.vote ? 'Vote must not be empty and not greater than 10' : ''}
+                                autoComplete="fvote"
+                                type={"number"}
+                                name="vote"
+                                variant="standard"
+                                required
+                                fullWidth
+                                id="vote"
+                                label="Vote"
+                                autoFocus
+                                value={field.vote}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <ThumbUpIcon/>
+                                        </InputAdornment>
+                                    ), inputProps: {min: 0, max: 10, step: 0.1}
+                                }}
+                                onChange={onChange}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid container justify={'center'} spacing={2}>
+                        <Grid item xs={6}>
+                            <input
+                                accept="image/*"
+                                className={classes.input}
+                                id="contained-button-file"
+                                multiple
+                                type="file"
+                                onChange={onImageChange}
+                            />
+                            <label htmlFor="contained-button-file">
+                                <Button variant="contained" color="primary" component="span" className={classes.button}>
+                                    Upload
+                                </Button>
+                            </label>
+                        </Grid>
+                        {alertImage.text &&
+                        <Alert severity={alertImage.isError ? 'error' : 'success'} className={classes.alertImage}
+                               variant="standard">
+                            {alertImage.text}
+                        </Alert>}
+                    </Grid>
+                    <Grid container justify={'center'}>
+                        <Grid item xs={6}>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.button}
+                                value={"submit"}
+                                startIcon={<SaveIcon/>}
+                            >
+                                Save
                             </Button>
-                        </label>
+                        </Grid>
+                        {alert.text &&
+                        <Alert severity={alert.isError ? 'error' : 'success'} className={classes.alertInfo}
+                               variant="standard">
+                            {alert.text}
+                        </Alert>}
                     </Grid>
-                    {alertImage.text &&
-                    <Alert severity={alertImage.isError ? 'error' : 'success'} className={classes.alertImage}
-                           variant="standard">
-                        {alertImage.text}
-                    </Alert>}
-                </Grid>
-                <Grid container justify={'center'}>
-                    <Grid item xs={6}>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.button}
-                            value={"submit"}
-                            startIcon={<SaveIcon/>}
-                        >
-                            Save
-                        </Button>
-                    </Grid>
-                    {alert.text &&
-                    <Alert severity={alert.isError ? 'error' : 'success'} className={classes.alertInfo}
-                           variant="standard">
-                        {alert.text}
-                    </Alert>}
-                </Grid>
+                </FormControl>
             </form>
         </Grid>
     )

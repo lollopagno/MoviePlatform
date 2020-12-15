@@ -8,39 +8,28 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
     },
-    title:{
-        margin: theme.spacing(1,2,0,0),
-    },
     avatar: {
-        margin: theme.spacing(1,2,0,0),
+        margin: theme.spacing(1),
         backgroundColor: VIOLA,
     },
     form: {
         width: '100%',
-        marginTop: theme.spacing(1),
+        marginTop: theme.spacing(3),
     },
-    signIn: {
-        margin: theme.spacing(-1, 9, 3),
-        width: 120,
-        height: 50
+    marginFormControl: {
+        marginTop: theme.spacing(2),
     },
-    reset: {
-        margin: theme.spacing(-1, -6, 3),
-        width: 120,
-        height: 50
+    textFieldFormControl: {
+        display: 'flex'
     },
-    formPassword: {
-        width: '42ch',
-        margin: theme.spacing(0, 0, 3, 4)
+    button:{
+        marginTop : theme.spacing(2),
     },
-    username: {
-        marginLeft: theme.spacing(4)
+    link:{
+        marginTop : theme.spacing(4)
     },
-    link: {
-        margin: theme.spacing(0, 12.5, 0)
-    },
-    alert: {
-        margin: theme.spacing(0, 5.5, 4, 5),
+    alert:{
+        marginTop : theme.spacing(3)
     }
 }));
 

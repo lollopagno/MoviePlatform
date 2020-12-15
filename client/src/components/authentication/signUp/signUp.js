@@ -23,6 +23,7 @@ import history from '../../../history'
 import {Alert} from "@material-ui/lab";
 import {setTokenEmail} from "../../../redux/reducer/tokenReducer";
 import {useSelector} from "react-redux";
+import clsx from "clsx";
 
 function Copyright() {
     return (
@@ -202,97 +203,96 @@ function SignUp() {
                                 onChange={onChange}
                             />
                         </Grid>
-                        <Grid container spacing={2}>
-                            <Grid item>
-                                <FormControl className={classes.formPassword} variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-password">Password *</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-password"
-                                        type={typePassword ? 'text' : 'password'}
-                                        name="password"
-                                        value={password}
-                                        error={errorPassword}
-                                        onChange={onChange}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={() => {
-                                                        setPasswordFeatures({
-                                                            ...passwordFeatures,
-                                                            'typePassword': !typePassword
-                                                        })
-                                                    }}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                >
-                                                    {typePassword ? <Visibility/> : <VisibilityOff/>}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        labelWidth={82}
-                                    />
-                                </FormControl>
-                            </Grid>
-                            <Grid item>
-                                <FormControl className={classes.formPassword} variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-password">Repeat password *</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-verifyPassword"
-                                        type={typeVerifyPassword ? 'text' : 'password'}
-                                        name="verifyPassword"
-                                        value={verifyPassword}
-                                        error={errorPassword}
-                                        onChange={onChangePasswordFeatures}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={() => {
-                                                        setPasswordFeatures({
-                                                            ...passwordFeatures,
-                                                            'typeVerifyPassword': !typeVerifyPassword
-                                                        })
-                                                    }}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                >
-                                                    {typeVerifyPassword ? <Visibility/> : <VisibilityOff/>}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        labelWidth={137}
-                                    />
-                                </FormControl>
-                            </Grid>
-                            <Grid container justify={"center"}>
-                                {infoAlert !== '' &&
-                                <Alert severity='error' variant="standard" className={classes.alert}>
-                                    {infoAlert}
-                                </Alert>}
-                            </Grid>
+                    </Grid>
+                    <FormControl className={clsx(classes.marginFormControl, classes.textFieldFormControl)}
+                                 variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">Password *</InputLabel>
+                        <OutlinedInput
+                            id="outlined-adornment-password"
+                            type={typePassword ? 'text' : 'password'}
+                            name="password"
+                            value={password}
+                            error={errorPassword}
+                            onChange={onChange}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={() => {
+                                            setPasswordFeatures({
+                                                ...passwordFeatures,
+                                                'typePassword': !typePassword
+                                            })
+                                        }}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                    >
+                                        {typePassword ? <Visibility/> : <VisibilityOff/>}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            labelWidth={82}
+                        />
+                    </FormControl>
+                    <FormControl className={clsx(classes.marginFormControl, classes.textFieldFormControl)}
+                                 variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">Repeat password *</InputLabel>
+                        <OutlinedInput
+                            id="outlined-adornment-verifyPassword"
+                            type={typeVerifyPassword ? 'text' : 'password'}
+                            name="verifyPassword"
+                            value={verifyPassword}
+                            error={errorPassword}
+                            onChange={onChangePasswordFeatures}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={() => {
+                                            setPasswordFeatures({
+                                                ...passwordFeatures,
+                                                'typeVerifyPassword': !typeVerifyPassword
+                                            })
+                                        }}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                    >
+                                        {typeVerifyPassword ? <Visibility/> : <VisibilityOff/>}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            labelWidth={137}
+                        />
+                    </FormControl>
+                    <Grid container justify={"center"}>
+                        {infoAlert !== '' &&
+                        <Alert severity='error' variant="standard" className={classes.alert}>
+                            {infoAlert}
+                        </Alert>}
+                    </Grid>
+                    <Grid container justify={'center'} className={classes.button} spacing={2}>
+                        <Grid item>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                value={"submit"}
+                            >
+                                Sign Up
+                            </Button>
                         </Grid>
                     </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        value={"submit"}
-                    >
-                        Sign Up
-                    </Button>
-                    <Grid container justify="flex-end">
-                        <Grid item>
-                            <Link href={'/signIn'} variant="body2" className={classes.link}>
+                    <Grid container className={classes.link}>
+                        <Grid item xs>
+                            <Link href={'/signIn'} variant="body2">
                                 Already have an account? Sign in
                             </Link>
                         </Grid>
                     </Grid>
                 </form>
             </div>
-            <Box mt={10}>
+            <Box mt={3}>
                 <Copyright/>
             </Box>
         </Container>

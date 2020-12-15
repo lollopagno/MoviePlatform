@@ -25,6 +25,7 @@ import {Alert} from "@material-ui/lab";
 import {meFromTokenSuccess} from "../../../redux/reducer/tokenReducer";
 import {resetAlert} from "../../../redux/reducer/signInReducer";
 import {Redirect, Route} from "react-router-dom";
+import clsx from "clsx";
 
 function Copyright() {
     return (
@@ -118,93 +119,86 @@ function SignIn() {
                 <Avatar className={classes.avatar}>
                     <MdLocalMovies/>
                 </Avatar>
-                <Typography component="h1" className={classes.title} variant="h5">
+                <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
                 <form className={classes.form} onSubmit={onSubmit} onReset={onReset} noValidate>
-                    <Grid container spacing={2}>
-                        <Grid className={classes.username} item xs={10}>
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="username"
-                                label="Username or email"
-                                name="username"
-                                autoComplete="username"
-                                autoFocus
-                                value={username}
-                                onChange={onChange}
-                            />
+                    <TextField
+                        required
+                        fullWidth
+                        autoFocus
+                        variant="outlined"
+                        margin="normal"
+                        id="username"
+                        label="Username or email"
+                        name="username"
+                        autoComplete="username"
+                        value={username}
+                        onChange={onChange}
+                    />
+                    <FormControl variant="outlined" className={clsx(classes.marginFormControl, classes.textFieldFormControl)}>
+                        <InputLabel htmlFor="outlined-adornment-password">Password *</InputLabel>
+                        <OutlinedInput
+                            id="outlined-adornment-password"
+                            type={typePassword ? 'text' : 'password'}
+                            name={'password'}
+                            value={password}
+                            onChange={onChange}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={() => {
+                                            setTypePassword(!typePassword)
+                                        }}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                    >
+                                        {typePassword ? <Visibility/> : <VisibilityOff/>}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            labelWidth={82}
+                        />
+                    </FormControl>
+                    <Grid container justify={"center"} className={classes.alert}>
+                        {infoAlert &&
+                        <Alert severity={stateAlert ? 'success' : 'error'} variant="standard">
+                            {infoAlert}
+                        </Alert>}
+                    </Grid>
+                    <Grid container justify={'center'} className={classes.button} spacing={4}>
+                        <Grid item>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                value="submit"
+                            >
+                                Sign In
+                            </Button>
                         </Grid>
                         <Grid item>
-                            <FormControl className={classes.formPassword} variant="outlined">
-                                <InputLabel htmlFor="outlined-adornment-password">Password *</InputLabel>
-                                <OutlinedInput
-                                    id="outlined-adornment-password"
-                                    type={typePassword ? 'text' : 'password'}
-                                    name={'password'}
-                                    value={password}
-                                    onChange={onChange}
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={() => {
-                                                    setTypePassword(!typePassword)
-                                                }}
-                                                onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                            >
-                                                {typePassword ? <Visibility/> : <VisibilityOff/>}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                    labelWidth={82}
-                                />
-                            </FormControl>
+                            <Button
+                                type="reset"
+                                variant="contained"
+                                color="primary"
+                                value="reset"
+                            >
+                                Reset
+                            </Button>
                         </Grid>
-                        <Grid container justify={"center"}>
-                            {infoAlert &&
-                            <Alert severity={stateAlert? 'success':'error'} variant="standard" className={classes.alert}>
-                                {infoAlert}
-                            </Alert>}
-                        </Grid>
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            value="submit"
-                            className={classes.signIn}
-                        >
-                            Sign In
-                        </Button>
-                        <Button
-                            type="reset"
-                            variant="contained"
-                            color="primary"
-                            value="reset"
-                            className={classes.reset}
-                        >
-                            Reset
-                        </Button>
-                        <Grid container justify="flex-end">
-                            {/*<Grid item xs>
-                            <Link href="#" variant="body2">
-                                Forgot password?
+                    </Grid>
+                    <Grid container className={classes.link}>
+                        <Grid item xs>
+                            <Link href={'/signUp'} variant="body2">
+                                Don't have an account? Sign Up
                             </Link>
-                        </Grid>*/}
-                            <Grid item>
-                                <Link href={'/signUp'} variant="body2" className={classes.link}>
-                                    Don't have an account? Sign Up
-                                </Link>
-                            </Grid>
                         </Grid>
                     </Grid>
                 </form>
             </div>
-            <Box mt={10}>
+            <Box mt={3}>
                 <Copyright/>
             </Box>
         </Container>

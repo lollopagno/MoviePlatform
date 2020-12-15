@@ -5,10 +5,12 @@ import CardActions from "@material-ui/core/CardActions";
 import Rating from "@material-ui/lab/Rating";
 import StarBorderIcon from '@material-ui/icons/StarBorder'
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
     cardAction: {
-        paddingLeft: theme.spacing(1.5)
+        display: 'flex',
+        alignItems: 'center'
     }
 }));
 
@@ -31,16 +33,18 @@ function RatingContent(props) {
     }
 
     return (
-        <CardActions disableSpacing className={classes.cardAction}>
-            <Rating
-                name={props.id + "-" + props.category}
-                defaultValue={0}
-                value={parseInt(value)}
-                precision={1}
-                onChange={onChangeFavorites}
-                emptyIcon={<StarBorderIcon fontSize="inherit"/>}
-            />
-        </CardActions>
+        <Grid container justify={'center'}>
+            <CardActions className={classes.cardAction}>
+                <Rating
+                    name={props.id + "-" + props.category}
+                    defaultValue={0}
+                    value={parseInt(value)}
+                    precision={1}
+                    onChange={onChangeFavorites}
+                    emptyIcon={<StarBorderIcon fontSize="inherit"/>}
+                />
+            </CardActions>
+        </Grid>
     )
 }
 

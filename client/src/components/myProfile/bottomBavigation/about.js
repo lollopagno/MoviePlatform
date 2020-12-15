@@ -22,8 +22,15 @@ import {deleteToken} from "../../../redux/reducer/tokenReducer";
 import {setAlert} from "../../../redux/reducer/signInReducer";
 import history from "../../../history";
 import Alert from "@material-ui/lab/Alert";
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
+    paper: {
+        marginTop: theme.spacing(2),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
     form: {
         width: '100%',
     },
@@ -149,9 +156,9 @@ function About() {
                 setCheckEmail(false)
                 setCheckUsername(false)
                 setCheckName(false)
-                setAlertInfo({...alert, text: res.data.message})
+                setAlertInfo({...alertInfo, text: res.data.message})
             }).catch((err) => {
-                setAlertInfo({...alert, text: err.response.data.message, isError: true})
+                setAlertInfo({...alertInfo, text: err.response.data.message, isError: true})
             })
         }
     }
@@ -160,7 +167,7 @@ function About() {
         setOpen(true);
     };
 
-    const onDialogCancel= () => setOpen(false)
+    const onDialogCancel = () => setOpen(false)
 
     const onDialogDelete = () => {
         setOpen(false);
@@ -174,11 +181,11 @@ function About() {
     };
 
     return (
-        <Grid container justify={'center'}>
-            <form className={classes.form} onSubmit={onSubmit} noValidate>
-                <Grid container justify={'center'}>
+        <Container component="main" maxWidth="xs">
+            <div className={classes.paper}>
+                <form className={classes.form} onSubmit={onSubmit} noValidate>
                     <Grid container justify={'center'} className={classes.contText}>
-                        <Grid item xs={3}>
+                        <Grid item xs>
                             <TextField
                                 error={errorName}
                                 helperText={errorName ? 'Name must not be empty' : ''}
@@ -213,7 +220,7 @@ function About() {
                         />
                     </Grid>
                     <Grid container justify={'center'} className={classes.contText}>
-                        <Grid item xs={3}>
+                        <Grid item xs>
                             <TextField
                                 autoComplete="fname"
                                 name="name"
@@ -248,7 +255,7 @@ function About() {
                         />
                     </Grid>
                     <Grid container justify={'center'} className={classes.contText}>
-                        <Grid item xs={3}>
+                        <Grid item xs>
                             <TextField
                                 autoComplete="fname"
                                 name="name"
@@ -282,27 +289,27 @@ function About() {
                             inputProps={{'aria-label': 'Email'}}
                         />
                     </Grid>
-                    <Grid container justify={'center'} spacing={3}>
-                        <Grid item xs={1}>
+
+
+                    <Grid container justify={'center'} className={classes.button} spacing={4}>
+                        <Grid item>
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                className={classes.button}
                                 value={"submit"}
                                 startIcon={<SaveIcon/>}
                             >
                                 Save
                             </Button>
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item >
                             <Button
                                 type="button"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                className={classes.button}
                                 onClick={onOpenDialog}
                                 startIcon={<DeleteIcon/>}
                             >
@@ -338,9 +345,9 @@ function About() {
                             </Alert>}
                         </Grid>
                     </Grid>
-                </Grid>
-            </form>
-        </Grid>
+                </form>
+            </div>
+        </Container>
     )
 }
 

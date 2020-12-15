@@ -7,18 +7,18 @@ import Button from "@material-ui/core/Button";
 import history from "../../../history";
 import {ButtonResendEmail} from "./funtionality";
 import {Alert} from '@material-ui/lab';
+import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
-    alert: {
-        borderRadius: 15,
-        fontSize: 15,
-        margin: theme.spacing(10, 7, 0, 7),
+    root: {
+        marginTop: theme.spacing(15),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
     },
-    button: {
-        margin: theme.spacing(3, 65, 0, 65),
-        width: 150,
-        height: 45
-    },
+    container: {
+        marginTop: theme.spacing(1)
+    }
 }))
 
 function ValidateEmail() {
@@ -58,20 +58,29 @@ function ValidateEmail() {
             onClick={() => {
                 history.push('/signIn')
             }}
-            className={classes.button}
         >
             Sign In
         </Button>
     )
 
     return (
-        <Grid container justify={"center"}>
-            <Alert severity={alert.state? 'success':'error'} variant="standard" className={classes.alert}>
-                {infoValidation}
-            </Alert>
-            {alert.state && signIn}
-            {!alert.state && <ButtonResendEmail/>}
-        </Grid>
+        <Container component="main" maxWidth="xs">
+            <Grid container justify={"center"} className={classes.root}>
+                <Alert severity={alert.state ? 'success' : 'error'} variant="standard">
+                    {infoValidation}
+                </Alert>
+                <Grid container spacing={3} justify={"center"} className={classes.container}>
+                    {alert.state &&
+                    <Grid item xs>
+                        {signIn}
+                    </Grid>}
+                </Grid>
+                {!alert.state &&
+                <Grid item xs>
+                    <ButtonResendEmail/>
+                </Grid>}
+            </Grid>
+        </Container>
     )
 }
 

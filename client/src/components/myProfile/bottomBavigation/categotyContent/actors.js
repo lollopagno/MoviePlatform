@@ -14,10 +14,10 @@ import {useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     contText: {
-        marginTop: theme.spacing(5)
+        marginTop: theme.spacing(1)
     },
     form: {
-        width: 450,
+        width: '100%',
     },
     input: {
         display: 'none',
@@ -27,11 +27,9 @@ const useStyles = makeStyles((theme) => ({
     },
     alertImage: {
         marginTop: theme.spacing(4),
-        height: 20
     },
     alertInfo: {
         marginTop: theme.spacing(3),
-        width: 500
     },
 }));
 
@@ -86,19 +84,19 @@ function Actors(props) {
                 // Upload image
                 if (field.image !== null) {
                     requestNewContents.addImage(res.data.data._id, field.image).then((res) => {
-                        setAlertImage({...alertImage, isError: false, text : ''})
+                        setAlertImage({...alertImage, isError: false, text: ''})
                         setAlert({...alert, isError: false, text: res.data.message})
                         setField({...field, title: '', popularity: '', department: '', image: null})
                     }).catch(err => {
                         setAlert({...alert, isError: true, text: err.response.data.message})
                     })
                 } else {
-                    setAlertImage({...alertImage, isError: false, text : ''})
+                    setAlertImage({...alertImage, isError: false, text: ''})
                     setAlert({...alert, isError: false, text: res.data.message})
                     setField({...field, title: '', popularity: '', department: '', image: null})
                 }
             }).catch(err => {
-                setAlertImage({...alertImage, isError: false, text : ''})
+                setAlertImage({...alertImage, isError: false, text: ''})
                 setAlert({...alert, isError: true, text: err.response.data.message})
             })
         }
@@ -107,75 +105,77 @@ function Actors(props) {
     return (
         <Grid container justify={'center'}>
             <form noValidate className={classes.form} onSubmit={onSubmit}>
-                <Grid item xs={12} className={classes.contText}>
-                    <TextField
-                        error={error.title}
-                        helperText={error.title ? 'Title must not be empty' : ''}
-                        autoComplete="ftitle"
-                        name="title"
-                        variant="standard"
-                        required
-                        fullWidth
-                        id="title"
-                        label="Title"
-                        autoFocus
-                        value={field.title}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <TitleIcon/>
-                                </InputAdornment>
-                            ),
-                        }}
-                        onChange={onChange}
-                    />
-                </Grid>
-                <Grid item xs={12} className={classes.contText}>
-                    <TextField
-                        error={error.popularity}
-                        helperText={error.popularity ? 'Popularity must not be empty and not greater than 100' : ''}
-                        autoComplete="fpopularity"
-                        type={"number"}
-                        name="popularity"
-                        variant="standard"
-                        required
-                        fullWidth
-                        id="popularity"
-                        label="Popularity"
-                        autoFocus
-                        value={field.popularity}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <ThumbUpIcon/>
-                                </InputAdornment>
-                            ), inputProps: {min: 0, max: 100, step: 0.1}
-                        }}
-                        onChange={onChange}
-                    />
-                </Grid>
-                <Grid item xs={12} className={classes.contText}>
-                    <TextField
-                        error={error.department}
-                        helperText={error.department ? 'Department must not be empty' : ''}
-                        autoComplete="fdepartment"
-                        name="department"
-                        variant="standard"
-                        required
-                        fullWidth
-                        id="department"
-                        label="Department"
-                        autoFocus
-                        value={field.department}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <MovieIcon/>
-                                </InputAdornment>
-                            ),
-                        }}
-                        onChange={onChange}
-                    />
+                <Grid container spacing={5} className={classes.contText}>
+                    <Grid item xs={12}>
+                        <TextField
+                            error={error.title}
+                            helperText={error.title ? 'Title must not be empty' : ''}
+                            autoComplete="ftitle"
+                            name="title"
+                            variant="standard"
+                            required
+                            fullWidth
+                            id="title"
+                            label="Title"
+                            autoFocus
+                            value={field.title}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <TitleIcon/>
+                                    </InputAdornment>
+                                ),
+                            }}
+                            onChange={onChange}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            error={error.popularity}
+                            helperText={error.popularity ? 'Popularity must not be empty and not greater than 100' : ''}
+                            autoComplete="fpopularity"
+                            type={"number"}
+                            name="popularity"
+                            variant="standard"
+                            required
+                            fullWidth
+                            id="popularity"
+                            label="Popularity"
+                            autoFocus
+                            value={field.popularity}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <ThumbUpIcon/>
+                                    </InputAdornment>
+                                ), inputProps: {min: 0, max: 100, step: 0.1}
+                            }}
+                            onChange={onChange}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            error={error.department}
+                            helperText={error.department ? 'Department must not be empty' : ''}
+                            autoComplete="fdepartment"
+                            name="department"
+                            variant="standard"
+                            required
+                            fullWidth
+                            id="department"
+                            label="Department"
+                            autoFocus
+                            value={field.department}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <MovieIcon/>
+                                    </InputAdornment>
+                                ),
+                            }}
+                            onChange={onChange}
+                        />
+                    </Grid>
                 </Grid>
                 <Grid container justify={'center'} spacing={2}>
                     <Grid item xs={6}>
@@ -226,7 +226,7 @@ function Actors(props) {
 
 export default Actors
 
-function isValidForm(error, setError, field){
+function isValidForm(error, setError, field) {
     setError({
         ...error,
         title: field.title === '',
