@@ -10,6 +10,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import {Alert} from "@material-ui/lab";
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import {requestNewContents} from "../../../../requests/content/newContents";
 import {useSelector} from "react-redux";
 import FormControl from "@material-ui/core/FormControl";
@@ -24,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
     },
-    contText:{
-        marginTop : theme.spacing(1)
+    contText: {
+        marginTop: theme.spacing(1)
     },
     input: {
         display: 'none',
@@ -265,7 +266,8 @@ function MoviesTvContents(props) {
                                 onChange={onImageChange}
                             />
                             <label htmlFor="contained-button-file">
-                                <Button variant="contained" color="primary" component="span" className={classes.button}>
+                                <Button variant="contained" color="primary" component="span" className={classes.button}
+                                        startIcon={<CameraAltIcon/>}>
                                     Upload
                                 </Button>
                             </label>

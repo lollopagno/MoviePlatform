@@ -11,6 +11,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import MovieIcon from '@material-ui/icons/Movie';
 import {requestNewContents} from "../../../../requests/content/newContents";
 import {useSelector} from "react-redux";
+import CameraAltIcon from "@material-ui/icons/CameraAlt";
 
 const useStyles = makeStyles((theme) => ({
     contText: {
@@ -188,7 +189,8 @@ function Actors(props) {
                             onChange={onImageChange}
                         />
                         <label htmlFor="contained-button-file">
-                            <Button variant="contained" color="primary" component="span" className={classes.button}>
+                            <Button variant="contained" color="primary" component="span" className={classes.button}
+                                    startIcon={<CameraAltIcon/>}>
                                 Upload
                             </Button>
                         </label>
