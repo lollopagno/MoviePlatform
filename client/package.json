@@ -10,6 +10,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.0",
+    "clsx": "^1.1.1",
     "form-data": "^3.0.0",
     "interweave": "^12.6.0",
     "react": "^17.0.1",
