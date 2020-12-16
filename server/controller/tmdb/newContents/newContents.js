@@ -112,4 +112,33 @@ module.exports = {
             })
         })
     },
+
+    searchContentRate: async function(contentId, value) {
+        return new Promise(resolve => {
+            NewContentsSchema.find({_id: contentId}, (err, contentsUser) => {
+                let allData = []
+                let countData = 0
+
+                if (contentsUser === undefined) resolve(allData)
+                else {
+                    contentsUser.forEach(content => {
+                        allData.push({
+                            _id: content._id,
+                            category: content.category,
+                            title : content.title,
+                            date : content.date !== undefined? content.date.getFullYear() + '-' + content.date.getMonth() + "-" + content.date.getDate(): undefined,
+                            language: content.language,
+                            vote: content.category !== 'Actors' ? content.vote : undefined,
+                            popularity: content.category === 'Actors' ? content.vote : undefined,
+                            department: content.department !== undefined? content.department : undefined,
+                            rating: value,
+                            img: `data:` + content.img.contentType + `;base64,` + new Buffer.from(content.img.data).toString('base64')
+                        })
+                        countData ++
+                        if(countData === contentsUser.length) resolve(allData)
+                    })
+                }
+            })
+        })
+    }
 }

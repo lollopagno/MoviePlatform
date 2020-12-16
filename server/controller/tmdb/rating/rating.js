@@ -1,4 +1,5 @@
 const RatingSchema = require('../../../model/rating')
+const newContents = require('../../tmdb/newContents/newContents')
 const requests = require('../rating/requests')
 
 const KEY = require('../../../utils/env').apiKeyTmdb
@@ -83,62 +84,78 @@ module.exports = {
             }
         ])
 
-        this.result = result[0].content
-        if (this.result.length === 0) {
+        result = result[0].content
+        if (result.length === 0) {
             return res.status(404).json({
                 success: false,
                 message: 'No contents found!',
             })
         } else {
-            getApiContents(res, userId, this.result)
+
+            let allDataRating = []
+            let countData = 0
+            const promise = new Promise((resolve) => {
+                result.forEach(content => {
+                    newContents.searchContentRate(content._contentId, content.value).then(contentUser => {
+                            if (contentUser.length !== 0) {
+                                allDataRating.push(contentUser[0])
+                                countData++
+                                if (countData === result.length) resolve()
+                            } else
+                                getContentsRateTmdb(userId, content).then(contentTmdb => {
+                                    allDataRating.push(contentTmdb)
+                                    countData++
+                                    if (countData === result.length) resolve()
+                                })
+                        }
+                    )
+                })
+
+            })
+            promise.then(() => {
+                return res.status(200).json({
+                    success: true,
+                    message: 'Contents found!',
+                    data: allDataRating
+                })
+            })
         }
     },
 }
 
-function getApiContents(res, userId, result) {
+function getContentsRateTmdb(userId, content) {
 
-    let countContent = 0
-    let allContent = [];
-    result.forEach(elem => {
+    let CATEGORY = ''
+    let options = {}
 
-        let CATEGORY = ''
-        let options = {}
+    switch (content.category) {
+        case 'Movies':
+            CATEGORY = 'Movies'
+            options = {
+                host: utils.HOST,
+                path: '/3/movie/' + content._contentId + '?api_key=' + KEY
+            };
+            break;
+        case 'Tv':
+            CATEGORY = 'Tv'
+            options = {
+                host: utils.HOST,
+                path: '/3/tv/' + content._contentId + '?api_key=' + KEY
+            };
+            break;
+        case 'Actors':
+            CATEGORY = 'Actors'
+            options = {
+                host: utils.HOST,
+                path: '/3/person/' + content._contentId + '?api_key=' + KEY
+            };
+            break;
+    }
 
-        switch (elem.category) {
-            case 'Movies':
-                CATEGORY = 'Movies'
-                options = {
-                    host: utils.HOST,
-                    path: '/3/movie/' + elem._contentId + '?api_key=' + KEY
-                };
-                break;
-            case 'Tv':
-                CATEGORY = 'Tv'
-                options = {
-                    host: utils.HOST,
-                    path: '/3/tv/' + elem._contentId + '?api_key=' + KEY
-                };
-                break;
-            case 'Actors':
-                CATEGORY = 'Actors'
-                options = {
-                    host: utils.HOST,
-                    path: '/3/person/' + elem._contentId + '?api_key=' + KEY
-                };
-                break;
-        }
-
+    return new Promise(resolve => {
         requests.getDetails(options, userId, CATEGORY, obj => {
             if (Object.keys(obj).length !== 0) {
-                allContent.push(obj)
-                countContent++
-                if (result.length === countContent) {
-                    return res.status(200).json({
-                        success: true,
-                        message: 'Contents found!',
-                        data: allContent
-                    })
-                }
+                resolve(obj)
             }
         })
     })
