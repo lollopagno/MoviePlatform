@@ -13,10 +13,6 @@ import Alert from "@material-ui/lab/Alert";
 import RatingContent from "./toolbar/ratingContent";
 
 const useStyles = makeStyles((theme) => ({
-    cardMedia: {
-        paddingTop: '56.25%',
-        height: 240
-    },
     card: {
         height: '100%',
         display: 'flex',
@@ -43,9 +39,9 @@ function Cards(props) {
         <Grid item xs={12} sm={6} md={4} key={item._id}>
             <Card className={classes.card}>
                 <CardMedia
-                    className={classes.cardMedia}
-                    image={item.img !== null ? item.img : IMAGE_NOT_FOUND}
-                    title={"Img" + item.title !== undefined ? item.title : item.name}
+                    component={'img'}
+                    src={item.img !== null ? item.img : IMAGE_NOT_FOUND}
+                    title={"Img" + item.title !== undefined ? item.title: item.name}
                 />
                 <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h6" component="h2">
@@ -68,7 +64,9 @@ function Cards(props) {
                     </Typography>
                 </CardContent>
                 <Divider variant={"middle"}/>
-                <RatingContent key={item._id} id={item._id} category={item.category !== undefined? item.category : props.category} value={item.rating}/>
+                <RatingContent key={item._id} id={item._id}
+                               category={item.category !== undefined ? item.category : props.category}
+                               value={item.rating}/>
             </Card>
         </Grid>
     )
