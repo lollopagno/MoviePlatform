@@ -108,6 +108,7 @@ function MoviesTvContents(props) {
         if (event.target.files[0]) {
             setField({...field, image: event.target.files[0]})
             setAlertImage({...alertImage, isError: false, text: 'Image loaded correctly!'})
+            setAlert({...alert, isError: false, text: ''})
         }
     }
 
@@ -153,11 +154,11 @@ function MoviesTvContents(props) {
                         value={valueSelect}
                         onChange={onChangeSelect}
                     >
-                        {props.category === 'Movies' && <MenuItem value={1}>Popular</MenuItem>}
+                        {(props.category === 'Movies' || props.category === 'Tv') &&
+                        <MenuItem value={1}>Popular</MenuItem>}
                         {(props.category === 'Movies' || props.category === 'Tv') &&
                         <MenuItem value={2}>Top Rated</MenuItem>}
-                        {(props.category === 'Movies' || props.category === 'Tv') &&
-                        <MenuItem value={3}>Upcoming</MenuItem>}
+                        {props.category === 'Movies' && <MenuItem value={3}>Upcoming</MenuItem>}
                     </Select>
                     <Grid container spacing={2} className={classes.contText}>
                         <Grid item xs={12}>

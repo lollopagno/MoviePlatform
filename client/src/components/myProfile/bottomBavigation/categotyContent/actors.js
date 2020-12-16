@@ -73,6 +73,7 @@ function Actors(props) {
         if (event.target.files[0]) {
             setField({...field, image: event.target.files[0]})
             setAlertImage({...alertImage, isError: false, text: 'Image loaded correctly!'})
+            setAlert({...alert, isError: false, text: ''})
         }
     }
 

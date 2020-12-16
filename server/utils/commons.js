@@ -52,8 +52,6 @@ module.exports = {
             name: userClean.name,
             email: userClean.email,
             username: userClean.username,
-            //createdAt: userClean.createdAt,
-            //updatedAt: userClean.updatedAt
         }
     }
 }
