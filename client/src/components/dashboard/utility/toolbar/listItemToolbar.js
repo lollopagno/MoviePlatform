@@ -9,7 +9,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {requestActors} from "../../../../requests/content/actors";
-import ConnectRefused from "../connectRefused";
+import ErrorAPI from "../errorAPI";
 import {useSelector} from "react-redux";
 
 /**
@@ -53,7 +53,7 @@ function ListItemComponent(props) {
                     requestMovies.popular(id).then(res => {
                         props.setCards(<Cards result={res.data} category={MOVIES}/>)
                     }).catch((err) => {
-                        props.setCards(<ConnectRefused msg={err.response.data.message}/>)
+                        props.setCards(<ErrorAPI msg={err.response.data.message}/>)
                     })
                     break;
 
@@ -62,7 +62,7 @@ function ListItemComponent(props) {
                     requestMovies.topRated(id).then(res => {
                         props.setCards(<Cards result={res.data} category={MOVIES}/>)
                     }).catch((err) => {
-                        props.setCards(<ConnectRefused msg={err.response.data.message}/>)
+                        props.setCards(<ErrorAPI msg={err.response.data.message}/>)
                     })
                     break;
 
@@ -71,7 +71,7 @@ function ListItemComponent(props) {
                     requestMovies.upcoming(id).then(res => {
                         props.setCards(<Cards result={res.data} category={MOVIES}/>)
                     }).catch((err) => {
-                        props.setCards(<ConnectRefused msg={err.response.data.message}/>)
+                        props.setCards(<ErrorAPI msg={err.response.data.message}/>)
                     })
                     break;
                 default:
@@ -84,7 +84,7 @@ function ListItemComponent(props) {
                     requestTV.popular(id).then(res => {
                         props.setCards(<Cards result={res.data} category={'Tv'}/>)
                     }).catch((err) => {
-                        props.setCards(<ConnectRefused msg={err.response.data.message}/>)
+                        props.setCards(<ErrorAPI msg={err.response.data.message}/>)
                     })
                     break;
 
@@ -93,7 +93,7 @@ function ListItemComponent(props) {
                     requestTV.topRated(id).then(res => {
                         props.setCards(<Cards result={res.data} category={'Tv'}/>)
                     }).catch((err) => {
-                        props.setCards(<ConnectRefused msg={err.response.data.message}/>)
+                        props.setCards(<ErrorAPI msg={err.response.data.message}/>)
                     })
                     break;
                 default:
@@ -121,7 +121,7 @@ function ListItemComponent(props) {
                 requestActors.popular(id).then(res => {
                     props.setCards(<Cards result={res.data} category={ACTORS}/>)
                 }).catch((err) => {
-                    props.setCards(<ConnectRefused msg={err.response.data.message}/>)
+                    props.setCards(<ErrorAPI msg={err.response.data.message}/>)
                 })
                 break;
 

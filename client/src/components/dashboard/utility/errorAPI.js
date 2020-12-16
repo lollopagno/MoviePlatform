@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function ConnectRefused(props) {
+function ErrorAPI(props) {
 
     const classes = useStyles()
 
@@ -28,4 +28,4 @@ function ConnectRefused(props) {
     )
 }
 
-export default ConnectRefused;
+export default ErrorAPI;
