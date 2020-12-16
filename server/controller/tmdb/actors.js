@@ -17,7 +17,7 @@ popular = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY, null, options, userId)
+    request.waitData(CATEGORY, null, false, '', options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Actors found!', contents[0].concat(contents[1]))
         }).catch(err => {
@@ -32,7 +32,7 @@ search = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY, null, options, userId)
+    request.waitData(CATEGORY, null,true, req.query.query, options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Actors found!', contents[0].concat(contents[1]))
         }).catch(err => {

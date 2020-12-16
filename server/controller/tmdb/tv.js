@@ -27,7 +27,7 @@ popular = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY, 'Popular', options, userId)
+    request.waitData(CATEGORY, 'Popular',false, '', options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Program tv popular found!', contents[0].concat(contents[1]))
         }).catch(err => {
@@ -42,7 +42,7 @@ topRated = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY, 'Top rated', options, userId)
+    request.waitData(CATEGORY, 'Top rated',false, '', options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Program tv popular found!', contents[0].concat(contents[1]))
         }).catch(err => {
@@ -57,7 +57,7 @@ search = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY, null, options, userId)
+    request.waitData(CATEGORY, null,true, req.query.query, options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Program tv found!', contents[0].concat(contents[1]))
         }).catch(err => {

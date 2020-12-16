@@ -6,9 +6,9 @@ const utils = require('../../utils/commons')
 
 module.exports = {
 
-    waitData: async function (CATEGORY, SECTION, options, userId) {
+    waitData: async function (CATEGORY, SECTION, isSearch, searchQuery, options, userId) {
 
-        const contentsUser = await newContents.searchContentToShow(CATEGORY, SECTION, userId)
+        const contentsUser = await newContents.searchContentToShow(CATEGORY, SECTION, isSearch, searchQuery, userId)
         const contentsTmdb = await getInfo(CATEGORY, options, userId)
 
         return Promise.all([contentsTmdb, contentsUser])
@@ -32,6 +32,7 @@ async function getInfo(CATEGORY, options_requests, userId) {
                     let countData = 0
 
                     const data = JSON.parse(allData).results
+                    if (data.length === 0) resolve(contents)
                     data.forEach((content) => {
 
                         rating.search(userId, content.id, CATEGORY).then(value => {

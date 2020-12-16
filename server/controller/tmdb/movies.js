@@ -34,7 +34,7 @@ popular = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY, 'Popular', options, userId)
+    request.waitData(CATEGORY, 'Popular', false, '', options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Movies popular found!', contents[0].concat(contents[1]))
         }).catch(err => {
@@ -49,7 +49,7 @@ topRated = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY,  'Top rated', options, userId)
+    request.waitData(CATEGORY,  'Top rated', false, '', options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Movies top rated found!', contents[0].concat(contents[1]))
         }).catch(err => {
@@ -64,7 +64,7 @@ upcoming = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY,'Upcoming', options, userId)
+    request.waitData(CATEGORY,'Upcoming', false, '', options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Movies upcoming found!', contents[0].concat(contents[1]))
         }).catch(err => {
@@ -73,14 +73,13 @@ upcoming = (req, res) => {
 }
 
 search = (req, res) => {
-    console.log(req.query.query)
     const options = {
         host: utils.HOST,
         path: PATH_SEARCH + KEY + "&query=" + (req.query.query).replace(/\s/g, '%20')
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY,null, options, userId)
+    request.waitData(CATEGORY,null, true, req.query.query, options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Movies found', contents[0].concat(contents[1]))
         }).catch(err => {
