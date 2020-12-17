@@ -12,7 +12,7 @@ import React from "react";
 import Hidden from "@material-ui/core/Hidden";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import {requestMovies} from "../../../../requests/content/movies";
-import Cards from "../card";
+import Cards from "../cards";
 import ErrorAPI from "../errorAPI";
 import {useSelector} from "react-redux";
 import {requestTV} from "../../../../requests/content/tv";

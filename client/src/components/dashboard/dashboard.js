@@ -19,7 +19,7 @@ import Typography from "@material-ui/core/Typography";
 import {useStyles} from "./styles";
 import {useSelector} from "react-redux";
 import {requestMovies} from "../../requests/content/movies";
-import Cards from "./utility/card";
+import Cards from "./utility/cards";
 import ErrorAPI from "./utility/errorAPI";
 import SearchBar from "./utility/toolbar/searchBar";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -108,7 +108,7 @@ function Dashboard() {
                     <Grid item xs={12} md={8} lg={9}>
                         <Typography
                             component="h2"
-                            variant="h3"
+                            variant="h4"
                             align="center"
                             color="textPrimary"
                             className={classes.category}

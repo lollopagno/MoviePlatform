@@ -9,7 +9,7 @@ import Divider from "@material-ui/core/Divider";
 import CheckIcon from "@material-ui/icons/Check";
 import React, {useState} from "react";
 import {requestMovies} from "../../../../requests/content/movies";
-import Cards from "../card";
+import Cards from "../cards";
 import ErrorAPI from "../errorAPI";
 import {requestTV} from "../../../../requests/content/tv";
 import {requestActors} from "../../../../requests/content/actors";

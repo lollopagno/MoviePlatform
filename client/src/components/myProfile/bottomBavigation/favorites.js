@@ -8,7 +8,7 @@ import {requestRating} from "../../../requests/content/rating";
 import {useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import SearchIcon from '@material-ui/icons/Search';
-import Cards from "../../dashboard/utility/card";
+import Cards from "../../dashboard/utility/cards";
 import {Alert} from "@material-ui/lab";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
