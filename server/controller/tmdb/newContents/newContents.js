@@ -119,7 +119,7 @@ module.exports = {
                 let allData = []
                 let countData = 0
 
-                if (contentsUser === undefined) resolve(allData)
+                if (contentsUser === undefined || contentsUser.length === 0) resolve(allData)
                 else {
                     contentsUser.forEach(content => {
                         allData.push({

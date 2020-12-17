@@ -84,8 +84,8 @@ module.exports = {
             }
         ])
 
-        result = result[0].content
-        if (result.length === 0) {
+        this.result = result[0].content
+        if (this.result.length === 0) {
             return res.status(404).json({
                 success: false,
                 message: 'No contents found!',
@@ -95,17 +95,17 @@ module.exports = {
             let allDataRating = []
             let countData = 0
             const promise = new Promise((resolve) => {
-                result.forEach(content => {
+                this.result.forEach(content => {
                     newContents.searchContentRate(content._contentId, content.value).then(contentUser => {
                         if (contentUser.length !== 0) {
                             allDataRating.push(contentUser[0])
                             countData++
-                            if (countData === result.length) resolve()
+                            if (countData === this.result.length) resolve()
                         } else
                             getContentsRateTmdb(userId, content).then(contentTmdb => {
                                 allDataRating.push(contentTmdb)
                                 countData++
-                                if (countData === result.length) resolve()
+                                if (countData === this.result.length) resolve()
                             })
                         }
                     )
