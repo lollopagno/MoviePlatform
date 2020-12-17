@@ -1,169 +1,129 @@
-import React, {useState} from 'react'
-import {Toolbar} from "@material-ui/core";
+import React, {useEffect, useState} from 'react'
+import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
-import {useStyles} from "./styles";
-import Grid from "@material-ui/core/Grid";
-import ButtonToolbar from "./utility/toolbar/buttonToolbar";
+import clsx from "clsx";
+import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from "@material-ui/core/InputBase";
-import ClearIcon from '@material-ui/icons/Clear';
-import Badge from "@material-ui/core/Badge";
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Account from "./utility/toolbar/account";
+import MenuIcon from "@material-ui/icons/Menu";
 import {Home} from "@material-ui/icons";
+import Badge from "@material-ui/core/Badge";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import Hidden from "@material-ui/core/Hidden";
+import Account from "./utility/toolbar/account";
 import Divider from "@material-ui/core/Divider";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import CheckIcon from '@material-ui/icons/Check';
-import Paper from "@material-ui/core/Paper";
+import Drawer from "@material-ui/core/Drawer";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import DrawerComponent from "./utility/toolbar/drawer";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import {useStyles} from "./styles";
+import {useSelector} from "react-redux";
 import {requestMovies} from "../../requests/content/movies";
 import Cards from "./utility/card";
-import {requestTV} from "../../requests/content/tv";
-import {requestActors} from "../../requests/content/actors";
-import ConnectRefused from "./utility/connectRefused";
-import {useSelector} from "react-redux";
-
-const MOVIES = 'Movies'
-const TV = 'Tv'
-const ACTORS = 'Actors'
+import ErrorAPI from "./utility/errorAPI";
+import SearchBar from "./utility/toolbar/searchBar";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Dashboard() {
 
-    const classes = useStyles();
+    const classes = useStyles()
+
     const [cards, setCards] = useState([]);
     const [category, setCategory] = useState('Movies Popular')
-    const [contentSearch, setContentSearch] = useState('')
+    const [open, setOpen] = useState(false);
+    const [backDrop, setBackdrop] = useState(true)
     const id = useSelector(state => state.user._id)
+
+    useEffect(() => {
+        setCategory("Movies Popular")
+        requestMovies.popular(id).then(res => {
+            setBackdrop(false)
+            setCards(<Cards result={res.data} category={"Movies"}/>)
+        }).catch((err) => {
+            setBackdrop(false)
+            setCards(<ErrorAPI msg={err.response.data.message}/>)
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const toggleDrawer = () => {
+        setOpen(!open);
+    };
 
     const onClickHome = () => {
         window.location.reload()
     }
 
-    const onChangeSearch = (event) => {
-        setContentSearch(event.target.value)
-    }
-
-    const onKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            onClickSearch()
-        }
-    }
-
-    const onClickSearch = () => {
-        setContentSearch('')
-        switch (true) {
-
-            case category.includes(MOVIES):
-                setCategory("Search Movies: " + contentSearch)
-                requestMovies.search(contentSearch, id).then((res) => {
-                    setCards(<Cards result={res.data} category={MOVIES}/>)
-                }).catch((err) => {
-                    setCards(<ConnectRefused msg={err.response.data.message}/>)
-                })
-                break;
-
-            case category.includes(TV):
-                setCategory("Search Tv programs: " + contentSearch)
-                requestTV.search(contentSearch, id).then((res) => {
-                    setCards(<Cards result={res.data} category={TV}/>)
-                }).catch((err) => {
-                    setCards(<ConnectRefused msg={err.response.data.message}/>)
-                })
-                break;
-
-            case category.includes(ACTORS):
-                setCategory("Search Actors: " + contentSearch)
-                requestActors.search(contentSearch, id).then((res) => {
-                    setCards(<Cards result={res.data} category={ACTORS}/>)
-                }).catch((err) => {
-                    setCards(<ConnectRefused msg={err.response.data.message}/>)
-                })
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    const onClickDeleteIcon = () => {
-        setContentSearch('')
-    }
-
     return (
-        <Grid container className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton className={classes.homeIcon} id="account" onClick={onClickHome}>
-                        <Home style={{color: 'white'}}/>
-                    </IconButton>
-                    <ButtonToolbar setCards={setCards} category={setCategory}/>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon/>
-                        </div>
-                        <InputBase
-                            placeholder={category.includes(MOVIES) ? 'Search movies' : category.includes(TV) ? 'Search tv programs' : 'Search actors'}
-                            classes={{root: classes.inputRoot, input: classes.inputInput}}
-                            onChange={onChangeSearch}
-                            onKeyDown={onKeyDown}
-                            value={contentSearch}
-                            inputProps={{'aria-label': 'search '}}
-                            endAdornment={
-                                <InputAdornment position={'end'}>
-                                    <IconButton size="small" className={classes.deleteIcon} onClick={onClickDeleteIcon}
-                                                color={'inherit'}>
-                                        <ClearIcon/>
-                                    </IconButton>
-                                    <Paper>
-                                        <Divider orientation="vertical" className={classes.dividerSearchBar}/>
-                                    </Paper>
-                                    <IconButton size="small" className={classes.checkIcon} onClick={onClickSearch}
-                                                color={'inherit'}>
-                                        <CheckIcon/>
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                        />
+        <React.Fragment>
+            <CssBaseline/>
+
+            <div className={classes.root}>
+                <AppBar
+                    position="absolute"
+                    className={clsx(classes.appBar, open && classes.appBarShift)}
+                >
+                    <Toolbar>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            edge="start"
+                            onClick={toggleDrawer}
+                            className={clsx(
+                                classes.menuButton,
+                                open && classes.menuButtonHidden,
+                            )}
+                        >
+                            <MenuIcon/>
+                        </IconButton>
+                        <IconButton edge='start' id="account" onClick={onClickHome}>
+                            <Home style={{color: 'white'}}/>
+                        </IconButton>
+                        <IconButton edge={'end'} aria-label="show 11 new notifications" color="inherit">
+                            <Badge badgeContent={0} /* todo imposta il numero di notifiche*/ color="secondary">
+                                <NotificationsIcon/>
+                            </Badge>
+                        </IconButton>
+                        <Hidden xsDown implementation="css"><Account/></Hidden>
+                        <SearchBar category={category} setCategory={setCategory} setCards={setCards}/>
+                    </Toolbar>
+                </AppBar>
+                <Drawer
+                    variant="permanent"
+                    classes={{
+                        paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+                    }}
+                    open={open}
+                >
+                    <div className={classes.toolbarIcon}>
+                        <IconButton onClick={toggleDrawer}>
+                            <ChevronLeftIcon/>
+                        </IconButton>
                     </div>
-                    <IconButton className={classes.noticeIcon} aria-label="show 11 new notifications"
-                                color="inherit">
-                        <Badge badgeContent={0} /* todo imposta il numero di notifiche*/ color="secondary">
-                            <NotificationsIcon/>
-                        </Badge>
-                    </IconButton>
-                    <Account/>
-                </Toolbar>
-            </AppBar>
-            <Grid
-                container
-                spacing={0}
-                direction="column"
-                alignItems="center"
-                justify="center"
-                style={{minHeight: '10vh'}}
-            >
-                <Grid item xs={6}>
-                    <Typography gutterBottom variant="subtitle1" className={classes.category}>
-                        {category}
-                    </Typography>
-                </Grid>
-            </Grid>
-            <Grid container justify={'center'}>
-                <Grid item xs={7}>
                     <Divider/>
+                    {<DrawerComponent category={setCategory} setCards={setCards} setBackDrop={setBackdrop}/>}
+                </Drawer>
+                <div className={classes.appBarSpacer}/>
+                <Grid container>
+                    <Grid item xs={12} md={8} lg={9}>
+                        <Typography
+                            component="h2"
+                            variant="h3"
+                            align="center"
+                            color="textPrimary"
+                            className={classes.category}
+                        >
+                            {category}
+                        </Typography>
+                        <Backdrop className={classes.backdrop} open={backDrop}>
+                            <CircularProgress color="inherit" />
+                        </Backdrop>
+                        {cards}
+                    </Grid>
                 </Grid>
-            </Grid>
-            <Grid
-                container
-                spacing={10}
-                direction="row"
-                justify="flex-start"
-                alignItems="flex-start"
-            >
-                {cards}
-            </Grid>
-        </Grid>
+            </div>
+        </React.Fragment>
     );
 }
 

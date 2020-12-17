@@ -8,7 +8,6 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import React, {useState} from "react";
-import {useStyles} from "./styles";
 import history from '../../history'
 import {store} from "../../redux/store";
 import {resetUser} from "../../redux/reducer/userReducer";
@@ -24,6 +23,24 @@ import AddContents from "./bottomBavigation/addContent";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import {useSelector} from "react-redux";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    bottomNavigation: {
+        width: 500,
+        marginTop: theme.spacing(3),
+    },
+    homeIcon: {
+        marginLeft: theme.spacing(1)
+    },
+    divider: {
+        marginTop: theme.spacing(3)
+    }
+}));
+
 
 function MyProfile() {
 

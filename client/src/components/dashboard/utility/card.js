@@ -10,7 +10,7 @@ import {Markup} from 'interweave';
 import Divider from "@material-ui/core/Divider";
 import IMAGE_NOT_FOUND from '../../../resource/image_not_found.png'
 import Alert from "@material-ui/lab/Alert";
-import RatingContent from "./toolbar/ratingContent";
+import RatingContent from "./ratingContent";
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -20,10 +20,6 @@ const useStyles = makeStyles((theme) => ({
     },
     cardContent: {
         flexGrow: 1,
-    },
-    cardGrid: {
-        paddingTop: theme.spacing(8),
-        paddingBottom: theme.spacing(8),
     },
     alertContainer: {
         marginTop: theme.spacing(2),
@@ -41,7 +37,7 @@ function Cards(props) {
                 <CardMedia
                     component={'img'}
                     src={item.img !== null ? item.img : IMAGE_NOT_FOUND}
-                    title={"Img" + item.title !== undefined ? item.title: item.name}
+                    title={"Img" + item.title !== undefined ? item.title : item.name}
                 />
                 <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h6" component="h2">
@@ -72,7 +68,7 @@ function Cards(props) {
     )
 
     return (
-        <Container className={classes.cardGrid} maxWidth="md">
+        <Container maxWidth="md">
             <Grid container spacing={4}>
                 {collection.length > 0 && cards}
                 {collection.length === 0 && (

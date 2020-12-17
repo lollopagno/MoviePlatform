@@ -1,67 +1,66 @@
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {fade} from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+const drawerWidth = 190;
+export const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1
+        display: 'flex',
     },
-    dividerSearchBar:{
-        margin: 0.5,
-        height: 20,
+    appBar: {
+        zIndex: theme.zIndex.drawer + 1,
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
     },
-    category: {
-        marginTop: theme.spacing(4),
-        fontSize: 25,
+    appBarShift: {
+        marginLeft: drawerWidth,
+        width: `calc(100% - ${drawerWidth}px)`,
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
     },
-    homeIcon: {
-        marginLeft: theme.spacing(34),
+    menuButton: {
+        marginRight: 36,
     },
-    search: {
+    menuButtonHidden: {
+        display: 'none',
+    },
+    drawerPaper: {
         position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
-        },
-        marginRight: theme.spacing(2),
-        marginLeft: 0,
-        width: '100%',
+        whiteSpace: 'nowrap',
+        width: drawerWidth,
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    drawerPaperClose: {
+        overflowX: 'hidden',
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        width: theme.spacing(7),
         [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(2),
-            width: 'auto',
+            width: theme.spacing(9),
         },
     },
-    searchIcon: {
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
+    toolbarIcon: {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
+        padding: '0 8px',
+        ...theme.mixins.toolbar,
     },
-    inputRoot: {
-        color: 'inherit',
+    appBarSpacer: theme.mixins.toolbar,
+    category: {
+        marginTop: theme.spacing(10),
+        marginBottom: theme.spacing(3)
     },
-    inputInput: {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '28ch',
-        },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
     },
-    noticeIcon: {
-        marginLeft: theme.spacing(10)
-    },
-    checkIcon: {
-        marginLeft: theme.spacing(1)
-    },
-    deleteIcon: {
-        marginRight: theme.spacing(1)
-    }
 }));
-
-export {useStyles}

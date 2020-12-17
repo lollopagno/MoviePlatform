@@ -10,14 +10,21 @@ import Button from "@material-ui/core/Button";
 import SearchIcon from '@material-ui/icons/Search';
 import Cards from "../../dashboard/utility/card";
 import {Alert} from "@material-ui/lab";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
     switchContainer: {
-        marginTop: theme.spacing(2)
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(3)
     },
     alert: {
         marginTop: theme.spacing(2)
-    }
+    },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+    },
 }));
 
 function Favorites() {
@@ -31,18 +38,22 @@ function Favorites() {
     });
     const [cards, setCards] = useState([])
     const [alert, setAlert] = useState(null)
+    const [backDrop, setBackdrop] = useState(false)
 
     const onChangeSwitch = (event) => {
         setState({...state, [event.target.name]: event.target.checked});
     };
 
     const onClickSearch = () => {
+        setBackdrop(true)
         requestRating.search(id, state.movies, state.tvs, state.actors).then((res) => {
             setAlert(null)
             setCards(<Cards result={res.data}/>)
+            setBackdrop(false)
         }).catch(err => {
             setCards([])
             setAlert(err.response.data.message)
+            setBackdrop(false)
         })
     }
 
@@ -72,6 +83,9 @@ function Favorites() {
                     Search
                 </Button>
             </Grid>
+            <Backdrop className={classes.backdrop} open={backDrop}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
             {cards}
             {alert && <Grid container justify={'center'}>
                 <Alert severity={'error'} variant="standard" className={classes.alert}>

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {requestRating} from "../../../../requests/content/rating";
+import {requestRating} from "../../../requests/content/rating";
 import {useSelector} from "react-redux";
 import CardActions from "@material-ui/core/CardActions";
 import Rating from "@material-ui/lab/Rating";

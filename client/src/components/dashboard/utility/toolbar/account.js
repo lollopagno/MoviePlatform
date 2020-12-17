@@ -8,6 +8,13 @@ import {resetUser} from "../../../../redux/reducer/userReducer";
 import {deleteToken} from "../../../../redux/reducer/tokenReducer";
 import history from "../../../../history";
 import {setAlert} from "../../../../redux/reducer/signInReducer";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+const useStyles = makeStyles((theme) => ({
+  account : {
+      marginLeft: theme.spacing(1)
+  }
+}))
 
 const sectionsLogin = [
     {id: 0, value: 'Account'},
@@ -19,6 +26,8 @@ const ID_MY_PROFILE = '1'
 const ID_LOG_OUT = '2'
 
 function Account() {
+
+    const classes = useStyles()
 
     // State for Menu item account
     const [anchorEl, setAnchorEl] = useState(null);
@@ -48,7 +57,7 @@ function Account() {
 
     return (
         <div>
-            <IconButton edge={'end'} id="account" onClick={onClick}>
+            <IconButton edge={'end'} id="account" onClick={onClick} className={classes.account}>
                 <AccountCircle style={{color: 'white'}}/>
             </IconButton>
             <Menu
