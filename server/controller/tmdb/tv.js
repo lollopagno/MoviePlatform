@@ -30,8 +30,8 @@ popular = (req, res) => {
     request.waitData(CATEGORY, 'Popular',false, '', options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Program tv popular found!', contents[0].concat(contents[1]))
-        }).catch(err => {
-        utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+        }).catch(() => {
+        utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
     })
 }
 
@@ -45,8 +45,8 @@ topRated = (req, res) => {
     request.waitData(CATEGORY, 'Top rated',false, '', options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Program tv popular found!', contents[0].concat(contents[1]))
-        }).catch(err => {
-        utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+        }).catch(() => {
+        utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
     })
 }
 
@@ -60,8 +60,8 @@ search = (req, res) => {
     request.waitData(CATEGORY, null,true, req.query.query, options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Program tv found!', contents[0].concat(contents[1]))
-        }).catch(err => {
-        utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+        }).catch(() => {
+        utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
     })
 }
 
