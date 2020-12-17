@@ -33,6 +33,20 @@ export const useStyles = makeStyles((theme) => ({
             width: 'auto',
         },
     },
+    searchMobile: {
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.15),
+        '&:hover': {
+            backgroundColor: fade(theme.palette.common.white, 0.25),
+        },
+        marginLeft: 25,
+        width: '20ch',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(3),
+            width: 'auto',
+        },
+    },
     searchIcon: {
         padding: theme.spacing(0, 2),
         height: '100%',
@@ -70,7 +84,7 @@ const MOVIES = 'Movies'
 const TV = 'TV'
 const ACTORS = 'Actors'
 
-function SearchBar(props){
+function SearchBar(props) {
 
     const classes = useStyles()
     const id = useSelector(state => state.user._id)
@@ -126,37 +140,54 @@ function SearchBar(props){
         setContentSearch('')
     }
 
-    return(
-        <div className={classes.search}>
-            <div className={classes.searchIcon}>
-                <SearchIcon/>
-            </div>
-            <InputBase
-                placeholder={props.category.includes(MOVIES) ? 'Search movies' : props.category.includes(TV) ? 'Search tv programs' : 'Search actors'}
-                classes={{root: classes.inputRoot, input: classes.inputInput}}
-                onChange={onChangeSearch}
-                onKeyDown={onKeyDown}
-                value={contentSearch}
-                inputProps={{'aria-label': 'search '}}
-                endAdornment={
-                    <Hidden xsDown implementation="css">
-                        <InputAdornment position={'end'}>
-                            <IconButton size="small" className={classes.deleteIcon}
-                                        onClick={onClickDeleteIcon}
-                                        color={'inherit'}>
-                                <ClearIcon/>
-                            </IconButton>
-                            <Paper>
-                                <Divider orientation="vertical" className={classes.dividerSearchBar}/>
-                            </Paper>
-                            <IconButton size="small" className={classes.checkIcon} onClick={onClickSearch}
-                                        color={'inherit'}>
-                                <CheckIcon/>
-                            </IconButton>
-                        </InputAdornment>
-                    </Hidden>
-                }
-            />
+    return (
+        <div>
+            <Hidden xsDown implementation="css">
+                <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                        <SearchIcon/>
+                    </div>
+                    <InputBase
+                        placeholder={props.category.includes(MOVIES) ? 'Search movies' : props.category.includes(TV) ? 'Search tv programs' : 'Search actors'}
+                        classes={{root: classes.inputRoot, input: classes.inputInput}}
+                        onChange={onChangeSearch}
+                        onKeyDown={onKeyDown}
+                        value={contentSearch}
+                        inputProps={{'aria-label': 'search '}}
+                        endAdornment={
+                            <InputAdornment position={'end'}>
+                                <IconButton size="small" className={classes.deleteIcon}
+                                            onClick={onClickDeleteIcon}
+                                            color={'inherit'}>
+                                    <ClearIcon/>
+                                </IconButton>
+                                <Paper>
+                                    <Divider orientation="vertical" className={classes.dividerSearchBar}/>
+                                </Paper>
+                                <IconButton size="small" className={classes.checkIcon} onClick={onClickSearch}
+                                            color={'inherit'}>
+                                    <CheckIcon/>
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                    />
+                </div>
+            </Hidden>
+            <Hidden smUp implementation="css">
+                <div className={classes.searchMobile}>
+                    <div className={classes.searchIcon}>
+                        <SearchIcon/>
+                    </div>
+                    <InputBase
+                        placeholder={props.category.includes(MOVIES) ? 'Search movies' : props.category.includes(TV) ? 'Search tv programs' : 'Search actors'}
+                        classes={{root: classes.inputRoot, input: classes.inputInput}}
+                        onChange={onChangeSearch}
+                        onKeyDown={onKeyDown}
+                        value={contentSearch}
+                        inputProps={{'aria-label': 'search '}}
+                    />
+                </div>
+            </Hidden>
         </div>
     )
 }
