@@ -58,7 +58,6 @@ function Dashboard() {
     return (
         <React.Fragment>
             <CssBaseline/>
-
             <div className={classes.root}>
                 <AppBar
                     position="absolute"

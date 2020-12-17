@@ -27,7 +27,7 @@ checkTokenEmail = (req, res) => {
                         user.isVerified = true;
                         user.save(function (err) {
                             if (err) utils.requestJsonFailed(res, codeStatus.serverError, err.message)
-                            else utils.requestJsonSuccess(res, codeStatus.OK, 'The account has been verified. Please sign in.', utils.getCleanUser(user), '')
+                            else utils.requestJsonSuccess(res, codeStatus.OK, 'The account has been verified. Please sign in.', utils.getCleanUser(user))
                         })
                     }
                 })

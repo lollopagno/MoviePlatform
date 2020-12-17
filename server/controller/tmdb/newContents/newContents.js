@@ -132,7 +132,7 @@ module.exports = {
                             popularity: content.category === 'Actors' ? content.vote : undefined,
                             department: content.department !== undefined? content.department : undefined,
                             rating: value,
-                            img: `data:` + content.img.contentType + `;base64,` + new Buffer.from(content.img.data).toString('base64')
+                            img: content.img.data !== undefined ? `data:` + content.img.contentType + `;base64,` + new Buffer.from(content.img.data).toString('base64') : null
                         })
                         countData ++
                         if(countData === contentsUser.length) resolve(allData)
