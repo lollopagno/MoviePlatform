@@ -61,7 +61,7 @@ function Cards(props) {
                 </CardContent>
                 <Divider variant={"middle"}/>
                 <RatingContent key={item._id} id={item._id}
-                               category={item.category !== undefined ? item.category : props.category}/>
+                               category={item.category !== undefined ? item.category : props.category} value={item.rating}/>
             </Card>
         </Grid>
     )
