@@ -154,9 +154,9 @@ function MoviesTvContents(props) {
                         value={valueSelect}
                         onChange={onChangeSelect}
                     >
-                        {(props.category === 'Movies' || props.category === 'Tv') &&
+                        {(props.category === 'Movies' || props.category === 'TV') &&
                         <MenuItem value={1}>Popular</MenuItem>}
-                        {(props.category === 'Movies' || props.category === 'Tv') &&
+                        {(props.category === 'Movies' || props.category === 'TV') &&
                         <MenuItem value={2}>Top Rated</MenuItem>}
                         {props.category === 'Movies' && <MenuItem value={3}>Upcoming</MenuItem>}
                     </Select>

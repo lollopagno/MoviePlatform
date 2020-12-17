@@ -59,7 +59,7 @@ module.exports = {
             })
 
         const eqMovies = {$eq: ['$$item.category', isMovies === 'true' ? "Movies" : '']}
-        const eqTvs = {$eq: ['$$item.category', isTvs === 'true' ? "Tv" : '']}
+        const eqTvs = {$eq: ['$$item.category', isTvs === 'true' ? "TV" : '']}
         const eqActors = {$eq: ['$$item.category', isActors === 'true' ? "Actors" : '']}
 
         let result = await RatingSchema.aggregate([
@@ -97,16 +97,16 @@ module.exports = {
             const promise = new Promise((resolve) => {
                 result.forEach(content => {
                     newContents.searchContentRate(content._contentId, content.value).then(contentUser => {
-                            if (contentUser.length !== 0) {
-                                allDataRating.push(contentUser[0])
+                        if (contentUser.length !== 0) {
+                            allDataRating.push(contentUser[0])
+                            countData++
+                            if (countData === result.length) resolve()
+                        } else
+                            getContentsRateTmdb(userId, content).then(contentTmdb => {
+                                allDataRating.push(contentTmdb)
                                 countData++
                                 if (countData === result.length) resolve()
-                            } else
-                                getContentsRateTmdb(userId, content).then(contentTmdb => {
-                                    allDataRating.push(contentTmdb)
-                                    countData++
-                                    if (countData === result.length) resolve()
-                                })
+                            })
                         }
                     )
                 })
@@ -136,8 +136,8 @@ function getContentsRateTmdb(userId, content) {
                 path: '/3/movie/' + content._contentId + '?api_key=' + KEY
             };
             break;
-        case 'Tv':
-            CATEGORY = 'Tv'
+        case 'TV':
+            CATEGORY = 'TV'
             options = {
                 host: utils.HOST,
                 path: '/3/tv/' + content._contentId + '?api_key=' + KEY

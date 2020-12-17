@@ -38,7 +38,7 @@ async function getInfo(CATEGORY, options_requests, userId) {
                         rating.search(userId, content.id, CATEGORY).then(value => {
 
                             if (CATEGORY === 'Movies') contents.push(dataMovies(content, value))
-                            else if(CATEGORY === 'Tv') contents.push(dataTvs(content, value))
+                            else if(CATEGORY === 'TV') contents.push(dataTvs(content, value))
                             else if(CATEGORY === 'Actors') contents.push(dataActors(content, value))
 
                             countData++

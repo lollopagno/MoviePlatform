@@ -1,7 +1,7 @@
 const KEY = require('../../utils/env').apiKeyTmdb
 const utils = require('../../utils/commons')
 const codeStatus = require('../../utils/status')
-const CATEGORY = 'Tv'
+const CATEGORY = 'TV'
 
 const request = require('./request')
 

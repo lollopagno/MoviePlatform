@@ -18,7 +18,6 @@ function getDetails(options, userId, category, callback) {
 
                 const content = JSON.parse(allData)
                 search(userId, content.id, category).then(value => {
-
                     if (category !== 'Actors') {
                         callback({
                             _id: content.id,
@@ -47,7 +46,7 @@ function getDetails(options, userId, category, callback) {
             callback([])
         }
     })
-    req.on("error", (err) => {
+    req.on("error", () => {
         callback([])
     })
 

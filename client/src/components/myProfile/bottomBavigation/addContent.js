@@ -52,7 +52,7 @@ function AddContents() {
                 </Select>
             </FormControl>
             {valueSelect === 1 && <MoviesTvContents category={'Movies'}/>}
-            {valueSelect === 2 && <MoviesTvContents category={'Tv'}/>}
+            {valueSelect === 2 && <MoviesTvContents category={'TV'}/>}
             {valueSelect === 3 && <Actors category={'Actors'}/>}
         </Container>
     )
