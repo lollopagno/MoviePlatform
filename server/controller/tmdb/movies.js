@@ -36,9 +36,9 @@ popular = (req, res) => {
     const userId = req.query.userId
     request.waitData(contents.MOVIES, 'Popular', false, '', options, userId)
         .then(contents => {
-            utils.requestJsonSuccess(res, codeStatus.OK, 'Movies popular found!', contents[0].concat(contents[1]))
+            return utils.requestJsonSuccess(res, codeStatus.OK, 'Movies popular found!', contents[0].concat(contents[1]))
         }).catch(() => {
-        utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
+        return utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
     })
 }
 
@@ -51,9 +51,9 @@ topRated = (req, res) => {
     const userId = req.query.userId
     request.waitData(contents.MOVIES,  'Top rated', false, '', options, userId)
         .then(contents => {
-            utils.requestJsonSuccess(res, codeStatus.OK, 'Movies top rated found!', contents[0].concat(contents[1]))
+            return utils.requestJsonSuccess(res, codeStatus.OK, 'Movies top rated found!', contents[0].concat(contents[1]))
         }).catch(() => {
-        utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
+        return utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
     })
 }
 
@@ -66,9 +66,9 @@ upcoming = (req, res) => {
     const userId = req.query.userId
     request.waitData(contents.MOVIES,'Upcoming', false, '', options, userId)
         .then(contents => {
-            utils.requestJsonSuccess(res, codeStatus.OK, 'Movies upcoming found!', contents[0].concat(contents[1]))
+            return utils.requestJsonSuccess(res, codeStatus.OK, 'Movies upcoming found!', contents[0].concat(contents[1]))
         }).catch(() => {
-        utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
+        return utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
     })
 }
 
@@ -81,9 +81,9 @@ search = (req, res) => {
     const userId = req.query.userId
     request.waitData(contents.MOVIES,null, true, req.query.query, options, userId)
         .then(contents => {
-            utils.requestJsonSuccess(res, codeStatus.OK, 'Movies found', contents[0].concat(contents[1]))
+            return  utils.requestJsonSuccess(res, codeStatus.OK, 'Movies found', contents[0].concat(contents[1]))
         }).catch(() => {
-        utils.requestJsonFailed(res, codeStatus.badRequest,'No internet connection!')
+        return utils.requestJsonFailed(res, codeStatus.badRequest,'No internet connection!')
     })
 }
 

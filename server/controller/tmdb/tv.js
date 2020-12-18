@@ -27,11 +27,11 @@ popular = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(contents.PROGRAM_TV, 'Popular',false, '', options, userId)
+    request.waitData(contents.PROGRAM_TV, 'Popular', false, '', options, userId)
         .then(contents => {
-            utils.requestJsonSuccess(res, codeStatus.OK, 'Program tv popular found!', contents[0].concat(contents[1]))
+            return utils.requestJsonSuccess(res, codeStatus.OK, 'Program tv popular found!', contents[0].concat(contents[1]))
         }).catch(() => {
-        utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
+        return utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
     })
 }
 
@@ -42,11 +42,11 @@ topRated = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(contents.PROGRAM_TV, 'Top rated',false, '', options, userId)
+    request.waitData(contents.PROGRAM_TV, 'Top rated', false, '', options, userId)
         .then(contents => {
-            utils.requestJsonSuccess(res, codeStatus.OK, 'Program tv popular found!', contents[0].concat(contents[1]))
+            return utils.requestJsonSuccess(res, codeStatus.OK, 'Program tv popular found!', contents[0].concat(contents[1]))
         }).catch(() => {
-        utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
+        return utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
     })
 }
 
@@ -57,11 +57,11 @@ search = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(contents.PROGRAM_TV, null,true, req.query.query, options, userId)
+    request.waitData(contents.PROGRAM_TV, null, true, req.query.query, options, userId)
         .then(contents => {
-            utils.requestJsonSuccess(res, codeStatus.OK, 'Program tv found!', contents[0].concat(contents[1]))
+            return utils.requestJsonSuccess(res, codeStatus.OK, 'Program tv found!', contents[0].concat(contents[1]))
         }).catch(() => {
-        utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
+        return utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
     })
 }
 

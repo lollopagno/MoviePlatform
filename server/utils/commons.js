@@ -6,14 +6,14 @@ module.exports = {
     HOST: 'api.themoviedb.org',
     IMAGE: 'https://image.tmdb.org/t/p/w500/',
 
-    requestJsonFailed: function (res, statusCode, message) {
+    requestJsonFailed: (res, statusCode, message) => {
         return res.status(statusCode).json({
             success: false,
             message: message,
         })
     },
 
-    requestJsonSuccess: function (res, statusCode, message, data, token) {
+    requestJsonSuccess: (res, statusCode, message, data, token) => {
         return res.status(statusCode).json({
             success: true,
             message: message,
@@ -27,7 +27,7 @@ module.exports = {
      * @param user contain data for TOKEN
      * @returns {undefined|*} json TOKEN
      */
-    generateToken: function (user) {
+    generateToken: (user) => {
         const tokenData = {
             _id: user._id.toString(),
             name: user.name,
@@ -40,10 +40,8 @@ module.exports = {
         });
     },
 
-    getCleanUser: function (user) {
-        if (!user) {
-            return {};
-        }
+    getCleanUser: (user) => {
+        if (!user) return {};
 
         const userClean = user.toJSON();
 

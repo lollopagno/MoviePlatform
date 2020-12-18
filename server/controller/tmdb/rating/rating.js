@@ -5,20 +5,17 @@ const requests = require('../rating/requests')
 const KEY = require('../../../utils/env').apiKeyTmdb
 
 const utils = require('../../../utils/commons')
+const codeStatus = require('../../../utils/status')
 const contents = require('../../../utils/contents')
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId
 
 module.exports = {
 
-    update: async function (req, res) {
+    update: async (req, res) => {
 
         const {userId, contentId, category, value} = req.body.params
-        if (!userId || !contentId || !category || !value)
-            return res.status(404).json({
-                success: false,
-                message: 'Must pass params',
-            })
+        if (!userId || !contentId || !category || !value) return utils.requestJsonFailed(res, codeStatus.notFound, 'Must pass params')
 
         const updated = await RatingSchema.findOneAndUpdate(
             {'_userId': userId, 'content._contentId': contentId},
@@ -38,26 +35,20 @@ module.exports = {
                         }
                     }
                 })
+            // todo aggiungere un controllo di errore?
             console.log("[CONTENT ADDED]")
-            return res.status(200).json({
-                success: true
-            })
+            return utils.requestJsonSuccess(res, codeStatus.OK)
+
         } else {
             console.log("[CONTENT UPDATED]")
-            return res.status(200).json({
-                success: true
-            })
+            return utils.requestJsonSuccess(res, codeStatus.OK)
         }
     },
 
-    searchAll: async function (req, res) {
+    searchAll: async (req, res) => {
 
         const {userId, isMovies, isTvs, isActors} = req.query
-        if (!userId || !isMovies || !isTvs || !isActors)
-            return res.status(404).json({
-                success: false,
-                message: 'Must pass params',
-            })
+        if (!userId || !isMovies || !isTvs || !isActors) return utils.requestJsonFailed(res, codeStatus.notFound, 'Must pass params')
 
         const eqMovies = {$eq: ['$$item.category', isMovies === 'true' ? contents.MOVIES : '']} //todo aggiungere null
         const eqTvs = {$eq: ['$$item.category', isTvs === 'true' ? contents.PROGRAM_TV : '']}
@@ -86,18 +77,13 @@ module.exports = {
         ])
 
         this.result = result[0].content
-        if (this.result.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: 'No contents found!',
-            })
-        } else {
+        if (this.result.length === 0) return utils.requestJsonFailed(res, codeStatus.notFound, 'No contents found!')
 
-            let allDataRating = []
-            let countData = 0
-            const promise = new Promise((resolve) => {
-                this.result.forEach(content => {
-                    newContents.searchContentRate(content._contentId, content.value).then(contentUser => {
+        let allDataRating = []
+        let countData = 0
+        const promise = new Promise((resolve) => {
+            this.result.forEach(content => {
+                newContents.searchContentRate(content._contentId, content.value).then(contentUser => {
                         if (contentUser.length !== 0) {
                             allDataRating.push(contentUser[0])
                             countData++
@@ -108,20 +94,15 @@ module.exports = {
                                 countData++
                                 if (countData === this.result.length) resolve()
                             })
-                        }
-                    )
-                })
+                    }
+                )
+            })
 
-            })
-            promise.then(() => {
-                return res.status(200).json({
-                    success: true,
-                    message: 'Contents found!',
-                    data: allDataRating
-                })
-            })
-        }
-    },
+        })
+        promise.then(() => {
+            return utils.requestJsonSuccess(res, codeStatus.OK, 'Contents found!', allDataRating)
+        })
+    }
 }
 
 function getContentsRateTmdb(userId, content) {

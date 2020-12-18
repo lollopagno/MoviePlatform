@@ -118,7 +118,7 @@ function Actors(props) {
                             required
                             fullWidth
                             id="title"
-                            label="Title"
+                            label="Name"
                             autoFocus
                             value={field.title}
                             InputProps={{

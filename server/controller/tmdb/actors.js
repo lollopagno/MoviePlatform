@@ -19,9 +19,9 @@ popular = (req, res) => {
     const userId = req.query.userId
     request.waitData(contents.ACTORS, null, false, '', options, userId)
         .then(contents => {
-            utils.requestJsonSuccess(res, codeStatus.OK, 'Actors found!', contents[0].concat(contents[1]))
+            return  utils.requestJsonSuccess(res, codeStatus.OK, 'Actors found!', contents[0].concat(contents[1]))
         }).catch(() => {
-        utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
+        return utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
     })
 }
 
@@ -34,9 +34,9 @@ search = (req, res) => {
     const userId = req.query.userId
     request.waitData(contents.ACTORS, null,true, req.query.query, options, userId)
         .then(contents => {
-            utils.requestJsonSuccess(res, codeStatus.OK, 'Actors found!', contents[0].concat(contents[1]))
+            return utils.requestJsonSuccess(res, codeStatus.OK, 'Actors found!', contents[0].concat(contents[1]))
         }).catch(() => {
-        utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
+        return utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
     })
 }
 

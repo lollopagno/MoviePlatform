@@ -9,7 +9,7 @@ const contents = require('../../../utils/contents')
 
 module.exports = {
 
-    added: function (req, res) {
+    added: (req, res) => {
 
         let {_userId, category} = req.body
 
@@ -29,8 +29,8 @@ module.exports = {
             })
 
             newContents.save(function (err, content) {
-                if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
-                utils.requestJsonSuccess(res, codeStatus.OK, 'The content ' + content.title + ' has been added.', content)
+                if (err) return utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+                return utils.requestJsonSuccess(res, codeStatus.OK, 'The content ' + content.title + ' has been added.', content)
             })
 
         } else {
@@ -48,40 +48,36 @@ module.exports = {
             })
 
             newContents.save(function (err, content) {
-                if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
-                else utils.requestJsonSuccess(res, codeStatus.OK, 'The content ' + content.title + ' has been added.', content)
+                if (err) return utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
+                return utils.requestJsonSuccess(res, codeStatus.OK, 'The content ' + content.title + ' has been added.', content)
             })
         }
     },
 
-    updated: function (req, res) {
+    updated: (req, res) => {
 
-        if (!req.file) utils.requestJsonSuccess(res, codeStatus.serverError, 'File was not found.')
-        else {
-            const _id = req.headers['_id']
-            const fileImg = req.file
+        if (!req.file) return utils.requestJsonSuccess(res, codeStatus.serverError, 'File was not found.')
+        const _id = req.headers['_id']
+        const fileImg = req.file
 
-            NewContentsSchema.findOneAndUpdate({_id: _id}, {
-                $set: {'img.data': fs.readFileSync(fileImg.path), 'img.contentType': fileImg.mimetype}
-            }, {new: true}, function (err, content) {
-                if (err) utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
-                else {
+        NewContentsSchema.findOneAndUpdate({_id: _id}, {
+            $set: {'img.data': fs.readFileSync(fileImg.path), 'img.contentType': fileImg.mimetype}
+        }, {new: true}, (err, content) => {
+            if (err) return utils.requestJsonFailed(res, codeStatus.badRequest, err.message)
 
-                    // Delete image on directory server
-                    fs.unlink(fileImg.path, err => {
-                        if(err) console.log(err.message)
-                    })
-                    utils.requestJsonSuccess(res, codeStatus.OK, 'The content ' + content.title + ' has been added.')
-                }
+            // Delete image on directory server
+            fs.unlink(fileImg.path, err => {
+                if (err) {}
             })
-        }
+            return utils.requestJsonSuccess(res, codeStatus.OK, 'The content ' + content.title + ' has been added.')
+        })
     },
 
-    searchContentToShow: async function (CATEGORY, SECTION, isSearch, query, userId) {
+    searchContentToShow: async (CATEGORY, SECTION, isSearch, query, userId) => {
         return new Promise(resolve => {
 
-            let searchQuery= ''
-            if(isSearch) searchQuery = {$and: [{'category': CATEGORY}, {'title' : { $regex : new RegExp(query, "i") }}]}
+            let searchQuery = ''
+            if (isSearch) searchQuery = {$and: [{'category': CATEGORY}, {'title': {$regex: new RegExp(query, "i")}}]}
             else searchQuery = {$and: [{'category': CATEGORY}, {'section': SECTION}]}
 
             NewContentsSchema.find(searchQuery, (err, contentsUser) => {
@@ -114,7 +110,7 @@ module.exports = {
         })
     },
 
-    searchContentRate: async function(contentId, value) {
+    searchContentRate: async (contentId, value) => {
         return new Promise(resolve => {
             NewContentsSchema.find({_id: contentId}, (err, contentsUser) => {
                 let allData = []
@@ -126,17 +122,17 @@ module.exports = {
                         allData.push({
                             _id: content._id,
                             category: content.category,
-                            title : content.title,
-                            date : content.date !== undefined? content.date.getFullYear() + '-' + content.date.getMonth() + "-" + content.date.getDate(): undefined,
+                            title: content.title,
+                            date: content.date !== undefined ? content.date.getFullYear() + '-' + content.date.getMonth() + "-" + content.date.getDate() : undefined,
                             language: content.language,
                             vote: content.category !== contents.ACTORS ? content.vote : undefined,
                             popularity: content.category === contents.ACTORS ? content.vote : undefined,
-                            department: content.department !== undefined? content.department : undefined,
+                            department: content.department !== undefined ? content.department : undefined,
                             rating: value,
                             img: content.img.data !== undefined ? `data:` + content.img.contentType + `;base64,` + new Buffer.from(content.img.data).toString('base64') : null
                         })
-                        countData ++
-                        if(countData === contentsUser.length) resolve(allData)
+                        countData++
+                        if (countData === contentsUser.length) resolve(allData)
                     })
                 }
             })

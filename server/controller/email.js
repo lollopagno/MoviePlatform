@@ -42,13 +42,12 @@ validationEmail = (req, res) => {
                 message: `Email invalid. ${err}`,
                 email: false
             })
-        } else {
-            return res.status(200).json({
-                success: true,
-                message: 'Valid email',
-                email: true
-            })
         }
+        return res.status(200).json({
+            success: true,
+            message: 'Valid email',
+            email: true
+        })
     })
 }
 
