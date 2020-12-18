@@ -1,5 +1,6 @@
 const https = require('https');
 const utils = require('../../../utils/commons')
+const contents = require('../../../utils/contents')
 const RatingSchema = require('../../../model/rating')
 
 function getDetails(options, userId, category, callback) {
@@ -18,10 +19,10 @@ function getDetails(options, userId, category, callback) {
 
                 const content = JSON.parse(allData)
                 search(userId, content.id, category).then(value => {
-                    if (category !== 'Actors') {
+                    if (category !== contents.ACTORS) {
                         callback({
                             _id: content.id,
-                            title: category === 'Movies'? content.original_title: content.original_name,
+                            title: category === contents.MOVIES? content.original_title: content.original_name,
                             date: content.release_date,
                             img: content.poster_path !== null ? utils.IMAGE + content.poster_path : null,
                             language: content.original_language,

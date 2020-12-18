@@ -2,7 +2,7 @@ const KEY = require('../../utils/env').apiKeyTmdb
 
 const utils = require('../../utils/commons')
 const codeStatus = require('../../utils/status')
-const CATEGORY = 'Movies'
+const contents = require('../../utils/contents')
 
 const request = require('./request')
 
@@ -34,7 +34,7 @@ popular = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY, 'Popular', false, '', options, userId)
+    request.waitData(contents.MOVIES, 'Popular', false, '', options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Movies popular found!', contents[0].concat(contents[1]))
         }).catch(() => {
@@ -49,7 +49,7 @@ topRated = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY,  'Top rated', false, '', options, userId)
+    request.waitData(contents.MOVIES,  'Top rated', false, '', options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Movies top rated found!', contents[0].concat(contents[1]))
         }).catch(() => {
@@ -64,7 +64,7 @@ upcoming = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY,'Upcoming', false, '', options, userId)
+    request.waitData(contents.MOVIES,'Upcoming', false, '', options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Movies upcoming found!', contents[0].concat(contents[1]))
         }).catch(() => {
@@ -79,7 +79,7 @@ search = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY,null, true, req.query.query, options, userId)
+    request.waitData(contents.MOVIES,null, true, req.query.query, options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Movies found', contents[0].concat(contents[1]))
         }).catch(() => {

@@ -3,6 +3,7 @@ const https = require('https');
 const rating = require('./rating/requests')
 const newContents = require('../tmdb/newContents/newContents')
 const utils = require('../../utils/commons')
+const categoryContents = require('../../utils/contents')
 
 module.exports = {
 
@@ -15,7 +16,7 @@ module.exports = {
     },
 }
 
-async function getInfo(CATEGORY, options_requests, userId) {
+async function getInfo(category, options_requests, userId) {
 
     return new Promise((resolve, reject) => {
         const req = https.get(options_requests, result => {
@@ -35,11 +36,11 @@ async function getInfo(CATEGORY, options_requests, userId) {
                     if (data.length === 0) resolve(contents)
                     data.forEach((content) => {
 
-                        rating.search(userId, content.id, CATEGORY).then(value => {
+                        rating.search(userId, content.id, category).then(value => {
 
-                            if (CATEGORY === 'Movies') contents.push(dataMovies(content, value))
-                            else if(CATEGORY === 'TV') contents.push(dataTvs(content, value))
-                            else if(CATEGORY === 'Actors') contents.push(dataActors(content, value))
+                            if (category === categoryContents.MOVIES) contents.push(dataMovies(content, value))
+                            else if(category === categoryContents.PROGRAM_TV) contents.push(dataTvs(content, value))
+                            else if(category === categoryContents.ACTORS) contents.push(dataActors(content, value))
 
                             countData++
                             if (data.length === countData) resolve(contents)

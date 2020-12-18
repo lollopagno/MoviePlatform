@@ -1,8 +1,8 @@
 const KEY = require('../../utils/env').apiKeyTmdb
 
 const utils = require('../../utils/commons')
+const contents = require('../../utils/contents')
 const codeStatus = require('../../utils/status')
-const CATEGORY = 'Actors'
 
 const request = require('./request')
 
@@ -17,7 +17,7 @@ popular = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY, null, false, '', options, userId)
+    request.waitData(contents.ACTORS, null, false, '', options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Actors found!', contents[0].concat(contents[1]))
         }).catch(() => {
@@ -32,7 +32,7 @@ search = (req, res) => {
     };
 
     const userId = req.query.userId
-    request.waitData(CATEGORY, null,true, req.query.query, options, userId)
+    request.waitData(contents.ACTORS, null,true, req.query.query, options, userId)
         .then(contents => {
             utils.requestJsonSuccess(res, codeStatus.OK, 'Actors found!', contents[0].concat(contents[1]))
         }).catch(() => {

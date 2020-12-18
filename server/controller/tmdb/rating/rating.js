@@ -5,6 +5,7 @@ const requests = require('../rating/requests')
 const KEY = require('../../../utils/env').apiKeyTmdb
 
 const utils = require('../../../utils/commons')
+const contents = require('../../../utils/contents')
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId
 
@@ -58,9 +59,9 @@ module.exports = {
                 message: 'Must pass params',
             })
 
-        const eqMovies = {$eq: ['$$item.category', isMovies === 'true' ? "Movies" : '']}
-        const eqTvs = {$eq: ['$$item.category', isTvs === 'true' ? "TV" : '']}
-        const eqActors = {$eq: ['$$item.category', isActors === 'true' ? "Actors" : '']}
+        const eqMovies = {$eq: ['$$item.category', isMovies === 'true' ? contents.MOVIES : '']} //todo aggiungere null
+        const eqTvs = {$eq: ['$$item.category', isTvs === 'true' ? contents.PROGRAM_TV : '']}
+        const eqActors = {$eq: ['$$item.category', isActors === 'true' ? contents.ACTORS : '']}
 
         let result = await RatingSchema.aggregate([
 
@@ -129,22 +130,22 @@ function getContentsRateTmdb(userId, content) {
     let options = {}
 
     switch (content.category) {
-        case 'Movies':
-            CATEGORY = 'Movies'
+        case contents.MOVIES:
+            CATEGORY = contents.MOVIES
             options = {
                 host: utils.HOST,
                 path: '/3/movie/' + content._contentId + '?api_key=' + KEY
             };
             break;
-        case 'TV':
-            CATEGORY = 'TV'
+        case contents.PROGRAM_TV:
+            CATEGORY = contents.PROGRAM_TV
             options = {
                 host: utils.HOST,
                 path: '/3/tv/' + content._contentId + '?api_key=' + KEY
             };
             break;
-        case 'Actors':
-            CATEGORY = 'Actors'
+        case contents.ACTORS:
+            CATEGORY = contents.ACTORS
             options = {
                 host: utils.HOST,
                 path: '/3/person/' + content._contentId + '?api_key=' + KEY

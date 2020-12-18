@@ -5,6 +5,7 @@ const NewContentsSchema = require('../../../model/newContents')
 
 const utils = require('../../../utils/commons')
 const codeStatus = require('../../../utils/status')
+const contents = require('../../../utils/contents')
 
 module.exports = {
 
@@ -12,7 +13,7 @@ module.exports = {
 
         let {_userId, category} = req.body
 
-        if (category !== 'Actors') {
+        if (category !== contents.ACTORS) {
             /* Movies and tv */
             const {title, date, language, vote, section} = req.body
 
@@ -96,9 +97,9 @@ module.exports = {
                             title: content.title,
                             date: content.date !== undefined ? content.date.getFullYear() + '-' + content.date.getMonth() + "-" + content.date.getDate() : undefined,
                             language: content.language,
-                            vote: CATEGORY !== 'Actors' ? content.vote : undefined,
-                            popularity: CATEGORY === 'Actors' ? content.vote : undefined,
-                            department: CATEGORY === 'Actors' ? content.department : undefined,
+                            vote: CATEGORY !== contents.ACTORS ? content.vote : undefined,
+                            popularity: CATEGORY === contents.ACTORS ? content.vote : undefined,
+                            department: CATEGORY === contents.ACTORS ? content.department : undefined,
                             rating: value,
                             img: content.img.data !== undefined ? `data:` + content.img.contentType + `;base64,` + new Buffer.from(content.img.data).toString('base64') : null
                         })
@@ -128,8 +129,8 @@ module.exports = {
                             title : content.title,
                             date : content.date !== undefined? content.date.getFullYear() + '-' + content.date.getMonth() + "-" + content.date.getDate(): undefined,
                             language: content.language,
-                            vote: content.category !== 'Actors' ? content.vote : undefined,
-                            popularity: content.category === 'Actors' ? content.vote : undefined,
+                            vote: content.category !== contents.ACTORS ? content.vote : undefined,
+                            popularity: content.category === contents.ACTORS ? content.vote : undefined,
                             department: content.department !== undefined? content.department : undefined,
                             rating: value,
                             img: content.img.data !== undefined ? `data:` + content.img.contentType + `;base64,` + new Buffer.from(content.img.data).toString('base64') : null
