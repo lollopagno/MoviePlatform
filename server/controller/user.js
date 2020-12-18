@@ -17,7 +17,7 @@ const bcrypt = require('bcrypt')
  */
 signIn = (req, res) => {
     const body = req.body
-    if (!body) return utils.requestJsonFailed(res, codeStatus.unauthorized, 'You must provide a credentials!')
+    if (body) return utils.requestJsonFailed(res, codeStatus.unauthorized, 'You must provide a credentials!')
 
     UserSchema.findOne({$or: [{'email': body.username.trim()}, {'username': body.username.trim()}]}, (err, user) => {
 
@@ -46,8 +46,10 @@ signIn = (req, res) => {
  * Check if exists the same username or same email
  */
 sameField = (req, res) => {
+    const query = req.query
+    if (query) return utils.requestJsonFailed(res, codeStatus.unauthorized, 'You must provide a parameters!')
 
-    UserSchema.findOne({[req.query.field]: req.query.data.trim()}, (err, user) => {
+    UserSchema.findOne({[query.field]: query.data.trim()}, (err, user) => {
         if (err) return utils.requestJsonFailed(res, codeStatus.badRequest, 'Search failed!')
         if (!user) return utils.requestJsonSuccess(res, codeStatus.OK, 'There is no user!', [])
         return utils.requestJsonSuccess(res, codeStatus.OK, 'There is the user!', user)
@@ -56,10 +58,13 @@ sameField = (req, res) => {
 
 sameFieldExceptUser = (req, res) => {
 
+    const param = req.query
+    if (param) return utils.requestJsonFailed(res, codeStatus.unauthorized, 'You must provide a parameters!')
+
     const query = {
         "$match": {
-            [req.query.field]: req.query.data.trim(),
-            _id: {$ne: ObjectId(req.query.id)}
+            [param.field]: param.data.trim(),
+            _id: {$ne: ObjectId(param.id)}
         }
     }
 
@@ -77,7 +82,7 @@ signUp = (req, res) => {
 
     const body = req.body
     // SignUp error
-    if (!body) return utils.requestJsonFailed(res, codeStatus.paymentRequired, 'You must provide a parameters to create new user!')
+    if (body) return utils.requestJsonFailed(res, codeStatus.paymentRequired, 'You must provide a parameters to create new user!')
 
     // Generated salt
     bcrypt.genSalt(10, (err, salt) => {
@@ -133,7 +138,7 @@ signUp = (req, res) => {
 changeData = (req, res) => {
     const body = req.body
 
-    if (!body) return utils.requestJsonFailed(res, codeStatus.paymentRequired, 'You must provide a parameters to changed data!')
+    if (body) return utils.requestJsonFailed(res, codeStatus.paymentRequired, 'You must provide a parameters to changed data!')
 
     UserSchema.findOneAndUpdate({_id: body.userId}, {
         $set: {'name': body.name, 'username': body.username, 'email': body.email, 'updateAt': new Date}

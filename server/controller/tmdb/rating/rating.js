@@ -14,8 +14,10 @@ module.exports = {
 
     update: async (req, res) => {
 
+        if(req.body) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a parameters!')
+
         const {userId, contentId, category, value} = req.body.params
-        if (!userId || !contentId || !category || !value) return utils.requestJsonFailed(res, codeStatus.notFound, 'Must pass params')
+        if (!userId || !contentId || !category || !value) return utils.requestJsonFailed(res, codeStatus.notFound, 'Must pass parameters!')
 
         const updated = await RatingSchema.findOneAndUpdate(
             {'_userId': userId, 'content._contentId': contentId},
@@ -47,8 +49,10 @@ module.exports = {
 
     searchAll: async (req, res) => {
 
+        if(req.query) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a parameters!')
+
         const {userId, isMovies, isTvs, isActors} = req.query
-        if (!userId || !isMovies || !isTvs || !isActors) return utils.requestJsonFailed(res, codeStatus.notFound, 'Must pass params')
+        if (!userId || !isMovies || !isTvs || !isActors) return utils.requestJsonFailed(res, codeStatus.notFound, 'Must pass parameters')
 
         const eqMovies = {$eq: ['$$item.category', isMovies === 'true' ? contents.MOVIES : '']} //todo aggiungere null
         const eqTvs = {$eq: ['$$item.category', isTvs === 'true' ? contents.PROGRAM_TV : '']}

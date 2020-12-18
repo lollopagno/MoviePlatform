@@ -11,6 +11,7 @@ module.exports = {
 
     added: (req, res) => {
 
+        if(req.body) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a parameters!')
         let {_userId, category} = req.body
 
         if (category !== contents.ACTORS) {
@@ -56,7 +57,7 @@ module.exports = {
 
     updated: (req, res) => {
 
-        if (!req.file) return utils.requestJsonSuccess(res, codeStatus.serverError, 'File was not found.')
+        if (!req.file) return utils.requestJsonSuccess(res, codeStatus.serverError, 'You must pass a file!')
         const _id = req.headers['_id']
         const fileImg = req.file
 

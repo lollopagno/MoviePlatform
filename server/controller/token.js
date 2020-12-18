@@ -38,7 +38,7 @@ checkTokenEmail = (req, res) => {
  */
 resendTokenEmail = (req, res) => {
     const body = req.body
-    if (!body) return utils.requestJsonFailed(res, codeStatus.badRequest, 'Must pass email address')
+    if (body) return utils.requestJsonFailed(res, codeStatus.badRequest, 'Must pass email address')
 
     UserSchema.findOne({'email': body.email.trim()}, (err, user) => {
         if (!user) return utils.requestJsonFailed(res, codeStatus.badRequest, 'We were unable to find a user with the specified email address.')
@@ -74,9 +74,10 @@ resendTokenEmail = (req, res) => {
  */
 checkToken = (req, res) => {
 
-    const token = req.headers['authorization'].replace('Bearer ', '');
-    if (!token) return utils.requestJsonFailed(res, codeStatus.badRequest, '')
+    let token = req.headers['authorization']
+    if (!token) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a token!')
 
+    token = token.replace('Bearer ', '');
     // Check token that was passed by decoding token using secret
     jwt.verify(token, JWT_SECRET, (err, decode) => {
         if (err) return utils.requestJsonFailed(res, codeStatus.badRequest, '')
