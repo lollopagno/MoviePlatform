@@ -1,6 +1,8 @@
 require('./db/db');
 const config = require('./utils/env')
-const express = require('express');
+const app = require('express')();
+const server = require('http').Server(app);
+const socketServer = require('socket.io');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const router = require('./route/route');
@@ -10,7 +12,6 @@ const codeStatus = require('./utils/status')
 
 const PORT = config.serverPort
 
-const app = express()
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
@@ -25,7 +26,6 @@ app.use(function (req, res, next) {
 
     jwt.verify(token, config.JWTSecret, function (err, decode) {
         if (err) {
-            console.log("Expired")
             utils.requestJsonFailed(res, codeStatus.badRequest, 'Authentication expired! Please sign in.')
         } else {
             req.auth = decode;
@@ -36,4 +36,27 @@ app.use(function (req, res, next) {
 
 // Routing
 app.use('/api', router);
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+
+const io = socketServer(server)
+//     {
+//     cors: {
+//         origin: "http://localhost:3000",
+//         methods: ["GET", "POST"],
+//         credentials: true
+//     }
+// })
+
+io.on("connection", (socket) => {
+    console.log(`Client ${socket.id} connected!`);
+
+    socket.on('new content added', id => {
+        console.log('broadcast.....')
+        socket.broadcast.emit('notice new content added', id)
+    })
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected - ' + socket.id);
+    });
+});
+
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`))
