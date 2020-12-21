@@ -96,20 +96,18 @@ function SignIn() {
     const onSubmit = event => {
         event.preventDefault()
 
-        if (username && password) {
-            request.signIn(userData).then(res => {
-                setStateAlert(false)
-                setInfoAlert(null)
-                store.dispatch(signInSuccess(res.data.data))
-                store.dispatch(meFromTokenSuccess(res.data.token));
-                history.push('/dashboard')
-            }).catch(err => {
-                setStateAlert(false)
-                console.log(err.response.data.message)
-                setInfoAlert(err.response.data.message)
-                setUserData({...userData, password: ''})
-            })
-        }
+        request.signIn(userData).then(res => {
+            setStateAlert(false)
+            setInfoAlert(null)
+            store.dispatch(signInSuccess(res.data.data))
+            store.dispatch(meFromTokenSuccess(res.data.token));
+            history.push('/dashboard')
+        }).catch(err => {
+            setStateAlert(false)
+            setInfoAlert(err.response.data.message)
+            setUserData({...userData, password: ''})
+        })
+
     }
 
     return (
@@ -136,7 +134,8 @@ function SignIn() {
                         value={username}
                         onChange={onChange}
                     />
-                    <FormControl variant="outlined" className={clsx(classes.marginFormControl, classes.textFieldFormControl)}>
+                    <FormControl variant="outlined"
+                                 className={clsx(classes.marginFormControl, classes.textFieldFormControl)}>
                         <InputLabel htmlFor="outlined-adornment-password">Password *</InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-password"

@@ -17,7 +17,7 @@ const bcrypt = require('bcrypt')
  */
 signIn = (req, res) => {
     const body = req.body
-    if (body) return utils.requestJsonFailed(res, codeStatus.unauthorized, 'You must provide a credentials!')
+    if (!body.username || !body.password) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must provide a credentials!')
 
     UserSchema.findOne({$or: [{'email': body.username.trim()}, {'username': body.username.trim()}]}, (err, user) => {
 
@@ -47,7 +47,7 @@ signIn = (req, res) => {
  */
 sameField = (req, res) => {
     const query = req.query
-    if (query) return utils.requestJsonFailed(res, codeStatus.unauthorized, 'You must provide a parameters!')
+    if (!query.field || !query.data) return utils.requestJsonFailed(res, codeStatus.unauthorized, 'You must provide a parameters!')
 
     UserSchema.findOne({[query.field]: query.data.trim()}, (err, user) => {
         if (err) return utils.requestJsonFailed(res, codeStatus.badRequest, 'Search failed!')
@@ -59,7 +59,7 @@ sameField = (req, res) => {
 sameFieldExceptUser = (req, res) => {
 
     const param = req.query
-    if (param) return utils.requestJsonFailed(res, codeStatus.unauthorized, 'You must provide a parameters!')
+    if (!param.field || !param.data || !param.id) return utils.requestJsonFailed(res, codeStatus.unauthorized, 'You must provide a parameters!')
 
     const query = {
         "$match": {
@@ -82,7 +82,7 @@ signUp = (req, res) => {
 
     const body = req.body
     // SignUp error
-    if (body) return utils.requestJsonFailed(res, codeStatus.paymentRequired, 'You must provide a parameters to create new user!')
+    if (!body.name || !body.email || !body.username || !body.password) return utils.requestJsonFailed(res, codeStatus.paymentRequired, 'You must provide a parameters to create new user!')
 
     // Generated salt
     bcrypt.genSalt(10, (err, salt) => {
@@ -136,9 +136,9 @@ signUp = (req, res) => {
 }
 
 changeData = (req, res) => {
-    const body = req.body
 
-    if (body) return utils.requestJsonFailed(res, codeStatus.paymentRequired, 'You must provide a parameters to changed data!')
+    const body = req.body
+    if (!body.userId || !body.username || !body.email) return utils.requestJsonFailed(res, codeStatus.paymentRequired, 'You must provide a parameters to changed data!')
 
     UserSchema.findOneAndUpdate({_id: body.userId}, {
         $set: {'name': body.name, 'username': body.username, 'email': body.email, 'updateAt': new Date}

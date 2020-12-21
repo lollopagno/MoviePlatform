@@ -27,7 +27,7 @@ const PATH_UPCOMING = '/3/movie/upcoming?api_key='
 const PATH_SEARCH = '/3/search/movie?api_key='
 
 popular = (req, res) => {
-    if(req.query) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
+    if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
 
     const options = {
@@ -44,7 +44,7 @@ popular = (req, res) => {
 }
 
 topRated = (req, res) => {
-    if(req.query) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
+    if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
 
     const options = {
@@ -61,7 +61,7 @@ topRated = (req, res) => {
 }
 
 upcoming = (req, res) => {
-    if(req.query) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
+    if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
 
     const options = {
@@ -79,7 +79,7 @@ upcoming = (req, res) => {
 
 search = (req, res) => {
 
-    if(req.query) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
+    if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
 
     const options = {

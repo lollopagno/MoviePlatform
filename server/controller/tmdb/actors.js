@@ -10,7 +10,7 @@ const PATH_POPULAR = '/3/person/popular?api_key='
 const PATH_SEARCH = '/3/search/person?api_key='
 
 popular = (req, res) => {
-    if(req.query) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
+    if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
 
     const options = {
@@ -27,7 +27,7 @@ popular = (req, res) => {
 }
 
 search = (req, res) => {
-    if(req.query) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
+    if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
 
     const options = {

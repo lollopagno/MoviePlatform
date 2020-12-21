@@ -38,7 +38,7 @@ checkTokenEmail = (req, res) => {
  */
 resendTokenEmail = (req, res) => {
     const body = req.body
-    if (body) return utils.requestJsonFailed(res, codeStatus.badRequest, 'Must pass email address')
+    if (!body.email) return utils.requestJsonFailed(res, codeStatus.badRequest, 'Must pass email address')
 
     UserSchema.findOne({'email': body.email.trim()}, (err, user) => {
         if (!user) return utils.requestJsonFailed(res, codeStatus.badRequest, 'We were unable to find a user with the specified email address.')

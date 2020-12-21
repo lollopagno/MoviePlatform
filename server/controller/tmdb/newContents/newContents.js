@@ -11,7 +11,7 @@ module.exports = {
 
     added: (req, res) => {
 
-        if(req.body) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a parameters!')
+        if(!req.body._userId || !req.query.category) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a parameters!')
         let {_userId, category} = req.body
 
         if (category !== contents.ACTORS) {

@@ -21,7 +21,7 @@ const PATH_TOP_RATED = '/3/tv/top_rated?api_key='
 const PATH_SEARCH = '/3/search/tv?api_key='
 
 popular = (req, res) => {
-    if(req.query) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
+    if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
 
     const options = {
@@ -38,7 +38,7 @@ popular = (req, res) => {
 }
 
 topRated = (req, res) => {
-    if(req.query) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
+    if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
 
     const options = {
@@ -55,7 +55,7 @@ topRated = (req, res) => {
 }
 
 search = (req, res) => {
-    if(req.query) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
+    if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
 
     const options = {
