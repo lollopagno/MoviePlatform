@@ -9,6 +9,8 @@ import {deleteToken} from "../../../../redux/reducer/tokenReducer";
 import history from "../../../../history";
 import {setAlert} from "../../../../redux/reducer/signInReducer";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import {disconnect} from "../../../../redux/reducer/socketReducer";
+import {socket} from '../../../../requests/socket'
 
 const useStyles = makeStyles((theme) => ({
   account : {
@@ -50,6 +52,7 @@ function Account() {
         } else if (event.currentTarget.id === ID_LOG_OUT) {
             store.dispatch(resetUser())
             store.dispatch(deleteToken())
+            socket.disconnect()
             store.dispatch(setAlert({alert: 'Sign out completed!', isSuccess: true}))
             history.push('/signIn')
         }

@@ -7,7 +7,7 @@ import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import history from '../../history'
 import {store} from "../../redux/store";
 import {resetUser} from "../../redux/reducer/userReducer";
@@ -24,6 +24,8 @@ import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import {useSelector} from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import {socket} from "../../requests/socket";
+import {eventNotice} from "../../redux/reducer/socketReducer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -47,10 +49,18 @@ function MyProfile() {
     const classes = useStyles();
     const [value, setValue] = useState(0);
     const name = useSelector(state => state.user.name)
+    const notice = useSelector(state => state.socket.notice)
+
+    useEffect(() => {
+        socket.on('notice new content added', (id) => {
+            store.dispatch(eventNotice(id))
+        })
+    },[])
 
     const logOut = () => {
         store.dispatch(resetUser())
         store.dispatch(deleteToken())
+        socket.disconnect()
         store.dispatch(setAlert({alert: 'Sign out completed!', isSuccess: true}))
         history.push('/signIn')
     }
@@ -71,7 +81,7 @@ function MyProfile() {
                     </IconButton>
                     <IconButton aria-label="show 11 new notifications"
                                 color="inherit">
-                        <Badge badgeContent={0} /* todo imposta il numero di notifiche*/ color="secondary">
+                        <Badge badgeContent={notice} color="secondary">
                             <NotificationsIcon/>
                         </Badge>
                     </IconButton>

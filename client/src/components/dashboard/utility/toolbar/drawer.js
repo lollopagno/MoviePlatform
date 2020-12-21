@@ -22,6 +22,7 @@ import {store} from "../../../../redux/store";
 import {resetUser} from "../../../../redux/reducer/userReducer";
 import {deleteToken} from "../../../../redux/reducer/tokenReducer";
 import {setAlert} from "../../../../redux/reducer/signInReducer";
+import {socket} from "../../../../requests/socket";
 
 const MOVIES = 'Movies'
 const TV = 'TV'
@@ -139,6 +140,7 @@ function DrawerComponent(props) {
             case(LOGOUT):
                 store.dispatch(resetUser())
                 store.dispatch(deleteToken())
+                socket.disconnect()
                 store.dispatch(setAlert({alert: 'Sign out completed!', isSuccess: true}))
                 history.push('/signIn')
                 break;

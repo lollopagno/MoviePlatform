@@ -12,6 +12,7 @@ import MovieIcon from '@material-ui/icons/Movie';
 import {requestNewContents} from "../../../../requests/content/newContents";
 import {useSelector} from "react-redux";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
+import {socket} from "../../../../requests/socket";
 
 const useStyles = makeStyles((theme) => ({
     contText: {
@@ -89,6 +90,7 @@ function Actors(props) {
                         setAlertImage({...alertImage, isError: false, text: ''})
                         setAlert({...alert, isError: false, text: res.data.message})
                         setField({...field, title: '', popularity: '', department: '', image: null})
+                        socket.emit('new content added', res.data.data._id)
                     }).catch(err => {
                         setAlert({...alert, isError: true, text: err.response.data.message})
                     })
@@ -96,6 +98,7 @@ function Actors(props) {
                     setAlertImage({...alertImage, isError: false, text: ''})
                     setAlert({...alert, isError: false, text: res.data.message})
                     setField({...field, title: '', popularity: '', department: '', image: null})
+                    socket.emit('new content added', res.data.data._id)
                 }
             }).catch(err => {
                 setAlertImage({...alertImage, isError: false, text: ''})

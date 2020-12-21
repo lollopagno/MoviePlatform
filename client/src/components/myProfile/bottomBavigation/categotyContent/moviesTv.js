@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -17,6 +17,9 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import {socket} from "../../../../requests/socket";
+import {store} from "../../../../redux/store";
+import {eventNotice} from "../../../../redux/reducer/socketReducer";
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -50,6 +53,12 @@ function MoviesTvContents(props) {
     // State select
     const [valueSelect, setValueSelect] = useState('');
     const [openSelect, setOpenSelect] = useState(false);
+
+    useEffect(() => {
+        socket.on('notice new content added', (id) => {
+            store.dispatch(eventNotice(id))
+        })
+    },[])
 
     // State contents
     const [field, setField] = useState({
@@ -125,6 +134,7 @@ function MoviesTvContents(props) {
                         setAlertImage({...alertImage, isError: false, text: ''})
                         setAlert({...alert, isError: false, text: res.data.message})
                         setField({...field, title: '', date: '', section: '', vote: '', language: '', image: null})
+                        socket.emit('new content added', res.data.data._id)
                     }).catch(err => {
                         setAlert({...alert, isError: true, text: err.response.data.message})
                     })
@@ -132,6 +142,7 @@ function MoviesTvContents(props) {
                     setAlertImage({...alertImage, isError: false, text: ''})
                     setAlert({...alert, isError: false, text: res.data.message})
                     setField({...field, title: '', date: '', section: '', vote: '', language: '', image: null})
+                    socket.emit('new content added', res.data.data._id)
                 }
             }).catch(err => {
                 setAlertImage({...alertImage, isError: false, text: ''})
@@ -142,7 +153,7 @@ function MoviesTvContents(props) {
 
     return (
         <Grid container justify={'center'}>
-            <form noValidate className={classes.form} onSubmit={onSubmit}>
+            <form noValidate className={classes.form} onSubmit={onSubmit} >
                 <FormControl className={classes.formControl}>
                     <InputLabel id="demo-controlled-open-select-label">Section</InputLabel>
                     <Select

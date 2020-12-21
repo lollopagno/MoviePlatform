@@ -24,6 +24,9 @@ import ErrorAPI from "./utility/errorAPI";
 import SearchBar from "./utility/toolbar/searchBar";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {socket} from '../../requests/socket'
+import {store} from "../../redux/store";
+import {eventNotice} from "../../redux/reducer/socketReducer";
 
 function Dashboard() {
 
@@ -34,8 +37,14 @@ function Dashboard() {
     const [open, setOpen] = useState(false);
     const [backDrop, setBackdrop] = useState(true)
     const id = useSelector(state => state.user._id)
+    const notice = useSelector(state => state.socket.notice)
 
     useEffect(() => {
+
+        socket.on('notice new content added', (id) => {
+            store.dispatch(eventNotice(id))
+        })
+
         setCategory("Movies Popular")
         requestMovies.popular(id).then(res => {
             setBackdrop(false)
@@ -80,7 +89,7 @@ function Dashboard() {
                             <Home style={{color: 'white'}}/>
                         </IconButton>
                         <IconButton edge={'end'} aria-label="show 11 new notifications" color="inherit">
-                            <Badge badgeContent={0} /* todo imposta il numero di notifiche*/ color="secondary">
+                            <Badge badgeContent={notice} color="secondary">
                                 <NotificationsIcon/>
                             </Badge>
                         </IconButton>
@@ -116,7 +125,7 @@ function Dashboard() {
                             {category}
                         </Typography>
                         <Backdrop className={classes.backdrop} open={backDrop}>
-                            <CircularProgress color="inherit" />
+                            <CircularProgress color="inherit"/>
                         </Backdrop>
                         {cards}
                     </Grid>
