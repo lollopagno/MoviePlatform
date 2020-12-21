@@ -7,11 +7,13 @@ import {persistReducer, persistStore} from "redux-persist";
 import storage from 'redux-persist/lib/storage';
 import tokenReducer from "./reducer/tokenReducer";
 import signInReducer from "./reducer/signInReducer";
+import socketReducer from "./reducer/socketReducer";
 
 const combineReduces = combineReducers({
     user: userReducer,
     token: tokenReducer,
     signIn: signInReducer,
+    socket: socketReducer
 })
 
 const middlewares = [thunk, createLogger()]
@@ -21,7 +23,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['user', 'token', 'signIn']
+    whitelist: ['user', 'token', 'signIn', 'notice']
 };
 
 export const store = createStore(persistReducer(persistConfig, combineReduces), composeEnhancers(applyMiddleware(...middlewares)))
