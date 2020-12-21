@@ -78,6 +78,18 @@ function Actors(props) {
         }
     }
 
+    const completeRequest = (result) => {
+        setAlertImage({...alertImage, isError: false, text: ''})
+        setAlert({...alert, isError: false, text: result.data.message})
+        setField({...field, title: '', popularity: '', department: '', image: null})
+        const data = {
+            id: result.data.data._id,
+            title: result.data.data.title,
+            category: result.data.data.category
+        }
+        socket.emit('new content added', data)
+    }
+
     const onSubmit = (event) => {
         event.preventDefault()
         isValidForm(error, setError, field)
@@ -87,18 +99,12 @@ function Actors(props) {
                 // Upload image
                 if (field.image !== null) {
                     requestNewContents.addImage(res.data.data._id, field.image).then((res) => {
-                        setAlertImage({...alertImage, isError: false, text: ''})
-                        setAlert({...alert, isError: false, text: res.data.message})
-                        setField({...field, title: '', popularity: '', department: '', image: null})
-                        socket.emit('new content added', res.data.data._id)
+                        completeRequest(res)
                     }).catch(err => {
                         setAlert({...alert, isError: true, text: err.response.data.message})
                     })
                 } else {
-                    setAlertImage({...alertImage, isError: false, text: ''})
-                    setAlert({...alert, isError: false, text: res.data.message})
-                    setField({...field, title: '', popularity: '', department: '', image: null})
-                    socket.emit('new content added', res.data.data._id)
+                    completeRequest(res)
                 }
             }).catch(err => {
                 setAlertImage({...alertImage, isError: false, text: ''})

@@ -52,8 +52,8 @@ function MyProfile() {
     const notice = useSelector(state => state.socket.notice)
 
     useEffect(() => {
-        socket.on('notice new content added', (id) => {
-            store.dispatch(eventNotice(id))
+        socket.on('notice new content added', (data) => {
+            store.dispatch(eventNotice(data))
         })
     },[])
 

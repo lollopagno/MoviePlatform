@@ -38,20 +38,13 @@ app.use(function (req, res, next) {
 app.use('/api', router);
 
 const io = socketServer(server)
-//     {
-//     cors: {
-//         origin: "http://localhost:3000",
-//         methods: ["GET", "POST"],
-//         credentials: true
-//     }
-// })
 
 io.on("connection", (socket) => {
     console.log(`Client ${socket.id} connected!`);
 
-    socket.on('new content added', id => {
+    socket.on('new content added', data => {
         console.log('broadcast.....')
-        socket.broadcast.emit('notice new content added', id)
+        socket.broadcast.emit('notice new content added', data)
     })
 
     socket.on('disconnect', () => {

@@ -70,7 +70,7 @@ module.exports = {
             fs.unlink(fileImg.path, err => {
                 if (err) {}
             })
-            return utils.requestJsonSuccess(res, codeStatus.OK, 'The content ' + content.title + ' has been added.')
+            return utils.requestJsonSuccess(res, codeStatus.OK, 'The content ' + content.title + ' has been added.', content)
         })
     },
 

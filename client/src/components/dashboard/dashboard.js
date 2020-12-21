@@ -27,6 +27,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {socket} from '../../requests/socket'
 import {store} from "../../redux/store";
 import {eventNotice} from "../../redux/reducer/socketReducer";
+import history from '../../history'
 
 function Dashboard() {
 
@@ -41,8 +42,8 @@ function Dashboard() {
 
     useEffect(() => {
 
-        socket.on('notice new content added', (id) => {
-            store.dispatch(eventNotice(id))
+        socket.on('notice new content added', (data) => {
+            store.dispatch(eventNotice(data))
         })
 
         setCategory("Movies Popular")
@@ -62,6 +63,10 @@ function Dashboard() {
 
     const onClickHome = () => {
         window.location.reload()
+    }
+
+    const onClickNotice = () => {
+        history.push('/notification')
     }
 
     return (
@@ -88,7 +93,8 @@ function Dashboard() {
                         <IconButton edge='start' id="account" onClick={onClickHome}>
                             <Home style={{color: 'white'}}/>
                         </IconButton>
-                        <IconButton edge={'end'} aria-label="show 11 new notifications" color="inherit">
+                        <IconButton edge={'end'} aria-label="show 11 new notifications" color="inherit"
+                                    onClick={onClickNotice}>
                             <Badge badgeContent={notice} color="secondary">
                                 <NotificationsIcon/>
                             </Badge>
