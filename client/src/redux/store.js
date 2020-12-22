@@ -23,7 +23,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['user', 'token', 'signIn', 'notice']
+    whitelist: ['user', 'token', 'signIn', 'socket']
 };
 
 export const store = createStore(persistReducer(persistConfig, combineReduces), composeEnhancers(applyMiddleware(...middlewares)))
