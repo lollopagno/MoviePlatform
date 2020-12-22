@@ -26,8 +26,10 @@ import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {socket} from '../../requests/socket'
 import {store} from "../../redux/store";
-import {eventNotice} from "../../redux/reducer/socketReducer";
-import history from '../../history'
+import {eventNotice, resetNotice} from "../../redux/reducer/socketReducer";
+import Notice from "../notice";
+import Alert from "@material-ui/lab/Alert";
+import Paper from "@material-ui/core/Paper";
 
 function Dashboard() {
 
@@ -37,8 +39,11 @@ function Dashboard() {
     const [category, setCategory] = useState('Movies Popular')
     const [open, setOpen] = useState(false);
     const [backDrop, setBackdrop] = useState(true)
+    const [isCards, setIsCards] = useState(true)
+
     const id = useSelector(state => state.user._id)
     const notice = useSelector(state => state.socket.notice)
+    const noticeList = useSelector(state => state.socket.list)
 
     useEffect(() => {
 
@@ -46,6 +51,7 @@ function Dashboard() {
             store.dispatch(eventNotice(data))
         })
 
+        setIsCards(true)
         setCategory("Movies Popular")
         requestMovies.popular(id).then(res => {
             setBackdrop(false)
@@ -57,6 +63,16 @@ function Dashboard() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    const paperNotice = (noticeList.length !== 0) ? noticeList.slice(0).reverse().map(notice =>
+        <Paper elevation={20} className={classes.paperNotice} key={notice.id}>
+            <Typography variant="h5" gutterBottom>
+                {"Name: " + notice.title}
+            </Typography>
+            <Typography variant="h6">{"Category: " + notice.category}</Typography>
+            <Typography variant="h6">{"Added by "+notice.username}</Typography>
+        </Paper>
+    ) : []
+
     const toggleDrawer = () => {
         setOpen(!open);
     };
@@ -66,7 +82,9 @@ function Dashboard() {
     }
 
     const onClickNotice = () => {
-        history.push('/notification')
+        setIsCards(false)
+        setCategory('Notifications')
+        store.dispatch(resetNotice())
     }
 
     return (
@@ -116,7 +134,8 @@ function Dashboard() {
                         </IconButton>
                     </div>
                     <Divider/>
-                    {<DrawerComponent category={setCategory} setCards={setCards} setBackDrop={setBackdrop}/>}
+                    {<DrawerComponent category={setCategory} setCards={setCards} isCards={setIsCards}
+                                      setBackDrop={setBackdrop}/>}
                 </Drawer>
                 <div className={classes.appBarSpacer}/>
                 <Grid container>
@@ -133,7 +152,8 @@ function Dashboard() {
                         <Backdrop className={classes.backdrop} open={backDrop}>
                             <CircularProgress color="inherit"/>
                         </Backdrop>
-                        {cards}
+                        {isCards && cards}
+                        {!isCards && <Notice notices={paperNotice}/>}
                     </Grid>
                 </Grid>
             </div>

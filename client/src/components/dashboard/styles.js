@@ -62,7 +62,9 @@ export const useStyles = makeStyles((theme) => ({
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
     },
-    alertNotice: {
-        marginTop: theme.spacing(4)
-    }
+    paperNotice: {
+        padding: theme.spacing(2),
+        marginTop: theme.spacing(4),
+        backgroundColor: '#e3f3e7',
+    },
 }));

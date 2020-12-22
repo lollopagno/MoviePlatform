@@ -25,7 +25,10 @@ import Typography from "@material-ui/core/Typography";
 import {useSelector} from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {socket} from "../../requests/socket";
-import {eventNotice} from "../../redux/reducer/socketReducer";
+import {eventNotice, resetNotice} from "../../redux/reducer/socketReducer";
+import Notice from "../notice";
+import Alert from "@material-ui/lab/Alert";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,6 +43,14 @@ const useStyles = makeStyles((theme) => ({
     },
     divider: {
         marginTop: theme.spacing(3)
+    },
+    notice:{
+        marginTop: theme.spacing(4)
+    },
+    paperNotice: {
+        padding: theme.spacing(2),
+        marginTop: theme.spacing(4),
+        backgroundColor: '#e3f3e7',
     }
 }));
 
@@ -49,13 +60,20 @@ function MyProfile() {
     const classes = useStyles();
     const [value, setValue] = useState(0);
     const name = useSelector(state => state.user.name)
+    const noticeList = useSelector(state => state.socket.list)
     const notice = useSelector(state => state.socket.notice)
+    const [isNotice, setIsNotice] = useState(false)
 
-    useEffect(() => {
-        socket.on('notice new content added', (data) => {
-            store.dispatch(eventNotice(data))
-        })
-    },[])
+
+    const paperNotice = (noticeList.length !== 0) ? noticeList.slice(0).reverse().map(notice =>
+        <Paper elevation={20} className={classes.paperNotice} key={notice.id}>
+            <Typography variant="h5" gutterBottom>
+                {"Name: " + notice.title}
+            </Typography>
+            <Typography variant="h6">{"Category: " + notice.category}</Typography>
+            <Typography variant="h6">{"Added by "+notice.username}</Typography>
+        </Paper>
+    ) : []
 
     const logOut = () => {
         store.dispatch(resetUser())
@@ -69,6 +87,11 @@ function MyProfile() {
         history.push('/dashboard')
     }
 
+    const onClickNotice = () => {
+        setIsNotice(true)
+        store.dispatch(resetNotice())
+    }
+
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -80,7 +103,7 @@ function MyProfile() {
                         <Home style={{color: 'white'}}/>
                     </IconButton>
                     <IconButton aria-label="show 11 new notifications"
-                                color="inherit">
+                                color="inherit" onClick={onClickNotice}>
                         <Badge badgeContent={notice} color="secondary">
                             <NotificationsIcon/>
                         </Badge>
@@ -96,6 +119,7 @@ function MyProfile() {
                     value={value}
                     onChange={(event, newValue) => {
                         setValue(newValue);
+                        setIsNotice(false)
                     }}
                     showLabels
                     className={classes.bottomNavigation}
@@ -112,9 +136,12 @@ function MyProfile() {
                     </Grid>
                 </Grid>
 
-                {value === 0 && <Favorites/>}
-                {value === 1 && <AddContents/>}
-                {value === 2 && <About/>}
+                {!isNotice && value === 0 && <Favorites/>}
+                {!isNotice && value === 1 && <AddContents/>}
+                {!isNotice && value === 2 && <About/>}
+                <Grid container justify={'center'} className={classes.notice}>
+                    {isNotice && <Notice notices={paperNotice} />}
+                </Grid>
             </Grid>
         </div>
     )
