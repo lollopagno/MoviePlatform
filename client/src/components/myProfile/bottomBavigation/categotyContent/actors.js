@@ -39,6 +39,7 @@ function Actors(props) {
 
     const classes = useStyles()
     const userId = useSelector(state => state.user._id)
+    const username = useSelector(state => state.user.username)
 
     // State contents
     const [field, setField] = useState({
@@ -85,7 +86,8 @@ function Actors(props) {
         const data = {
             id: result.data.data._id,
             title: result.data.data.title,
-            category: result.data.data.category
+            category: result.data.data.category,
+            username: username
         }
         socket.emit('new content added', data)
     }

@@ -49,6 +49,7 @@ function MoviesTvContents(props) {
 
     const classes = useStyles()
     const userId = useSelector(state => state.user._id)
+    const username = useSelector(state => state.user.username)
 
     // State select
     const [valueSelect, setValueSelect] = useState('1');
@@ -122,7 +123,8 @@ function MoviesTvContents(props) {
         const data = {
             id: result.data.data._id,
             title: result.data.data.title,
-            category: result.data.data.category
+            category: result.data.data.category,
+            username: username
         }
         socket.emit('new content added', data)
     }
