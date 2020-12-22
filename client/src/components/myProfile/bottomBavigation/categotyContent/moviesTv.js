@@ -51,14 +51,8 @@ function MoviesTvContents(props) {
     const userId = useSelector(state => state.user._id)
 
     // State select
-    const [valueSelect, setValueSelect] = useState('');
+    const [valueSelect, setValueSelect] = useState('1');
     const [openSelect, setOpenSelect] = useState(false);
-
-    useEffect(() => {
-        socket.on('notice new content added', (id) => {
-            store.dispatch(eventNotice(id))
-        })
-    }, [])
 
     // State contents
     const [field, setField] = useState({

@@ -23,6 +23,7 @@ import {resetUser} from "../../../../redux/reducer/userReducer";
 import {deleteToken} from "../../../../redux/reducer/tokenReducer";
 import {setAlert} from "../../../../redux/reducer/signInReducer";
 import {socket} from "../../../../requests/socket";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const MOVIES = 'Movies'
 const TV = 'TV'
@@ -35,12 +36,20 @@ const UPCOMING = 'Upcoming'
 const LOGOUT = 'Logout'
 const MY_PROFILE = 'My profile'
 
+const useStyles = makeStyles((theme) => ({
+    tv: {
+        marginRight: theme.spacing(2),
+    }
+}));
+
 function DrawerComponent(props) {
 
+    const classes = useStyles()
     const id = useSelector(state => state.user._id)
 
     const onClickFilm = (event) => {
         props.setBackDrop(true)
+        props.isCards(true)
         switch (event.currentTarget.id) {
             case(POPULAR):
                 props.category(MOVIES + " " + POPULAR)
@@ -82,6 +91,7 @@ function DrawerComponent(props) {
 
     const onClickTv = (event) => {
         props.setBackDrop(true)
+        props.isCards(true)
         switch (event.currentTarget.id) {
 
             case(POPULAR):
@@ -113,6 +123,7 @@ function DrawerComponent(props) {
 
     const onClickActors = (event) => {
         props.setBackDrop(true)
+        props.isCards(true)
         switch (event.currentTarget.id) {
 
             case(POPULAR):
@@ -132,6 +143,7 @@ function DrawerComponent(props) {
     }
 
     const onClickAccount = (event) => {
+        props.isCards(true)
         switch (event.currentTarget.id) {
             case(MY_PROFILE):
                 history.push('/myProfile#favorite')
@@ -166,7 +178,12 @@ function DrawerComponent(props) {
             </List>
             <Divider/>
             <br/>
-            <Typography>Tv</Typography>
+            <Hidden xsDown implementation="css">
+            <Typography className={classes.tv}>Tv</Typography>
+            </Hidden>
+            <Hidden smUp implementation="css">
+                <Typography>Tv</Typography>
+            </Hidden>
             <List>
                 {['Popular', 'Top rated'].map((text, index) => (
                     <ListItem button id={text} onClick={onClickTv} key={text}>
