@@ -37,7 +37,6 @@ module.exports = {
                         }
                     }
                 })
-            // todo aggiungere un controllo di errore?
             console.log("[CONTENT ADDED]")
             return utils.requestJsonSuccess(res, codeStatus.OK)
 
@@ -55,7 +54,7 @@ module.exports = {
         const {userId, isMovies, isTvs, isActors} = req.query
         if (!userId || !isMovies || !isTvs || !isActors) return utils.requestJsonFailed(res, codeStatus.notFound, 'Must pass parameters')
 
-        const eqMovies = {$eq: ['$$item.category', isMovies === 'true' ? contents.MOVIES : '']} //todo aggiungere null
+        const eqMovies = {$eq: ['$$item.category', isMovies === 'true' ? contents.MOVIES : '']}
         const eqTvs = {$eq: ['$$item.category', isTvs === 'true' ? contents.PROGRAM_TV : '']}
         const eqActors = {$eq: ['$$item.category', isActors === 'true' ? contents.ACTORS : '']}
 

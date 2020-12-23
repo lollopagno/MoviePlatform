@@ -4,7 +4,7 @@ const utils = require('../../utils/commons')
 const contents = require('../../utils/contents')
 const codeStatus = require('../../utils/status')
 
-const request = require('./request')
+const request = require('./common/request')
 
 const PATH_POPULAR = '/3/person/popular?api_key='
 const PATH_SEARCH = '/3/search/person?api_key='

@@ -3,7 +3,7 @@ const utils = require('../../utils/commons')
 const codeStatus = require('../../utils/status')
 const contents = require('../../utils/contents')
 
-const request = require('./request')
+const request = require('./common/request')
 
 /**
  * Parameter to request a get api popular

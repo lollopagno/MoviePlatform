@@ -6,9 +6,6 @@ const userSchema = mongoose.Schema(
         username: {type: String, required: true, unique: true},
         password: {type: String, required: true},
         isVerified: {type: Boolean, default: false},
-        // TODO da verificare se questi due parametri sono da inserire
-        passwordResetToken: String,
-        passwordResetExpires: Date,
         createAt: {type: Date, required: true, default: Date.now},
         updateAt: {type: Date, required: true, default: Date.now}
     }, {

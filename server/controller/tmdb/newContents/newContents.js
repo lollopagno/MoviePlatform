@@ -12,7 +12,7 @@ module.exports = {
     added: (req, res) => {
 
         let {_userId, category} = req.body
-        if(!_userId || !category) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a parameters!')
+        if (!_userId || !category) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a parameters!')
 
         if (category !== contents.ACTORS) {
             /* Movies and tv */
@@ -68,7 +68,8 @@ module.exports = {
 
             // Delete image on directory server
             fs.unlink(fileImg.path, err => {
-                if (err) {}
+                if (err) {
+                }
             })
             return utils.requestJsonSuccess(res, codeStatus.OK, 'The content ' + content.title + ' has been added.', content)
         })
@@ -89,17 +90,7 @@ module.exports = {
                 if (contentsUser.length === 0) resolve(contentsUser)
                 contentsUser.forEach(content => {
                     rating.search(userId, content._id, content.category).then(value => {
-                        allData.push({
-                            _id: content._id,
-                            title: content.title,
-                            date: content.date !== undefined ? content.date.getFullYear() + '-' + content.date.getMonth() + "-" + content.date.getDate() : undefined,
-                            language: content.language,
-                            vote: CATEGORY !== contents.ACTORS ? content.vote : undefined,
-                            popularity: CATEGORY === contents.ACTORS ? content.vote : undefined,
-                            department: CATEGORY === contents.ACTORS ? content.department : undefined,
-                            rating: value,
-                            img: content.img.data !== undefined ? `data:` + content.img.contentType + `;base64,` + new Buffer.from(content.img.data).toString('base64') : null
-                        })
+                        allData.push(pushData(content, value))
 
                         countData++
                         if (countData === contentsUser.length) {
@@ -120,23 +111,28 @@ module.exports = {
                 if (contentsUser === undefined || contentsUser.length === 0) resolve(allData)
                 else {
                     contentsUser.forEach(content => {
-                        allData.push({
-                            _id: content._id,
-                            category: content.category,
-                            title: content.title,
-                            date: content.date !== undefined ? content.date.getFullYear() + '-' + content.date.getMonth() + "-" + content.date.getDate() : undefined,
-                            language: content.language,
-                            vote: content.category !== contents.ACTORS ? content.vote : undefined,
-                            popularity: content.category === contents.ACTORS ? content.vote : undefined,
-                            department: content.department !== undefined ? content.department : undefined,
-                            rating: value,
-                            img: content.img.data !== undefined ? `data:` + content.img.contentType + `;base64,` + new Buffer.from(content.img.data).toString('base64') : null
-                        })
+                        allData.push(pushData(content, value))
                         countData++
                         if (countData === contentsUser.length) resolve(allData)
                     })
                 }
             })
         })
+    }
+}
+
+function pushData(content, value) {
+    return {
+        _id: content._id,
+        category: content.category,
+        title: content.title,
+        date: content.date !== undefined ? content.date.getFullYear() + '-' + content.date.getMonth() + "-" + content.date.getDate() : undefined,
+        language: content.language,
+        vote: content.category !== contents.ACTORS ? content.vote : undefined,
+        popularity: content.category === contents.ACTORS ? content.vote : undefined,
+        department: content.department !== undefined ? content.department : undefined,
+        rating: value,
+        img: content.img.data !== undefined ? `data:` + content.img.contentType + `;base64,` + new Buffer.from(content.img.data).toString('base64') : null
+
     }
 }

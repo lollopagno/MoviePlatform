@@ -1,9 +1,9 @@
 const https = require('https');
 
-const rating = require('./rating/requests')
-const newContents = require('../tmdb/newContents/newContents')
-const utils = require('../../utils/commons')
-const categoryContents = require('../../utils/contents')
+const rating = require('../rating/requests')
+const newContents = require('../newContents/newContents')
+const categoryContents = require('../../../utils/contents')
+const object = require('./object')
 
 module.exports = {
 
@@ -38,9 +38,9 @@ async function getInfo(category, options_requests, userId) {
 
                         rating.search(userId, content.id, category).then(value => {
 
-                            if (category === categoryContents.MOVIES) contents.push(dataMovies(content, value))
-                            else if (category === categoryContents.PROGRAM_TV) contents.push(dataTvs(content, value))
-                            else if (category === categoryContents.ACTORS) contents.push(dataActors(content, value))
+                            if (category === categoryContents.MOVIES) contents.push(object.dataMovies(content, value, categoryContents.MOVIES))
+                            else if (category === categoryContents.PROGRAM_TV) contents.push(object.dataTvs(content, value, categoryContents.PROGRAM_TV))
+                            else if (category === categoryContents.ACTORS) contents.push(object.dataActors(content, value, categoryContents.ACTORS))
 
                             countData++
                             if (data.length === countData) resolve(contents)
@@ -56,39 +56,4 @@ async function getInfo(category, options_requests, userId) {
         })
         req.end()
     })
-}
-
-function dataMovies(content, value) {
-    return {
-        _id: content.id,
-        title: content.original_title,
-        date: content.release_date,
-        img: content.poster_path !== null ? utils.IMAGE + content.poster_path : null,
-        language: content.original_language,
-        vote: content.vote_average,
-        rating: value
-    }
-}
-
-function dataTvs(content, value) {
-    return {
-        _id: content.id,
-        title: content.original_name,
-        date: content.first_air_date,
-        img: content.poster_path !== null ? utils.IMAGE + content.poster_path : null,
-        language: content.original_language,
-        vote: content.vote_average,
-        rating: value
-    }
-}
-
-function dataActors(content, value) {
-    return {
-        _id: content.id,
-        name: content.name,
-        img: content.profile_path !== null ? utils.IMAGE + content.profile_path : null,
-        popularity: content.popularity,
-        department: content.known_for_department,
-        rating: value
-    }
 }

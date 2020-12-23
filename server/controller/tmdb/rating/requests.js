@@ -1,7 +1,7 @@
 const https = require('https');
-const utils = require('../../../utils/commons')
 const contents = require('../../../utils/contents')
 const RatingSchema = require('../../../model/rating')
+const object = require('../common/object')
 
 function getDetails(options, userId, category, callback) {
 
@@ -19,33 +19,13 @@ function getDetails(options, userId, category, callback) {
 
                 const content = JSON.parse(allData)
                 search(userId, content.id, category).then(value => {
-                    if (category !== contents.ACTORS) {
-                        callback({
-                            _id: content.id,
-                            title: category === contents.MOVIES? content.original_title: content.original_name,
-                            date: content.release_date,
-                            img: content.poster_path !== null ? utils.IMAGE + content.poster_path : null,
-                            language: content.original_language,
-                            vote: content.vote_average,
-                            rating: value,
-                            category: category
-                        })
-                    } else {
-                        callback({
-                            _id: content.id,
-                            name: content.name,
-                            img: content.profile_path !== null ? utils.IMAGE + content.profile_path : null,
-                            popularity: content.popularity,
-                            department: content.known_for_department,
-                            rating: value,
-                            category: category
-                        })
-                    }
+                    if (category === contents.MOVIES) callback(object.dataMovies(content, value, category))
+                    else if (category === contents.PROGRAM_TV) callback(object.dataTvs(content, value, category))
+                    else callback(object.dataActors(content, value, category))
                 })
             })
-        } else {
-            callback([])
-        }
+        } else callback([])
+
     })
     req.on("error", () => {
         callback([])
