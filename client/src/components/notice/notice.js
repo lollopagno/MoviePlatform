@@ -16,9 +16,6 @@ const useStyles = makeStyles((theme) => ({
 
 function Notice(props) {
 
-    // todo verificare il giusto numero di notifiche che si creano
-    // todo fare un po di refactoring nel server (ti prego)
-
     const classes = useStyles();
 
     const deleteNotice = () => {
@@ -50,8 +47,7 @@ function Notice(props) {
                 <Alert variant="standard" severity="warning">
                     There aren't notifications at this time.
                 </Alert>
-            </Grid>
-            }
+            </Grid>}
         </div>
     )
 }

@@ -8,7 +8,7 @@ import SignIn from "../components/authentication/signIn/signIn";
 import SignUp from "../components/authentication/signUp/signUp";
 import {ResendToken} from "../components/authentication/email/funtionality";
 import MyProfile from "../components/myProfile/myProfile";
-import Notice from "../components/notice";
+import Notice from "../components/notice/notice";
 
 export default class RoutesWithToken extends Component {
     render() {

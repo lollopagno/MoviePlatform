@@ -18,7 +18,7 @@ function PaperComponent(props) {
     const notice = props.notice
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" key={notice.id}>
             <Paper elevation={3} className={classes.paperNotice} key={notice.id}>
                 <Typography variant="h6" gutterBottom>{"Content added: " + notice.title}</Typography>
                 <Typography variant='body1' gutterBottom>{"Category: " + notice.category}</Typography>

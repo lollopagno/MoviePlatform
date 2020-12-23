@@ -47,8 +47,7 @@ function Dashboard() {
     useEffect(() => {
 
         socket.on('notice new content added', (data) => {
-            console.log(data.id)
-            store.dispatch(eventNotice(data.data))
+            store.dispatch(eventNotice(data))
         })
 
         setIsCards(true)
