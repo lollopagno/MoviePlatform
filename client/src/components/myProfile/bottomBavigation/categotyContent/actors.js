@@ -94,7 +94,7 @@ function Actors(props) {
 
     const onSubmit = (event) => {
         event.preventDefault()
-        isValidForm(error, setError, field)
+        isValidForm(error, setError, field, alert, setAlert)
 
         if (field.title && field.department && parseFloat(field.popularity) <= 100 && parseFloat(field.popularity) >= 0) {
             requestNewContents.addData(userId, field, props.category).then((res) => {
@@ -240,12 +240,17 @@ function Actors(props) {
 
 export default Actors
 
-function isValidForm(error, setError, field) {
+function isValidForm(error, setError, field, alert, setAlert) {
     setError({
         ...error,
         title: field.title === '',
         department: field.department === '',
         popularity: (field.popularity === '' || (parseFloat(field.popularity) > 100 || parseFloat(field.popularity) < 0)),
         image: field.image === null
+    })
+    setAlert({
+        ...alert,
+        isError: (!(field.title === '' || field.date === '' || field.language === '' || (field.vote === '' || (parseFloat(field.vote) > 10 || parseFloat(field.vote) < 0)))),
+        text: ''
     })
 }

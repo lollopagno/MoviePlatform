@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -18,8 +18,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import {socket} from "../../../../requests/socket";
-import {store} from "../../../../redux/store";
-import {eventNotice} from "../../../../redux/reducer/socketReducer";
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -131,7 +129,7 @@ function MoviesTvContents(props) {
 
     const onSubmit = (event) => {
         event.preventDefault()
-        isValidForm(error, setError, field)
+        isValidForm(error, setError, field, alert, setAlert)
 
         if (field.title && field.date && field.language && parseFloat(field.vote) <= 10 && parseFloat(field.vote) >= 0) {
             requestNewContents.addData(userId, field, props.category).then((res) => {
@@ -321,7 +319,7 @@ function MoviesTvContents(props) {
 export default MoviesTvContents;
 
 
-function isValidForm(error, setError, field) {
+function isValidForm(error, setError, field, alert, setAlert) {
     setError({
         ...error,
         title: field.title === '',
@@ -329,5 +327,10 @@ function isValidForm(error, setError, field) {
         language: field.language === '',
         vote: (field.vote === '' || (parseFloat(field.vote) > 10 || parseFloat(field.vote) < 0)),
         image: field.image === null
+    })
+    setAlert({
+        ...alert,
+        isError: (!(field.title === '' || field.date === '' || field.language === '' || (field.vote === '' || (parseFloat(field.vote) > 10 || parseFloat(field.vote) < 0)))),
+        text: ''
     })
 }
