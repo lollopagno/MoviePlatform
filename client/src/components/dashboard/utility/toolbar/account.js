@@ -9,7 +9,6 @@ import {deleteToken} from "../../../../redux/reducer/tokenReducer";
 import history from "../../../../history";
 import {setAlert} from "../../../../redux/reducer/signInReducer";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {disconnect} from "../../../../redux/reducer/socketReducer";
 import {socket} from '../../../../requests/socket'
 
 const useStyles = makeStyles((theme) => ({

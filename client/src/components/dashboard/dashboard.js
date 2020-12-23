@@ -27,9 +27,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {socket} from '../../requests/socket'
 import {store} from "../../redux/store";
 import {eventNotice, resetNotice} from "../../redux/reducer/socketReducer";
-import Notice from "../notice";
-import Alert from "@material-ui/lab/Alert";
-import Paper from "@material-ui/core/Paper";
+import Notice from "../notice/notice";
+import PaperComponent from "../notice/paper";
 
 function Dashboard() {
 
@@ -48,7 +47,8 @@ function Dashboard() {
     useEffect(() => {
 
         socket.on('notice new content added', (data) => {
-            store.dispatch(eventNotice(data))
+            console.log(data.id)
+            store.dispatch(eventNotice(data.data))
         })
 
         setIsCards(true)
@@ -63,14 +63,8 @@ function Dashboard() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const paperNotice = (noticeList.length !== 0) ? noticeList.slice(0).reverse().map(notice =>
-        <Paper elevation={20} className={classes.paperNotice} key={notice.id}>
-            <Typography variant="h5" gutterBottom>
-                {"Name: " + notice.title}
-            </Typography>
-            <Typography variant="h6">{"Category: " + notice.category}</Typography>
-            <Typography variant="h6">{"Added by "+notice.username}</Typography>
-        </Paper>
+    const paperNotice = (noticeList.length !== 0) ? noticeList.slice(0).reverse().map(item =>
+        <PaperComponent notice={item}/>
     ) : []
 
     const toggleDrawer = () => {
@@ -138,7 +132,7 @@ function Dashboard() {
                                       setBackDrop={setBackdrop}/>}
                 </Drawer>
                 <div className={classes.appBarSpacer}/>
-                <Grid container>
+                <Grid container justify={'center'}>
                     <Grid item xs={12} md={8} lg={9}>
                         <Typography
                             component="h2"
@@ -153,7 +147,9 @@ function Dashboard() {
                             <CircularProgress color="inherit"/>
                         </Backdrop>
                         {isCards && cards}
-                        {!isCards && <Notice notices={paperNotice}/>}
+                        <Grid container justify={'center'}>
+                            {!isCards && <Notice notices={paperNotice}/>}
+                        </Grid>
                     </Grid>
                 </Grid>
             </div>

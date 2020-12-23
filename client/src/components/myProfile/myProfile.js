@@ -7,7 +7,7 @@ import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import history from '../../history'
 import {store} from "../../redux/store";
 import {resetUser} from "../../redux/reducer/userReducer";
@@ -25,10 +25,9 @@ import Typography from "@material-ui/core/Typography";
 import {useSelector} from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {socket} from "../../requests/socket";
-import {eventNotice, resetNotice} from "../../redux/reducer/socketReducer";
-import Notice from "../notice";
-import Alert from "@material-ui/lab/Alert";
-import Paper from "@material-ui/core/Paper";
+import {resetNotice} from "../../redux/reducer/socketReducer";
+import Notice from "../notice/notice";
+import PaperComponent from "../notice/paper";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,16 +43,10 @@ const useStyles = makeStyles((theme) => ({
     divider: {
         marginTop: theme.spacing(3)
     },
-    notice:{
-        marginTop: theme.spacing(4)
-    },
-    paperNotice: {
-        padding: theme.spacing(2),
-        marginTop: theme.spacing(4),
-        backgroundColor: '#e3f3e7',
+    notice: {
+        marginTop : theme.spacing(3)
     }
 }));
-
 
 function MyProfile() {
 
@@ -64,16 +57,8 @@ function MyProfile() {
     const notice = useSelector(state => state.socket.notice)
     const [isNotice, setIsNotice] = useState(false)
 
-
-    const paperNotice = (noticeList.length !== 0) ? noticeList.slice(0).reverse().map(notice =>
-        <Paper elevation={20} className={classes.paperNotice} key={notice.id}>
-            <Typography variant="h5" gutterBottom>
-                {"Name: " + notice.title}
-            </Typography>
-            <Typography variant="h6">{"Category: " + notice.category}</Typography>
-            <Typography variant="h6">{"Added by "+notice.username}</Typography>
-        </Paper>
-    ) : []
+    const paperNotice = (noticeList.length !== 0) ? noticeList.slice(0).reverse().map(item =>
+        <PaperComponent notice={item}/>) : []
 
     const logOut = () => {
         store.dispatch(resetUser())
@@ -139,8 +124,8 @@ function MyProfile() {
                 {!isNotice && value === 0 && <Favorites/>}
                 {!isNotice && value === 1 && <AddContents/>}
                 {!isNotice && value === 2 && <About/>}
-                <Grid container justify={'center'} className={classes.notice}>
-                    {isNotice && <Notice notices={paperNotice} />}
+                <Grid className={classes.notice}>
+                    {isNotice && <Notice notices={paperNotice}/>}
                 </Grid>
             </Grid>
         </div>
