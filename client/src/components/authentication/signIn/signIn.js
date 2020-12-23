@@ -24,7 +24,6 @@ import {useSelector} from "react-redux";
 import {Alert} from "@material-ui/lab";
 import {meFromTokenSuccess} from "../../../redux/reducer/tokenReducer";
 import {resetAlert} from "../../../redux/reducer/signInReducer";
-import {Redirect, Route} from "react-router-dom";
 import clsx from "clsx";
 
 function Copyright() {
@@ -47,7 +46,6 @@ function SignIn() {
     const [infoAlert, setInfoAlert] = useState(null)
     const [stateAlert, setStateAlert] = useState(false)
     const alertRedux = useSelector(state => state.signIn)
-    const idUser = useSelector(state => state.user._id)
 
     useEffect(() => {
 
@@ -58,11 +56,6 @@ function SignIn() {
             setStateAlert(alertRedux.isSuccess)
             store.dispatch(resetAlert())
         }
-        // else if(idUser){
-        //     // Redirect to dashboard
-        //     console.log("redirect")
-        //     history.push("/dashboard")
-        // }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
