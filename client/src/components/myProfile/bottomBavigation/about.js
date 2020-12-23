@@ -23,6 +23,7 @@ import {setAlert} from "../../../redux/reducer/signInReducer";
 import history from "../../../history";
 import Alert from "@material-ui/lab/Alert";
 import Container from "@material-ui/core/Container";
+import {resetList, resetNotice} from "../../../redux/reducer/socketReducer";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -174,6 +175,8 @@ function About() {
         request.deleteUser(userId).then(() => {
             store.dispatch(resetUser())
             store.dispatch(deleteToken())
+            store.dispatch(resetNotice())
+            store.dispatch(resetList())
             store.dispatch(setAlert({alert: 'Account deleted!', isSuccess: true}))
             history.push('/signIn')
         }).catch()
