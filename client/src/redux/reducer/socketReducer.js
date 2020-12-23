@@ -8,10 +8,9 @@ export const socket = createSlice({
     },
     reducers: {
         eventNotice: (state, action) => {
-            const {id, title, category} = action.payload
-            const newItem = {
-                id: id, title: title, category: category
-            }
+
+            const {id, title, category, username} = action.payload
+            const newItem = {id: id, title: title, category: category.toLowerCase(), username: username}
             return {
                 ...state,
                 notice: state.notice + 1,
