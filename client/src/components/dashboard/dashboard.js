@@ -59,12 +59,15 @@ function Dashboard() {
             setBackdrop(false)
             setCards(<ErrorAPI msg={err.response.data.message}/>)
         })
+
+        return () => {
+            socket.off('notice new content added');
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const paperNotice = (noticeList.length !== 0) ? noticeList.slice(0).reverse().map(item =>
-        <PaperComponent notice={item}/>
-    ) : []
+        <PaperComponent notice={item} key={item.id}/>) : []
 
     const toggleDrawer = () => {
         setOpen(!open);

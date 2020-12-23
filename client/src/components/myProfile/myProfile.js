@@ -7,7 +7,7 @@ import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import history from '../../history'
 import {store} from "../../redux/store";
 import {resetUser} from "../../redux/reducer/userReducer";
@@ -25,7 +25,7 @@ import Typography from "@material-ui/core/Typography";
 import {useSelector} from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {socket} from "../../requests/socket";
-import {resetNotice} from "../../redux/reducer/socketReducer";
+import {eventNotice, resetNotice} from "../../redux/reducer/socketReducer";
 import Notice from "../notice/notice";
 import PaperComponent from "../notice/paper";
 
@@ -57,8 +57,18 @@ function MyProfile() {
     const notice = useSelector(state => state.socket.notice)
     const [isNotice, setIsNotice] = useState(false)
 
+    useEffect(() => {
+        socket.on('notice new content added', (data) => {
+            store.dispatch(eventNotice(data))
+        })
+
+        return () => {
+            socket.off('notice new content added');
+        }
+    },[])
+
     const paperNotice = (noticeList.length !== 0) ? noticeList.slice(0).reverse().map(item =>
-        <PaperComponent notice={item}/>) : []
+        <PaperComponent notice={item} key={item.id}/>) : []
 
     const logOut = () => {
         store.dispatch(resetUser())
