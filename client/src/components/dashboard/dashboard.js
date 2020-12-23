@@ -46,6 +46,7 @@ function Dashboard() {
 
     useEffect(() => {
 
+        let isMounted = true;
         socket.on('notice new content added', (data) => {
             store.dispatch(eventNotice(data))
         })
@@ -53,15 +54,20 @@ function Dashboard() {
         setIsCards(true)
         setCategory("Movies Popular")
         requestMovies.popular(id).then(res => {
-            setBackdrop(false)
-            setCards(<Cards result={res.data} category={"Movies"}/>)
+            if (isMounted) {
+                setBackdrop(false)
+                setCards(<Cards result={res.data} category={"Movies"}/>)
+            }
         }).catch((err) => {
-            setBackdrop(false)
-            setCards(<ErrorAPI msg={err.response.data.message}/>)
+            if(isMounted) {
+                setBackdrop(false)
+                setCards(<ErrorAPI msg={err.response.data.message}/>)
+            }
         })
 
         return () => {
             socket.off('notice new content added');
+            isMounted = false
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
