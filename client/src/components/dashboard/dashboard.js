@@ -72,8 +72,8 @@ function Dashboard() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const paperNotice = (noticeList.length !== 0) ? noticeList.slice(0).reverse().map(item =>
-        <PaperComponent notice={item} key={item.id}/>) : []
+    const paperNotice = (noticeList.length !== 0) ? noticeList.slice(0).reverse().map((item, index) =>
+        <PaperComponent notice={item} index={index} key={item.id}/>) : []
 
     const toggleDrawer = () => {
         setOpen(!open);

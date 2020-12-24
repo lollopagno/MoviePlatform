@@ -20,7 +20,7 @@ function PaperComponent(props) {
     return (
         <Container component="main" maxWidth="xs">
             <Paper elevation={3} className={classes.paperNotice}>
-                <Typography variant="h6" gutterBottom>{"Content added: " + notice.title}</Typography>
+                <Typography variant="h6" gutterBottom>{props.index+1+") Content added: " + notice.title}</Typography>
                 <Typography variant='body1' gutterBottom>{"Category: " + notice.category}</Typography>
                 <Typography variant="button" display={'block'}>{"Added by " + notice.username}</Typography>
             </Paper>
