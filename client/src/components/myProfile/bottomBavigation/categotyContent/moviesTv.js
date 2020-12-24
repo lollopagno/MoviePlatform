@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'none',
     },
     alertImage: {
-        marginTop: theme.spacing(4),
+        marginTop: theme.spacing(3),
     },
     alertInfo: {
         marginTop: theme.spacing(3),
@@ -59,7 +59,7 @@ function MoviesTvContents(props) {
         date: '',
         language: '',
         vote: '',
-        section: '',
+        section: 'Popular',
         image: null
     })
 
@@ -268,7 +268,7 @@ function MoviesTvContents(props) {
                         </Grid>
                     </Grid>
                     <Grid container justify={'center'} spacing={2}>
-                        <Grid item xs={6}>
+                        <Grid item>
                             <input
                                 accept="image/*"
                                 className={classes.input}
@@ -285,10 +285,12 @@ function MoviesTvContents(props) {
                             </label>
                         </Grid>
                         {alertImage.text &&
-                        <Alert severity={alertImage.isError ? 'error' : 'success'} className={classes.alertImage}
-                               variant="standard">
-                            {alertImage.text}
-                        </Alert>}
+                        <Grid item>
+                            <Alert severity={alertImage.isError ? 'error' : 'success'} className={classes.alertImage}
+                                   variant="standard">
+                                {alertImage.text}
+                            </Alert>
+                        </Grid>}
                     </Grid>
                     <Grid container justify={'center'}>
                         <Grid item xs={6}>

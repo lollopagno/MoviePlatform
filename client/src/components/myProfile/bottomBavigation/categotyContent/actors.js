@@ -26,9 +26,9 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         marginTop: theme.spacing(4),
-    },
+    },  
     alertImage: {
-        marginTop: theme.spacing(4),
+        marginTop: theme.spacing(3),
     },
     alertInfo: {
         marginTop: theme.spacing(3),
@@ -191,7 +191,7 @@ function Actors(props) {
                     </Grid>
                 </Grid>
                 <Grid container justify={'center'} spacing={2}>
-                    <Grid item xs={6}>
+                    <Grid item>
                         <input
                             accept="image/*"
                             className={classes.input}
@@ -208,10 +208,12 @@ function Actors(props) {
                         </label>
                     </Grid>
                     {alertImage.text &&
-                    <Alert severity={alertImage.isError ? 'error' : 'success'} className={classes.alertImage}
-                           variant="standard">
-                        {alertImage.text}
-                    </Alert>}
+                    <Grid item>
+                        <Alert severity={alertImage.isError ? 'error' : 'success'} className={classes.alertImage}
+                               variant="standard">
+                            {alertImage.text}
+                        </Alert>
+                    </Grid>}
                 </Grid>
                 <Grid container justify={'center'}>
                     <Grid item xs={6}>
