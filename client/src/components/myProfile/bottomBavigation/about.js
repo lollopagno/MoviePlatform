@@ -71,8 +71,11 @@ function About() {
 
     // State error
     const [errorName, setErrorName] = useState(false)
-    const [errorUsername, setErrorUsername] = useState(false)
-    const [blankFieldUsername, setBlankUsername] = useState(false)
+    const [errorUsername, setErrorUsername] = useState({
+        isError: false,
+        text: ''
+    })
+
     const [errorEmail, setErrorEmail] = useState({
         isError: false,
         text: ''
@@ -118,37 +121,29 @@ function About() {
         const {value} = event.target
         setUsername(value)
         request.isUserValid(value, false, userId).then(res => {
-            if (!res) {
-                setErrorUsername(true)
-            } else {
-                setErrorUsername(false)
-            }
-        })
+            if (!res) setErrorUsername({...errorUsername, isError: true, text: 'Username already present!'})
+            else setErrorUsername({...errorUsername, isError: false, text: ''})
+        }).catch((err) => setErrorUsername({...errorUsername, isError: true, text: err.response.data.message}))
     }
 
     const onChangeEmail = (event) => {
         const {value} = event.target
         setEmail(value)
         request.isEmailFormatValid(value).then(res => {
-            if (!res[0]) {
-                setErrorEmail({...errorEmail, isError: true, text: res[1]})
-            } else {
-                request.isEmailValid(value, false, userId).then((res) => {
-                    if (!res) {
-                        setErrorEmail({...errorEmail, isError: true, text: 'Email is already present!'})
-                    } else {
-                        setErrorEmail({...errorEmail, isError: false, text: ''})
-                    }
-                })
-            }
+            request.isEmailValid(value, false, userId).then((res) => {
+                if (!res) setErrorEmail({...errorEmail, isError: true, text: 'Email is already present!'})
+                else setErrorEmail({...errorEmail, isError: false, text: ''})
+            })
+        }).catch((err) => {
+            setErrorEmail({...errorEmail, isError: true, text: err.response.data.message})
         })
     }
 
     const onSubmit = event => {
         event.preventDefault()
-        isValidForm(name, username, setErrorName, setBlankUsername, errorEmail, setErrorEmail, email)
+        isValidForm(name, username, setErrorName, errorEmail, setErrorEmail, email)
 
-        if (name && username && email && !errorEmail.isError && !errorUsername) {
+        if (name && username && email && !errorEmail.isError && !errorUsername.isError) {
             request.updateUserData(userId, name, username, email).then((res) => {
                 store.dispatch(changeData(res.data.data))
                 setDisabledEmail(true)
@@ -235,8 +230,8 @@ function About() {
                                 autoFocus
                                 value={username}
                                 disabled={disabledUsername}
-                                error={errorUsername ? true : blankFieldUsername}
-                                helperText={errorUsername ? 'Username already present!' : blankFieldUsername ? 'Username must not be empty' : ''}
+                                error={errorUsername.isError}
+                                helperText={errorUsername.isError ? errorUsername.text : false}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -307,7 +302,7 @@ function About() {
                                 Save
                             </Button>
                         </Grid>
-                        <Grid item >
+                        <Grid item>
                             <Button
                                 type="button"
                                 fullWidth
@@ -356,9 +351,8 @@ function About() {
 
 export default About
 
-function isValidForm(name, username, setErrName, setErrUsername, errorEmail, setErrorEmail, email) {
+function isValidForm(name, username, setErrName, errorEmail, setErrorEmail, email) {
     setErrName(name === '')
-    setErrUsername(username === '')
     if (!errorEmail.isError) {
         setErrorEmail({...errorEmail, isError: email === '', text: email === '' ? 'Email must not be empty!' : ''})
     }
