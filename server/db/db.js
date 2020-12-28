@@ -1,6 +1,9 @@
 const URI_MONGODB = require('../utils/env').mongoUri
 const mongoose = require('mongoose')
 
+/**
+ * Connection mongo db
+ */
 mongoose
     .connect(URI_MONGODB, {
         useNewUrlParser: true,

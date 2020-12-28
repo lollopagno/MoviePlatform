@@ -10,12 +10,19 @@ const jwt = require('jsonwebtoken');
 const utils = require('./utils/commons')
 const codeStatus = require('./utils/status')
 
+/**
+ * Port connection
+ */
 const PORT = config.serverPort
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
 app.use(cors())
+
+/**
+ * Check token authentication
+ */
 app.use(function (req, res, next) {
 
     let token = req.headers['authorization']
@@ -25,28 +32,34 @@ app.use(function (req, res, next) {
     token = token.replace('Bearer ', '');
 
     jwt.verify(token, config.JWTSecret, function (err, decode) {
-        if (err) {
-            utils.requestJsonFailed(res, codeStatus.badRequest, 'Authentication expired! Please sign in.')
-        } else {
+        if (err) return utils.requestJsonFailed(res, codeStatus.badRequest, 'Session expired! Please sign in.')
+        else {
             req.auth = decode;
             next();
         }
     });
 });
 
-// Routing
+/**
+ * Routing
+ */
 app.use('/api', router);
 
+/**
+ * Socket server
+ */
 const io = socketServer(server)
 
 io.on("connection", (socket) => {
     console.log(`Client ${socket.id} connected!`);
 
+    // Broadcast messages
     socket.on('new content added', data => {
         console.log('broadcast.....')
         socket.broadcast.emit('notice new content added', data)
     })
 
+    // User disconnected
     socket.on('disconnect', () => {
         console.log('Disconnected - ' + socket.id);
     });

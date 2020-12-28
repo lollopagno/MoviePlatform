@@ -3,6 +3,9 @@ const KEY_PUBLIC = require('../utils/env').emailKeyPublic
 const mailjet = require('node-mailjet').connect(KEY_PUBLIC, KEY_PRIVATE)
 const validator = require('deep-email-validator');
 
+/**
+ * Use API mailjet to send email
+ **/
 sendEmail = (email, name, token) => mailjet
     .post("send", {'version': 'v3.1'})
     .request({
@@ -29,7 +32,7 @@ sendEmail = (email, name, token) => mailjet
     })
 
 /**
- * Check if the email is valid (get)
+ * Check if the email is correct (format and validity)
  **/
 validationEmail = (req, res) => {
 
@@ -41,7 +44,6 @@ validationEmail = (req, res) => {
 
     const param = req.query
 
-    //  Check valid email
     validator.validate(param.email.trim()).then((validEmail) => {
         if (!validEmail.valid) {
             const err = +!validEmail.validators.regex.valid ? validEmail.validators.regex.reason : ''

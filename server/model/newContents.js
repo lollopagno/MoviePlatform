@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+
+/**
+ * New contents schema
+ */
 const newContents = mongoose.Schema(
     {
         category: {type: String},

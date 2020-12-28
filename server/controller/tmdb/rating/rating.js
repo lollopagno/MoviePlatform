@@ -10,11 +10,17 @@ const contents = require('../../../utils/contents')
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId
 
+/**
+ * Module to update and search for the vote on the contents
+ */
 module.exports = {
 
+    /**
+     * Updated the rating of a content
+     */
     update: async (req, res) => {
 
-        if(!req.body.params) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a parameters!')
+        if (!req.body.params) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a parameters!')
 
         const {userId, contentId, category, value} = req.body.params
         if (!userId || !contentId || !category || !value) return utils.requestJsonFailed(res, codeStatus.notFound, 'Must pass parameters!')
@@ -25,7 +31,6 @@ module.exports = {
 
         if (updated === null) {
 
-            // Added content to document
             await RatingSchema.updateOne(
                 {'_userId': userId},
                 {
@@ -46,10 +51,13 @@ module.exports = {
         }
     },
 
+    /**
+     * Search for rated content
+     */
     searchAll: async (req, res) => {
 
         const query = req.query
-        if(!query.userId || !query.isMovies || !query.isActors || !query.isTvs) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a parameters!')
+        if (!query.userId || !query.isMovies || !query.isActors || !query.isTvs) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a parameters!')
 
         const {userId, isMovies, isTvs, isActors} = req.query
         if (!userId || !isMovies || !isTvs || !isActors) return utils.requestJsonFailed(res, codeStatus.notFound, 'Must pass parameters')
@@ -85,6 +93,8 @@ module.exports = {
 
         let allDataRating = []
         let countData = 0
+
+        // Extract info for each content
         const promise = new Promise((resolve) => {
             this.result.forEach(content => {
                 newContents.searchContentRate(content._contentId, content.value).then(contentUser => {
@@ -109,12 +119,16 @@ module.exports = {
     }
 }
 
+/**
+ * Get api to extract content tmdb information
+ */
 function getContentsRateTmdb(userId, content) {
 
     let CATEGORY = ''
     let options = {}
 
     switch (content.category) {
+        // Movies
         case contents.MOVIES:
             CATEGORY = contents.MOVIES
             options = {
@@ -122,6 +136,7 @@ function getContentsRateTmdb(userId, content) {
                 path: '/3/movie/' + content._contentId + '?api_key=' + KEY
             };
             break;
+        // Programs tv
         case contents.PROGRAM_TV:
             CATEGORY = contents.PROGRAM_TV
             options = {
@@ -129,6 +144,7 @@ function getContentsRateTmdb(userId, content) {
                 path: '/3/tv/' + content._contentId + '?api_key=' + KEY
             };
             break;
+        // Actors
         case contents.ACTORS:
             CATEGORY = contents.ACTORS
             options = {
@@ -139,6 +155,7 @@ function getContentsRateTmdb(userId, content) {
     }
 
     return new Promise(resolve => {
+        // Get details
         requests.getDetails(options, userId, CATEGORY, obj => {
             if (Object.keys(obj).length !== 0) {
                 resolve(obj)

@@ -6,20 +6,23 @@ const contents = require('../../utils/contents')
 const request = require('./common/request')
 
 /**
- * Parameter to request a get api popular
+ * Parameter to request a get api programs tv popular
  */
 const PATH_POPULAR = '/3/tv/popular?api_key='
 
 /**
- * Parameter to request a get api top rated
+ * Parameter to request a get api programs tv top rated
  */
 const PATH_TOP_RATED = '/3/tv/top_rated?api_key='
 
 /**
- * Parameter to request a get api to search Tv programs
+ * Parameter to request a get api to search specific tv program
  */
 const PATH_SEARCH = '/3/search/tv?api_key='
 
+/**
+ * Programs tv popular to show
+ */
 popular = (req, res) => {
     if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
@@ -37,6 +40,9 @@ popular = (req, res) => {
     })
 }
 
+/**
+ * Programs tv top rated to show
+ */
 topRated = (req, res) => {
     if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
@@ -54,6 +60,9 @@ topRated = (req, res) => {
     })
 }
 
+/**
+ * Search specific program tv to show
+ */
 search = (req, res) => {
     if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId

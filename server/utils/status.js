@@ -1,3 +1,6 @@
+/**
+ * Request status code
+ */
 module.exports = {
     OK: 200,
     created: 201,

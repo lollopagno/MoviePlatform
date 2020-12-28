@@ -1,5 +1,9 @@
 require('dotenv').config()
 
+/**
+ * Environment variables
+ * @type {{mongoUri: *, apiKeyTmdb: *, emailKeyPublic: *, emailKeyPrivate: *, serverPort: *, JWTSecret: *}}
+ */
 module.exports = {
     mongoUri: process.env.MONGODB_URI,
     serverPort: process.env.PORT,

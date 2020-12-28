@@ -21,20 +21,16 @@ signIn = (req, res) => {
 
     UserSchema.findOne({$or: [{'email': body.username.trim()}, {'username': body.username.trim()}]}, (err, user) => {
 
-        // SingIn error
         if (err) return utils.requestJsonFailed(res, codeStatus.badRequest, err.messages)
 
-        // Email or username are wrong
         if (!user) return utils.requestJsonFailed(res, codeStatus.notFound, 'The email address or username is not associated with any account.')
 
         bcrypt.compare(body.password.trim(), user.password, (err, valid) => {
 
             if (!valid) return utils.requestJsonFailed(res, codeStatus.notFound, 'Username or password is invalid!')
 
-            // Check if the user has been verified email
             if (!user.isVerified) return utils.requestJsonFailed(res, codeStatus.unauthorized, 'Your account has not been verified.')
 
-            // SignIn successful, generate token
             const token = utils.generateToken(user);
             console.log("[New token created (signIn)] " + token)
             console.log("[SERVER] Authentication user completed!")
@@ -42,8 +38,9 @@ signIn = (req, res) => {
         });
     });
 }
+
 /**
- * Check if exists the same username or same email
+ * Check if exists the same username or same email in the db
  */
 sameField = (req, res) => {
     const query = req.query
@@ -56,6 +53,9 @@ sameField = (req, res) => {
     })
 }
 
+/**
+ * Check if the username or email is unique in the db
+ */
 sameFieldExceptUser = (req, res) => {
 
     const param = req.query
@@ -76,12 +76,11 @@ sameFieldExceptUser = (req, res) => {
 }
 
 /**
- * Create sign up
+ * Saved user (sign up)
  */
 signUp = (req, res) => {
 
     const body = req.body
-    // SignUp error
     if (!body.name || !body.email || !body.username || !body.password) return utils.requestJsonFailed(res, codeStatus.paymentRequired, 'You must provide a parameters to create new user!')
 
     // Generated salt
@@ -135,6 +134,9 @@ signUp = (req, res) => {
     })
 }
 
+/**
+ * Updated user data
+ */
 changeData = (req, res) => {
 
     const body = req.body
@@ -148,6 +150,9 @@ changeData = (req, res) => {
     })
 }
 
+/**
+ * Deleted user from the system
+ */
 deleteUser = (req, res) => {
 
     const userId = req.body.userId

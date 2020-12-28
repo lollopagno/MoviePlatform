@@ -7,25 +7,28 @@ const contents = require('../../utils/contents')
 const request = require('./common/request')
 
 /**
- * Parameter to request a get api popular
+ * Parameter to request a get api movies popular
  */
 const PATH_POPULAR = '/3/movie/popular?api_key='
 
 /**
- * Parameter to request a get api top rated
+ * Parameter to request a get api movies top rated
  */
 const PATH_TOP_RATED = '/3/movie/top_rated?api_key='
 
 /**
- * Parameter to request a get api upcoming
+ * Parameter to request a get api movies upcoming
  */
 const PATH_UPCOMING = '/3/movie/upcoming?api_key='
 
 /**
- * Parameter to request a get api to search movie
+ * Parameter to request a get api to search specific movie
  */
 const PATH_SEARCH = '/3/search/movie?api_key='
 
+/**
+ * Movies popular to show
+ */
 popular = (req, res) => {
     if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
@@ -43,6 +46,9 @@ popular = (req, res) => {
     })
 }
 
+/**
+ * Movies top rated to show
+ */
 topRated = (req, res) => {
     if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
@@ -60,6 +66,9 @@ topRated = (req, res) => {
     })
 }
 
+/**
+ * Movies upcoming to show
+ */
 upcoming = (req, res) => {
     if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
@@ -77,6 +86,9 @@ upcoming = (req, res) => {
     })
 }
 
+/**
+ * Search specific movie to show
+ */
 search = (req, res) => {
 
     if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')

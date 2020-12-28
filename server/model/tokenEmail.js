@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+
+/**
+ * Token email schema
+ */
 const tokenEmailSchema = mongoose.Schema(
     {
         _userId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},

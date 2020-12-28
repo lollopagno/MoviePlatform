@@ -3,6 +3,9 @@ const contents = require('../../../utils/contents')
 const RatingSchema = require('../../../model/rating')
 const object = require('../common/object')
 
+/**
+ * Get details information for each content tmdb
+ */
 function getDetails(options, userId, category, callback) {
 
     const req = https.get(options, (result) => {
@@ -34,6 +37,9 @@ function getDetails(options, userId, category, callback) {
     req.end()
 }
 
+/**
+ * Search specific content id
+ */
 async function search(userId, contentId, category) {
     const result = await RatingSchema.findOne({'_userId': userId}).select({
         content: {

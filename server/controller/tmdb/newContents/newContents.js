@@ -7,8 +7,14 @@ const utils = require('../../../utils/commons')
 const codeStatus = require('../../../utils/status')
 const contents = require('../../../utils/contents')
 
+/**
+ * Module to perform operations on the db and search for new content
+ */
 module.exports = {
 
+    /**
+     * Added new content
+     */
     added: (req, res) => {
 
         let {_userId, category} = req.body
@@ -55,6 +61,9 @@ module.exports = {
         }
     },
 
+    /**
+     * Updated new content (added image)
+     */
     updated: (req, res) => {
 
         if (!req.file) return utils.requestJsonSuccess(res, codeStatus.serverError, 'You must pass a file!')
@@ -75,6 +84,9 @@ module.exports = {
         })
     },
 
+    /**
+     * Search new contents to show
+     */
     searchContentToShow: async (CATEGORY, SECTION, isSearch, query, userId) => {
         return new Promise(resolve => {
 
@@ -102,6 +114,9 @@ module.exports = {
         })
     },
 
+    /**
+     * Search for new rated content
+     */
     searchContentRate: async (contentId, value) => {
         return new Promise(resolve => {
             NewContentsSchema.find({_id: contentId}, (err, contentsUser) => {
@@ -121,6 +136,9 @@ module.exports = {
     }
 }
 
+/**
+ * Extract information from contents
+ */
 function pushData(content, value) {
     return {
         _id: content._id,

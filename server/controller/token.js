@@ -8,7 +8,7 @@ const email = require('./email')
 const crypto = require('crypto')
 
 /**
- * Check token email
+ * Checked token email
  */
 checkTokenEmail = (req, res) => {
 
@@ -23,7 +23,7 @@ checkTokenEmail = (req, res) => {
             if (!user) return utils.requestJsonFailed(res, codeStatus.badRequest, 'We were unable to find a user for this token.')
             if (user.isVerified) return utils.requestJsonFailed(res, codeStatus.badRequest, 'This user has already been verified.')
 
-            // Verify and save the user
+            // Verify and update user data
             user.isVerified = true;
             user.save((err) => {
                 if (err) return utils.requestJsonFailed(res, codeStatus.serverError, err.message)
@@ -45,8 +45,7 @@ resendTokenEmail = (req, res) => {
 
         // Delete old token (if present)
         EmailSchema.findOne({_userId: user._id}, (err, token) => {
-            if (err) {
-            }/*pass*/
+            if (err) { /*pass*/ }
             else token.remove()
         })
 
@@ -56,7 +55,6 @@ resendTokenEmail = (req, res) => {
             token: crypto.randomBytes(16).toString('hex')
         });
 
-        // Save the token
         tokenEmail.save((err) => {
             if (err) return utils.requestJsonFailed(res, codeStatus.serverError, err.message)
         })
@@ -70,7 +68,7 @@ resendTokenEmail = (req, res) => {
 }
 
 /**
- * Check current token authentication
+ * Check current token for the authentication session
  */
 checkToken = (req, res) => {
 
@@ -78,11 +76,9 @@ checkToken = (req, res) => {
     if (!token) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a token!')
 
     token = token.replace('Bearer ', '');
-    // Check token that was passed by decoding token using secret
     jwt.verify(token, JWT_SECRET, (err, decode) => {
         if (err) return utils.requestJsonFailed(res, codeStatus.badRequest, '')
 
-        // Return user using the id from JWTToken
         UserSchema.findById({'_id': decode._id}, (err, user) => {
             if (err) return utils.requestJsonFailed(res, codeStatus.badRequest, '')
 

@@ -1,7 +1,13 @@
 const utils = require('../../../utils/commons')
 
+/**
+ * Module to extract information from contents, by category
+ */
 module.exports = {
 
+    /**
+     * Manage movies contents
+     */
     dataMovies: function (content, value, category) {
         return {
             _id: content.id,
@@ -15,6 +21,9 @@ module.exports = {
         }
     },
 
+    /**
+     * Manage programs tv contents
+     */
     dataTvs: function (content, value, category) {
         return {
             _id: content.id,
@@ -28,6 +37,9 @@ module.exports = {
         }
     },
 
+    /**
+     * Manage actors contents
+     */
     dataActors: function (content, value, category) {
         return {
             _id: content.id,

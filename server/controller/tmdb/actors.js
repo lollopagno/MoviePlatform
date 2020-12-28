@@ -6,9 +6,19 @@ const codeStatus = require('../../utils/status')
 
 const request = require('./common/request')
 
+/**
+ * Parameter to request a get api actors popular
+ */
 const PATH_POPULAR = '/3/person/popular?api_key='
+
+/**
+ * Parameter to request a get api to search specific actor
+ */
 const PATH_SEARCH = '/3/search/person?api_key='
 
+/**
+ * Actors popular to show
+ */
 popular = (req, res) => {
     if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
@@ -26,6 +36,9 @@ popular = (req, res) => {
     })
 }
 
+/**
+ * Search specific actor to show
+ */
 search = (req, res) => {
     if(!req.query.userId) return utils.requestJsonFailed(res, codeStatus.badRequest, 'You must pass a id!')
     const userId = req.query.userId
