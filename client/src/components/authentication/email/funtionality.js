@@ -26,7 +26,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 /**
- * Component to info send email
+ * Component to show information about the email
+ * @returns {JSX.Element}
+ * @constructor
  */
 export function ResendToken() {
 
@@ -49,7 +51,9 @@ export function ResendToken() {
 }
 
 /**
- * Component button and alert to send email
+ * Component to manage button about the email
+ * @returns {JSX.Element}
+ * @constructor
  */
 export function ButtonResendEmail() {
 

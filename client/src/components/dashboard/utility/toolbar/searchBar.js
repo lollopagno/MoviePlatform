@@ -84,12 +84,22 @@ const MOVIES = 'Movies'
 const TV = 'TV'
 const ACTORS = 'Actors'
 
+/**
+ * Component to manage search bar
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function SearchBar(props) {
 
     const classes = useStyles()
     const id = useSelector(state => state.user._id)
     const [contentSearch, setContentSearch] = useState('')
 
+    /**
+     * Action to change text in search bar
+     * @param event
+     */
     const onChangeSearch = (event) => {
         setContentSearch(event.target.value)
     }
@@ -100,6 +110,9 @@ function SearchBar(props) {
         }
     }
 
+    /**
+     * Action to submit
+     */
     const onClickSearch = () => {
         setContentSearch('')
         switch (true) {
@@ -136,6 +149,9 @@ function SearchBar(props) {
         }
     }
 
+    /**
+     * Action to click delete icon
+     */
     const onClickDeleteIcon = () => {
         setContentSearch('')
     }

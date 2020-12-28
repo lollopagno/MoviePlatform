@@ -10,6 +10,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+/**
+ * Component to show error message
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function ErrorAPI(props) {
 
     const classes = useStyles()

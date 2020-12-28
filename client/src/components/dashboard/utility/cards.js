@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+/**
+ * Component to show a single content in dashboard
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function Cards(props) {
 
     const classes = useStyles();

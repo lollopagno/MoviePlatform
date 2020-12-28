@@ -27,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+/**
+ * Component to show favorite contents
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function Favorites() {
 
     const classes = useStyles()
@@ -44,6 +49,9 @@ function Favorites() {
         setState({...state, [event.target.name]: event.target.checked});
     };
 
+    /**
+     * Action to click search switch
+     */
     const onClickSearch = () => {
         setBackdrop(true)
         requestRating.search(id, state.movies, state.tvs, state.actors).then((res) => {

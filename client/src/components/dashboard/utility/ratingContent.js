@@ -14,12 +14,22 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+/**
+ * Component to rate a content
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function RatingContent(props) {
 
     const classes = useStyles()
     const [value, setValue] = useState(props.value);
     const userId = useSelector(state => state.user._id)
 
+    /**
+     * Action to change rate
+     * @param event
+     */
     const onChangeFavorites = (event) => {
 
         const contentId = event.currentTarget.name.split("-")[0]

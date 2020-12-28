@@ -1,5 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+/**
+ * Socket reducer
+ */
 export const socket = createSlice({
     name: 'socket',
     initialState: {

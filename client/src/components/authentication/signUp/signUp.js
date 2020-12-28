@@ -33,6 +33,11 @@ function Copyright() {
     );
 }
 
+/**
+ * Component to register a user
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function SignUp() {
 
     const USERNAME = 'username'
@@ -112,7 +117,7 @@ function SignUp() {
     };
 
     /**
-     * Send name, username, email and password to create new user
+     * Action to submit
      * @param event
      */
     const onSubmit = event => {

@@ -2,6 +2,14 @@ import axios from "axios";
 
 const API = "http://localhost:3000/api"
 
+/**
+ * Request to update the grade of a content
+ * @param contentId content id
+ * @param userId user id
+ * @param category of content
+ * @param value vote
+ * @returns {Promise<>}
+ */
 const update = (contentId, userId, category, value) => {
     return axios.post(API + '/tmdb/rating/update', {
         params: {
@@ -13,6 +21,14 @@ const update = (contentId, userId, category, value) => {
     })
 }
 
+/**
+ * Request to search for rated content
+ * @param userId user id
+ * @param isMovies true if the content is movie
+ * @param isTvs true if the content is program tv
+ * @param isActors true if the content is actor
+ * @returns {Promise<>}
+ */
 const search = (userId, isMovies, isTvs, isActors) => {
     return axios.get(API + '/tmdb/rating/search', {
         params: {

@@ -26,6 +26,9 @@ const persistConfig = {
     whitelist: ['user', 'token', 'signIn', 'socket']
 };
 
+/**
+ * Redux store
+ * **/
 export const store = createStore(persistReducer(persistConfig, combineReduces), composeEnhancers(applyMiddleware(...middlewares)))
 export const persistence = persistStore(store)
 

@@ -3,6 +3,13 @@ import FormData from 'form-data'
 
 const API = "http://localhost:3000/api"
 
+/**
+ * Request to added new content
+ * @param userId user id
+ * @param data contet data
+ * @param category content
+ * @returns {Promise<>}
+ */
 const addData = (userId, data, category) => {
 
     return axios.post(API + '/tmdb/new_content/add', {
@@ -17,6 +24,12 @@ const addData = (userId, data, category) => {
     })
 }
 
+/**
+ * Request to added image to the new content
+ * @param idImg id image
+ * @param img image
+ * @returns {Promise<>}
+ */
 const addImage = (idImg, img) => {
     const dataImg = new FormData();
     dataImg.append('img', img, img.name);

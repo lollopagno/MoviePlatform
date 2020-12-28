@@ -34,6 +34,11 @@ function Copyright() {
     );
 }
 
+/**
+ * Component to authenticate a user
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function SignIn() {
 
     const classes = useStyles();

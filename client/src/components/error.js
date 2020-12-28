@@ -22,6 +22,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+/**
+ * Error component - page not found
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function Error() {
 
     const classes = useStyles()

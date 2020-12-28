@@ -1,5 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+/**
+ * Token reducer
+ */
 export const token = createSlice({
     name: 'token',
     initialState: {
@@ -13,7 +16,6 @@ export const token = createSlice({
                 email: action.payload
             }
         },
-        // SignIn
         meFromTokenSuccess: (state, action) => {
             return {
                 ...state,
@@ -21,7 +23,6 @@ export const token = createSlice({
                 signIn: action.payload,
             }
         },
-        // SignIn error
         meFromTokenFailure: (state) => {
             return {
                 ...state,
@@ -29,7 +30,6 @@ export const token = createSlice({
                 signIn: undefined,
             }
         },
-        // Sign out
         deleteToken: (state) => {
             return {
                 ...state,

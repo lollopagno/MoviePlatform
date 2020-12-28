@@ -14,6 +14,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+/**
+ * Component notice
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function Notice(props) {
 
     const classes = useStyles();

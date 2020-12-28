@@ -2,17 +2,29 @@ import axios from "axios";
 
 const API = "http://localhost:3000/api"
 
-// Validation token email
+/**
+ * Request to check if the user email is verified
+ * @param data user data
+ * @returns {Promise<>}
+ */
 const tokenEmail = (data) => {
     return axios.post(API + '/token/email/confirmation', data)
 }
 
-// Validation token sign in
+/**
+ * Request to check if the token user is still valid
+ * @param headers
+ * @returns {Promise<>}
+ */
 const meFromToken = (headers) => {
     return axios.post(API + '/token/authentication/check', {}, headers)
 }
 
-// Validation token email
+/**
+ * Request to resend email
+ * @param email
+ * @returns {Promise<>}
+ */
 const resendTokenEmail = (email) => {
     return axios.post(API + '/token/email/resend', email)
 }

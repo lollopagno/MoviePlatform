@@ -43,6 +43,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+/**
+ * Component to added movies / tv content
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function MoviesTvContents(props) {
 
     const classes = useStyles()
@@ -81,6 +87,9 @@ function MoviesTvContents(props) {
         isError: false
     })
 
+    /**
+     * Action to click select
+     */
     const onChangeSelect = (event) => {
         const {value} = event.target
         setValueSelect(value);
@@ -106,6 +115,9 @@ function MoviesTvContents(props) {
         setField({...field, [name]: value})
     }
 
+    /**
+     * Action to added image
+     */
     const onImageChange = (event) => {
         if (event.target.files[0]) {
             setField({...field, image: event.target.files[0]})
@@ -127,6 +139,9 @@ function MoviesTvContents(props) {
         socket.emit('new content added', data)
     }
 
+    /**
+     * Action to submit
+     */
     const onSubmit = (event) => {
         event.preventDefault()
         isValidForm(error, setError, field, alert, setAlert)

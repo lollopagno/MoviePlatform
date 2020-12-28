@@ -49,6 +49,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+/**
+ * Component to show, update user data
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function About() {
 
     const classes = useStyles()
@@ -93,6 +98,9 @@ function About() {
     const [username, setUsername] = useState(reduxUsername)
     const [email, setEmail] = useState(reduxEmail)
 
+    /**
+     * Action to check user data
+     */
     const handleChangeCheck = (event) => {
 
         switch (event.target.ariaLabel) {
@@ -113,10 +121,16 @@ function About() {
         }
     };
 
+    /**
+     * Action to change name
+     */
     const onChangeName = (event) => {
         setName(event.target.value)
     }
 
+    /**
+     * Action to change username
+     */
     const onChangeUsername = (event) => {
         const {value} = event.target
         setUsername(value)
@@ -126,6 +140,9 @@ function About() {
         }).catch((err) => setErrorUsername({...errorUsername, isError: true, text: err.response.data.message}))
     }
 
+    /**
+     * Action to change email
+     */
     const onChangeEmail = (event) => {
         const {value} = event.target
         setEmail(value)
@@ -139,6 +156,9 @@ function About() {
         })
     }
 
+    /**
+     * Action to submit
+     */
     const onSubmit = event => {
         event.preventDefault()
         isValidForm(name, username, setErrorName, errorEmail, setErrorEmail, email)
@@ -165,6 +185,9 @@ function About() {
 
     const onDialogCancel = () => setOpen(false)
 
+    /**
+     * Action to click dialog
+     */
     const onDialogDelete = () => {
         setOpen(false);
         request.deleteUser(userId).then(() => {

@@ -15,12 +15,20 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+/**
+ * Component to added new contents
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function AddContents() {
 
     const classes = useStyles()
     const [valueSelect, setValueSelect] = useState('');
     const [openSelect, setOpenSelect] = useState(false);
 
+    /**
+     * Action to click select
+     */
     const onChangeSelect = (event) => {
         setValueSelect(event.target.value);
     };

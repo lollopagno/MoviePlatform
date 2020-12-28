@@ -42,11 +42,21 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+/**
+ * Component to show drawer menu
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function DrawerComponent(props) {
 
     const classes = useStyles()
     const id = useSelector(state => state.user._id)
 
+    /**
+     * Action to click category film
+     * @param event
+     */
     const onClickFilm = (event) => {
         props.setBackDrop(true)
         props.isCards(true)
@@ -89,6 +99,10 @@ function DrawerComponent(props) {
         }
     }
 
+    /**
+     * Action to click category program tv
+     * @param event
+     */
     const onClickTv = (event) => {
         props.setBackDrop(true)
         props.isCards(true)
@@ -121,6 +135,10 @@ function DrawerComponent(props) {
         }
     }
 
+    /**
+     * Action to click category actor
+     * @param event
+     */
     const onClickActors = (event) => {
         props.setBackDrop(true)
         props.isCards(true)
@@ -142,6 +160,10 @@ function DrawerComponent(props) {
         }
     }
 
+    /**
+     * Action to click account button
+     * @param event
+     */
     const onClickAccount = (event) => {
         props.isCards(true)
         switch (event.currentTarget.id) {

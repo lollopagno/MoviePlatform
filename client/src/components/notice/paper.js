@@ -12,6 +12,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+/**
+ * Component that contains the notification information
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function PaperComponent(props) {
 
     const classes = useStyles()

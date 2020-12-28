@@ -1,5 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+/**
+ * Sign in reducer
+ */
 export const signIn = createSlice({
     name: 'signIn',
     initialState: {

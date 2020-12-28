@@ -21,6 +21,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
+/**
+ * Component to show information if the email is verified
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function ValidateEmail() {
 
     const classes = useStyles();

@@ -26,6 +26,11 @@ const sectionsLogin = [
 const ID_MY_PROFILE = '1'
 const ID_LOG_OUT = '2'
 
+/**
+ * Component to show account button
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function Account() {
 
     const classes = useStyles()
@@ -42,6 +47,11 @@ function Account() {
         setAnchorEl(null);
     };
 
+    /**
+     * Action to click item menu
+     * @param event
+     * @param index
+     */
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
         setAnchorEl(null);

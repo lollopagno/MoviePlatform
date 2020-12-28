@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         marginTop: theme.spacing(4),
-    },  
+    },
     alertImage: {
         marginTop: theme.spacing(3),
     },
@@ -35,6 +35,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+/**
+ * Component to added actors content
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function Actors(props) {
 
     const classes = useStyles()
@@ -71,6 +77,9 @@ function Actors(props) {
         setField({...field, [name]: value})
     }
 
+    /**
+     * Action to added image
+     */
     const onImageChange = (event) => {
         if (event.target.files[0]) {
             setField({...field, image: event.target.files[0]})
@@ -92,6 +101,9 @@ function Actors(props) {
         socket.emit('new content added', data)
     }
 
+    /**
+     * Action to submit
+     */
     const onSubmit = (event) => {
         event.preventDefault()
         isValidForm(error, setError, field, alert, setAlert)

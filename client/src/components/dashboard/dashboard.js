@@ -30,6 +30,11 @@ import {eventNotice, resetNotice} from "../../redux/reducer/socketReducer";
 import Notice from "../notice/notice";
 import PaperComponent from "../notice/paper";
 
+/**
+ * Component to show the dashboard
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function Dashboard() {
 
     const classes = useStyles()
@@ -79,10 +84,16 @@ function Dashboard() {
         setOpen(!open);
     };
 
+    /**
+     * Action to click home icon
+     */
     const onClickHome = () => {
         window.location.reload()
     }
 
+    /**
+     * Action to click notice icon
+     */
     const onClickNotice = () => {
         setIsCards(false)
         setCategory('Notifications')

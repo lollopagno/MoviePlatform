@@ -48,6 +48,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+/**
+ * Component my profile
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function MyProfile() {
 
     const classes = useStyles();
@@ -70,6 +75,9 @@ function MyProfile() {
     const paperNotice = (noticeList.length !== 0) ? noticeList.slice(0).reverse().map((item, index) =>
         <PaperComponent notice={item} index={index} key={item.id}/>) : []
 
+    /**
+     * Log out
+     */
     const logOut = () => {
         store.dispatch(resetUser())
         store.dispatch(deleteToken())
@@ -78,10 +86,16 @@ function MyProfile() {
         history.push('/signIn')
     }
 
+    /**
+     * Action to click home icon
+     */
     const onClickHome = () => {
         history.push('/dashboard')
     }
 
+    /**
+     * Action to click notice icon
+     */
     const onClickNotice = () => {
         setIsNotice(true)
         store.dispatch(resetNotice())
