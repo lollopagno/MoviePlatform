@@ -37,9 +37,9 @@ sendEmail = (email, name, token) => mailjet
 validationEmail = (req, res) => {
 
     if (!req.query.email)
-        return res.status(200).json({
+        return res.status(401).json({
         success: false,
-        message: 'You must provide a parameters!'
+        message: 'You must provide an email!'
     })
 
     const param = req.query

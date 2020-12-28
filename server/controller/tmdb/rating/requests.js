@@ -38,7 +38,7 @@ function getDetails(options, userId, category, callback) {
 }
 
 /**
- * Search specific content id
+ * Search specific rated content
  */
 async function search(userId, contentId, category) {
     const result = await RatingSchema.findOne({'_userId': userId}).select({

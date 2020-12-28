@@ -59,7 +59,7 @@ sameField = (req, res) => {
 sameFieldExceptUser = (req, res) => {
 
     const param = req.query
-    if (!param.field || !param.data || !param.id) return utils.requestJsonFailed(res, codeStatus.unauthorized, 'You must provide a parameters!')
+    if (!param.field || !param.data || !param.id) return utils.requestJsonFailed(res, codeStatus.unauthorized, 'You must provide an email or username!')
 
     const query = {
         "$match": {
