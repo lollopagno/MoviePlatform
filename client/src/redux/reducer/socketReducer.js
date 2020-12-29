@@ -10,6 +10,11 @@ export const socket = createSlice({
         list: []
     },
     reducers: {
+        /**
+         * Update your notification information
+         * @param state current state
+         * @param action payload
+         */
         eventNotice: (state, action) => {
 
             const {id, title, category, username} = action.payload
@@ -23,12 +28,20 @@ export const socket = createSlice({
                 ]
             }
         },
+        /**
+         * Reset the number of notifications
+         * @param state current state
+         */
         resetNotice: (state) => {
             return {
                 ...state,
                 notice: 0,
             }
         },
+        /**
+         * Reset the list of notifications
+         * @param state current state
+         */
         resetList: (state) => {
             return {
                 ...state,

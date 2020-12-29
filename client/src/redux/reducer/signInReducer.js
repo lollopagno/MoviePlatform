@@ -10,6 +10,11 @@ export const signIn = createSlice({
         isSuccess: undefined
     },
     reducers: {
+        /**
+         * Set text alert, status of the request
+         * @param state current state
+         * @param action payload
+         */
         setAlert: (state, action) => {
             const {alert, isSuccess} = action.payload
             return {
@@ -18,6 +23,10 @@ export const signIn = createSlice({
                 isSuccess : isSuccess
             }
         },
+        /**
+         * Reset reducer sign in
+         * @param state current state
+         */
         resetAlert: (state) => {
             return {
                 ...state,

@@ -12,6 +12,11 @@ export const user = createSlice({
         _id: undefined
     },
     reducers: {
+        /**
+         * Set user data
+         * @param state current state
+         * @param action payload
+         */
         signUpSuccess: (state, action) => {
             const {email, name, username} = action.payload
             return {
@@ -21,6 +26,11 @@ export const user = createSlice({
                 username: username
             }
         },
+        /**
+         * Set user data
+         * @param state current state
+         * @param action payload
+         */
         signInSuccess: (state, action) => {
             const {email, name, username, _id} = action.payload
             return {
@@ -31,6 +41,10 @@ export const user = createSlice({
                 email: email
             }
         },
+        /**
+         * Reset user data (log out)
+         * @param state current state
+         */
         resetUser: (state) => {
             return {
                 ...state,
@@ -40,6 +54,11 @@ export const user = createSlice({
                 _id: undefined
             }
         },
+        /**
+         * Change user data
+         * @param state current state
+         * @param action payload
+         */
         changeData: (state, action) => {
             const {name, username, email} = action.payload
             return {

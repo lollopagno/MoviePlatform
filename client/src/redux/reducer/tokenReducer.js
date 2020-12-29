@@ -10,12 +10,22 @@ export const token = createSlice({
         signIn: undefined,
     },
     reducers: {
+        /**
+         * Set token email
+         * @param state current state
+         * @param action payload
+         */
         setTokenEmail: (state, action) => {
             return {
                 ...state,
                 email: action.payload
             }
         },
+        /**
+         * Set sign in information
+         * @param state current state
+         * @param action payload
+         */
         meFromTokenSuccess: (state, action) => {
             return {
                 ...state,
@@ -23,6 +33,10 @@ export const token = createSlice({
                 signIn: action.payload,
             }
         },
+        /**
+         * Reset token reducer
+         * @param state current state
+         */
         meFromTokenFailure: (state) => {
             return {
                 ...state,
@@ -30,6 +44,10 @@ export const token = createSlice({
                 signIn: undefined,
             }
         },
+        /**
+         * Reset sign in information
+         * @param state current state
+         */
         deleteToken: (state) => {
             return {
                 ...state,
