@@ -8,7 +8,7 @@ import GradeIcon from "@material-ui/icons/Grade";
 import FiberNewIcon from "@material-ui/icons/FiberNew";
 import ListItemText from "@material-ui/core/ListItemText";
 import {AccountCircle} from "@material-ui/icons";
-import React from "react";
+import React, {useState} from "react";
 import Hidden from "@material-ui/core/Hidden";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import {requestMovies} from "../../../../requests/content/movies";
@@ -24,6 +24,12 @@ import {deleteToken} from "../../../../redux/reducer/tokenReducer";
 import {setAlert} from "../../../../redux/reducer/signInReducer";
 import {socket} from "../../../../requests/socket";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
 
 const MOVIES = 'Movies'
 const TV = 'TV'
@@ -52,6 +58,7 @@ function DrawerComponent(props) {
 
     const classes = useStyles()
     const id = useSelector(state => state.user._id)
+    const [open, setOpen] = useState(false)
 
     /**
      * Action to click category film
@@ -172,17 +179,31 @@ function DrawerComponent(props) {
                 break;
 
             case(LOGOUT):
-                store.dispatch(resetUser())
-                store.dispatch(deleteToken())
-                socket.disconnect()
-                store.dispatch(setAlert({alert: 'Sign out completed!', isSuccess: true}))
-                history.push('/signIn')
+                onOpenDialog()
                 break;
 
             default:
                 break;
         }
     }
+
+    const onDialogCancel = () => setOpen(false)
+
+    const onOpenDialog = () => {
+        setOpen(true);
+    };
+
+    /**
+     * Action to click dialog
+     */
+    const onDialogExit = () => {
+        setOpen(false);
+        store.dispatch(resetUser())
+        store.dispatch(deleteToken())
+        socket.disconnect()
+        store.dispatch(setAlert({alert: 'Sign out completed!', isSuccess: true}))
+        history.push('/signIn')
+    };
 
     return (
         <div>
@@ -236,6 +257,27 @@ function DrawerComponent(props) {
                     ))}
                 </List>
             </Hidden>
+            <Dialog
+                open={open}
+                onClose={onDialogCancel}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Exit the application?"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to quit?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={onDialogCancel} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={onDialogExit} color="primary" autoFocus>
+                        Ok, exit
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     )
 }
