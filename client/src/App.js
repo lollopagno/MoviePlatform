@@ -6,8 +6,7 @@ import {meFromTokenFailure, meFromTokenSuccess} from './redux/reducer/tokenReduc
 import {store} from './redux/store'
 import {useSelector} from "react-redux";
 import {resetUser} from "./redux/reducer/userReducer";
-import RoutesWithToken from "./route/routesWithToken";
-import RoutesWithoutToken from "./route/routesWithoutToken";
+import Routes from "./route/route";
 import {setAlert} from "./redux/reducer/signInReducer";
 
 function App() {
@@ -17,11 +16,8 @@ function App() {
 
     useEffect(() => {
 
-        console.log("[APP] USE EFFECT APP ")
-
         // Check if token is present
         if (token || token !== undefined) {
-            console.log("[APP] THERE IS A TOKEN")
 
             // Check if token is valid
             authentication.meFromToken(headers).then(res => {
@@ -29,19 +25,41 @@ function App() {
 
             }).catch((err) => {
                 // Token expired
-                console.log("[APP] ERR TOKEN EXPIRED")
                 store.dispatch(meFromTokenFailure())                // Reset token redux
                 store.dispatch(resetUser())                         // Reset user redux
                 store.dispatch(setAlert({alert: err.response.data.message, isSuccess: false})) // Set error redux
-                history.push('/')
+                history.push('/signIn')
             });
+        } else {
+
+            const route = window.location.href.toString().split('/').pop()
+            switch (route){
+                case 'signUp':
+                    history.push('/signUp')
+                    break;
+                case 'resendToken':
+                    history.push('/resendToken')
+                    break;
+                case 'confirmation':
+                    history.push('/confirmation')
+                    break;
+                case 'signIn' :
+                case 'dashboard':
+                case 'myProfile':
+                case 'notification':
+                    history.push('/signIn')
+                    break;
+                default:
+                    history.push('/error')
+                    break;
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
         <div className="App">
-            {token ? <RoutesWithToken/> : <RoutesWithoutToken/>}
+            {<Routes/>}
         </div>
     )
 }

@@ -26,7 +26,6 @@ app.use(cors())
 app.use(function (req, res, next) {
 
     let token = req.headers['authorization']
-    console.log("[SERVER] Token " + token)
     if (!token) return next();
 
     token = token.replace('Bearer ', '');
@@ -51,18 +50,14 @@ app.use('/api', router);
 const io = socketServer(server)
 
 io.on("connection", (socket) => {
-    console.log(`Client ${socket.id} connected!`);
 
     // Broadcast messages
     socket.on('new content added', data => {
-        console.log('broadcast.....')
         socket.broadcast.emit('notice new content added', data)
     })
 
     // User disconnected
-    socket.on('disconnect', () => {
-        console.log('Disconnected - ' + socket.id);
-    });
+    socket.on('disconnect');
 });
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`))

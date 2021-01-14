@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
-    },
+    }
 }));
 
 /**
@@ -92,7 +92,7 @@ function Favorites() {
                 </Button>
             </Grid>
             <Backdrop className={classes.backdrop} open={backDrop}>
-                <CircularProgress color="inherit" />
+                <CircularProgress color="inherit"/>
             </Backdrop>
             {cards}
             {alert && <Grid container justify={'center'}>
