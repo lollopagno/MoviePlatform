@@ -32,7 +32,7 @@ popular = (req, res) => {
         .then(contents => {
             return  utils.requestJsonSuccess(res, codeStatus.OK, 'Actors found!', contents[0].concat(contents[1]))
         }).catch(() => {
-        return utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
+        return utils.requestJsonFailed(res, codeStatus.badRequest, 'The search did not give any results!')
     })
 }
 
@@ -52,7 +52,7 @@ search = (req, res) => {
         .then(contents => {
             return utils.requestJsonSuccess(res, codeStatus.OK, 'Actors found!', contents[0].concat(contents[1]))
         }).catch(() => {
-        return utils.requestJsonFailed(res, codeStatus.badRequest, 'No internet connection!')
+        return utils.requestJsonFailed(res, codeStatus.badRequest, 'The search did not give any results!')
     })
 }
 
